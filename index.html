@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>APM League Wiki - Strategy Hub</title>
+    <title>APM Portal - League Strategy Hub</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -11,7 +11,7 @@
     <div id="loading-screen" class="loading-screen">
         <div class="loading-content">
             <div class="loading-icon">🏠</div>
-            <h2>APM LEAGUE WIKI</h2>
+            <h2>APM PORTAL</h2>
             <p>Loading your strategy hub...</p>
             <div class="loading-spinner"></div>
         </div>
@@ -118,1186 +118,1071 @@
     </div>
 
     <!-- Main App Container -->
-    <div id="app-container" class="hidden">
-        <!-- Header -->
-        <header class="header">
-            <div class="header-content">
-                <button class="logo-btn" onclick="showPage('home')">
-                    <div class="logo-icon">🏠</div>
-                    <div>
-                        <h1 style="font-size: 1.25rem; font-weight: bold;">APM LEAGUE WIKI</h1>
-                        <p style="font-size: 0.875rem; color: #9ca3af;">Theory • Tools • Exercises</p>
-                    </div>
-                </button>
-                
-                <nav id="breadcrumb" class="hidden" style="color: #9ca3af; font-size: 0.875rem;">
-                    <span>Home</span> → <span id="current-page-name" style="color: #60a5fa;"></span>
-                </nav>
+    <div id="app-container" class="app-container hidden">
+        <!-- Sidebar -->
+        <nav class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <a href="#" class="logo" onclick="showPage('dashboard')">APM PORTAL</a>
+                <div class="logo-subtitle">League Strategy Hub</div>
+            </div>
 
-                <!-- User Menu -->
-                <div class="user-menu">
-                    <div id="user-info" class="user-info">
-                        <img id="user-avatar" class="user-avatar" src="" alt="">
-                        <span id="user-name" class="user-name"></span>
-                    </div>
-                    <div class="user-dropdown">
-                        <button onclick="toggleUserDropdown()" class="user-dropdown-btn">⚙️</button>
-                        <div id="user-dropdown-menu" class="user-dropdown-menu hidden">
-                            <button onclick="showProfile()" class="dropdown-item">Profile</button>
-                            <button onclick="handleLogout()" class="dropdown-item">Sign Out</button>
-                        </div>
-                    </div>
+            <div class="sidebar-nav">
+                <div class="nav-section">
+                    <div class="nav-section-title">Main</div>
+                    <a href="#" class="nav-item active" onclick="showPage('dashboard')" data-page="dashboard">
+                        🏠 Dashboard
+                    </a>
+                </div>
+
+                <div class="nav-section">
+                    <div class="nav-section-title">Learning</div>
+                    <a href="#" class="nav-item" onclick="showPage('tempo')" data-page="tempo">
+                        ⚡ Tempo
+                    </a>
+                    <a href="#" class="nav-item" onclick="showPage('turns')" data-page="turns">
+                        🎯 Turns & Rounds
+                    </a>
+                    <a href="#" class="nav-item" onclick="showPage('action-waves')" data-page="action-waves">
+                        📊 Action Waves
+                    </a>
+                    <a href="#" class="nav-item" onclick="showPage('action-plan')" data-page="action-plan">
+                        ✅ 5-Step Plan
+                    </a>
+                    <a href="#" class="nav-item" onclick="showPage('weekly')" data-page="weekly">
+                        📅 Weekly Focus
+                    </a>
+                </div>
+
+                <div class="nav-section">
+                    <div class="nav-section-title">Tools</div>
+                    <a href="#" class="nav-item" onclick="showPage('draft')" data-page="draft">
+                        🎭 Draft Tool
+                    </a>
+                    <a href="#" class="nav-item" onclick="showPage('calculator')" data-page="calculator">
+                        🧮 Wave Calculator
+                    </a>
                 </div>
             </div>
-        </header>
+
+            <div class="sidebar-footer">
+                <div class="user-info">
+                    <img id="sidebar-avatar" class="user-avatar" src="" alt="User">
+                    <div class="user-details">
+                        <div class="user-name" id="sidebar-username">Loading...</div>
+                        <div class="user-role" id="sidebar-role">Player</div>
+                    </div>
+                </div>
+                <div class="sidebar-actions">
+                    <button class="sidebar-btn" onclick="showProfile()">Settings</button>
+                    <button class="sidebar-btn" onclick="handleLogout()">Sign Out</button>
+                </div>
+            </div>
+        </nav>
 
         <!-- Main Content -->
-        <main class="main-content">
-            <!-- Home Page -->
-            <div id="home-page" class="page">
-                <div class="space-y-8">
-                    <!-- User Welcome -->
-                    <div id="user-welcome" class="user-welcome hidden">
-                        <h2>Welcome back, <span id="welcome-name"></span>!</h2>
-                        <p>Ready to master your League strategy?</p>
-                    </div>
-
-                    <!-- Hero Section -->
-                    <div class="hero">
-                        <h1>APM ESPORT : LEAGUE TEAM WIKI</h1>
-                        <p>All the essentials for the APM League of legend program by coach Gerrah</p>
-                        <div class="hero-features">
-                            <div class="hero-feature">
-                                <span>👥</span>
-                                <span>Team Coordination</span>
-                            </div>
-                            <div class="hero-feature">
-                                <span>🎯</span>
-                                <span>Macro Strategy</span>
-                            </div>
-                            <div class="hero-feature">
-                                <span>🏆</span>
-                                <span>Competitive Edge</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Navigation Cards -->
-                    <div class="nav-grid">
-                        <div class="nav-card" onclick="showPage('tempo')">
-                            <div class="nav-card-header">
-                                <div class="nav-card-icon">⚡</div>
-                                <div>
-                                    <h3>Tempo</h3>
-                                    <span style="color: #9ca3af;">→</span>
-                                </div>
-                            </div>
-                            <p>Master initiative and control the game's pacing. Learn when to act and when to react.</p>
-                        </div>
-
-                        <div class="nav-card" onclick="showPage('turns')">
-                            <div class="nav-card-header">
-                                <div class="nav-card-icon">🎯</div>
-                                <div>
-                                    <h3>Turns & Rounds</h3>
-                                    <span style="color: #9ca3af;">→</span>
-                                </div>
-                            </div>
-                            <p>Use lane priority to create opportunities. Understand wave states and timing windows.</p>
-                        </div>
-
-                        <div class="nav-card" onclick="showPage('action-waves')">
-                            <div class="nav-card-header">
-                                <div class="nav-card-icon">📊</div>
-                                <div>
-                                    <h3>Action Waves</h3>
-                                    <span style="color: #9ca3af;">→</span>
-                                </div>
-                            </div>
-                            <p>Coordinate team plays using minion waves as execution timers.</p>
-                        </div>
-
-                        <div class="nav-card" onclick="showPage('calculator')">
-                            <div class="nav-card-header">
-                                <div class="nav-card-icon">🧮</div>
-                                <div>
-                                    <h3>Tools & Calculator</h3>
-                                    <span style="color: #9ca3af;">→</span>
-                                </div>
-                            </div>
-                            <p>Calculate action waves, track game timer, and use practical tools.</p>
-                        </div>
-
-                        <div class="nav-card" onclick="showPage('action-plan')">
-                            <div class="nav-card-header">
-                                <div class="nav-card-icon">✅</div>
-                                <div>
-                                    <h3>5-Step Action Plan</h3>
-                                    <span style="color: #9ca3af;">→</span>
-                                </div>
-                            </div>
-                            <p>Systematic approach to executing coordinated team plays.</p>
-                        </div>
-
-                        <div class="nav-card" onclick="showPage('weekly')">
-                            <div class="nav-card-header">
-                                <div class="nav-card-icon">📅</div>
-                                <div>
-                                    <h3>Weekly Focus</h3>
-                                    <span style="color: #9ca3af;">→</span>
-                                </div>
-                            </div>
-                            <p>Structured learning path with weekly challenges and practice exercises.</p>
-                        </div>
-                    </div>
-
-                    <!-- Core Principle -->
-                    <div class="content-card">
-                        <h2>Core Principle</h2>
-                        <div class="bg-blue-900 rounded-lg p-6">
-                            <p style="font-size: 1.125rem; color: #e5e7eb;">
-                                League is fundamentally a <span style="color: #93c5fd; font-weight: 600;">turn-based strategy game</span> disguised as real-time action. 
-                                Each player gets "turns" to act based on their wave states and positioning. Understanding this principle changes everything about how we approach the game.
-                            </p>
-                        </div>
-                    </div>
+        <div class="main-content">
+            <!-- Header -->
+            <header class="header">
+                <div class="breadcrumb">
+                    <span>APM PORTAL</span> > <span class="breadcrumb-current" id="current-page-name">Dashboard</span>
                 </div>
-            </div>
-
-            <!-- Tempo Page -->
-            <div id="tempo-page" class="page hidden">
-                <button class="back-btn" onclick="showPage('home')">
-                    ← Back to Home
-                </button>
-                
-                <div class="page-header tempo-header">
-                    <div class="page-header-icon">⚡</div>
-                    <div>
-                        <h1>Tempo</h1>
-                        <p>Having initiative - you act, they react</p>
-                    </div>
+                <div class="header-actions">
+                    <button class="notification-btn" onclick="showNotifications()">🔔</button>
+                    <button class="notification-btn" onclick="toggleSidebar()">☰</button>
                 </div>
+            </header>
 
-                <div class="space-y-8">
-                    <div class="grid grid-2" style="gap: 2rem;">
-                        <div class="content-card">
-                            <h2>What is Tempo?</h2>
-                            <div class="space-y-4">
-                                <div class="bg-yellow-900 rounded-lg p-4">
-                                    <h3 class="text-yellow-300">Quick Definition:</h3>
-                                    <p class="text-gray-300">Having initiative - you act, they react</p>
-                                </div>
-                                <div class="bg-gray-900 rounded-lg p-4">
-                                    <h3 class="text-yellow-300">Detailed Definition:</h3>
-                                    <p class="text-gray-300">Tempo is who controls the pacing and timing of the game. When you have tempo, you can make proactive plays that force the enemy team to react to you. The team with tempo gets to choose the battlefield and timing, while the team without tempo must respond to threats rather than create them.</p>
-                                </div>
+            <div class="content-wrapper">
+                <!-- Page Content -->
+                <main class="page-content">
+                    <!-- Dashboard Page -->
+                    <div id="dashboard-page" class="page">
+                        <div class="space-y-8">
+                            <!-- User Welcome -->
+                            <div id="user-welcome" class="user-welcome hidden">
+                                <h2>Welcome back, <span id="welcome-name"></span>!</h2>
+                                <p>Ready to master your League strategy?</p>
                             </div>
-                        </div>
 
-                        <div class="content-card">
-                            <h2>Key Rule</h2>
-                            <div class="bg-red-900 rounded-lg p-4">
-                                <h3 class="text-red-300">One Action for One Action</h3>
-                                <div class="space-y-2 text-gray-300" style="margin-top: 0.5rem;">
-                                    <p>✓ Kill enemy laner → Push wave (uses up tempo = back to even)</p>
-                                    <p>✗ Stay for plates after kill = extra action → Enemy gains tempo when you recall</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="content-card">
-                        <h2>How to Use Tempo Practically</h2>
-                        <div class="grid grid-4" style="gap: 1rem; margin-top: 1.5rem;">
-                            <div class="bg-gray-900 rounded-lg p-4 text-center">
-                                <div style="font-size: 2rem; margin-bottom: 0.5rem;">🏃</div>
-                                <h3 style="font-weight: 600; margin-bottom: 0.5rem;">Roam to Impact</h3>
-                                <p style="color: #9ca3af; font-size: 0.875rem;">Use priority to influence other lanes</p>
-                            </div>
-                            <div class="bg-gray-900 rounded-lg p-4 text-center">
-                                <div style="font-size: 2rem; margin-bottom: 0.5rem;">🌲</div>
-                                <h3 style="font-weight: 600; margin-bottom: 0.5rem;">Invade Jungle</h3>
-                                <p style="color: #9ca3af; font-size: 0.875rem;">Deny enemy resources and map control</p>
-                            </div>
-                            <div class="bg-gray-900 rounded-lg p-4 text-center">
-                                <div style="font-size: 2rem; margin-bottom: 0.5rem;">👁️</div>
-                                <h3 style="font-weight: 600; margin-bottom: 0.5rem;">Vision Control</h3>
-                                <p style="color: #9ca3af; font-size: 0.875rem;">Contest and gain vision in key areas</p>
-                            </div>
-                            <div class="bg-gray-900 rounded-lg p-4 text-center">
-                                <div style="font-size: 2rem; margin-bottom: 0.5rem;">🐲</div>
-                                <h3 style="font-weight: 600; margin-bottom: 0.5rem;">Objective Setup</h3>
-                                <p style="color: #9ca3af; font-size: 0.875rem;">Prepare for dragon, baron, or herald</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="content-card">
-                        <h2>Tempo Scenarios</h2>
-                        <div class="space-y-4">
-                            <div class="bg-green-900 rounded-lg p-4">
-                                <h3 class="text-green-300">✓ Gaining Tempo</h3>
-                                <ul class="text-gray-300 space-y-1" style="margin-top: 0.5rem; padding-left: 1rem;">
-                                    <li>• Get a kill and immediately push wave</li>
-                                    <li>• Force enemy recall and take their jungle camps</li>
-                                    <li>• Win a trade and roam to help jungle</li>
-                                    <li>• Clear wave faster and contest scuttle</li>
-                                </ul>
-                            </div>
-                            <div class="bg-red-900 rounded-lg p-4">
-                                <h3 class="text-red-300">✗ Losing Tempo</h3>
-                                <ul class="text-gray-300 space-y-1" style="margin-top: 0.5rem; padding-left: 1rem;">
-                                    <li>• Get killed and enemy pushes wave</li>
-                                    <li>• Overstay and get ganked</li>
-                                    <li>• Recall at bad timing</li>
-                                    <li>• Chase too far and miss farm</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="content-card">
-                        <h2>Tempo Check Questions</h2>
-                        <div class="bg-blue-900 rounded-lg p-6">
-                            <p style="font-size: 1.125rem; color: #e5e7eb; margin-bottom: 1rem;">Use these constantly during the game:</p>
-                            <ul style="color: #93c5fd; list-style: none; padding: 0;">
-                                <li style="display: flex; align-items: flex-start; gap: 0.5rem; margin-bottom: 0.5rem;">
-                                    <span style="color: #fbbf24;">•</span>
-                                    <span>What is the plan?</span>
-                                </li>
-                                <li style="display: flex; align-items: flex-start; gap: 0.5rem; margin-bottom: 0.5rem;">
-                                    <span style="color: #fbbf24;">•</span>
-                                    <span>What is every player's job in relation to the plan?</span>
-                                </li>
-                                <li style="display: flex; align-items: flex-start; gap: 0.5rem; margin-bottom: 0.5rem;">
-                                    <span style="color: #fbbf24;">•</span>
-                                    <span>How is each player using their turn?</span>
-                                </li>
-                                <li style="display: flex; align-items: flex-start; gap: 0.5rem;">
-                                    <span style="color: #fbbf24;">•</span>
-                                    <span>What comms do we need to give us the highest chance of executing well?</span>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Turns Page -->
-            <div id="turns-page" class="page hidden">
-                <button class="back-btn" onclick="showPage('home')">
-                    ← Back to Home
-                </button>
-                
-                <div class="page-header turns-header">
-                    <div class="page-header-icon">🎯</div>
-                    <div>
-                        <h1>Turns & Rounds</h1>
-                        <p>Using lane priority to create opportunities</p>
-                    </div>
-                </div>
-
-                <div class="space-y-8">
-                    <div class="grid grid-3" style="gap: 1.5rem;">
-                        <div class="content-card">
-                            <h2>Lane Priority</h2>
-                            <div class="bg-green-900 rounded-lg p-4">
-                                <p class="text-gray-300">You gain lane priority when you push/crash wave under enemy tower, essentially locking your opponent or making them lose gold & XP.</p>
-                            </div>
-                        </div>
-
-                        <div class="content-card">
-                            <h2>Turn</h2>
-                            <div class="bg-blue-900 rounded-lg p-4">
-                                <p class="text-gray-300">When you have time before the next wave arrives - this is how you use your priority window.</p>
-                            </div>
-                        </div>
-
-                        <div class="content-card">
-                            <h2>Round</h2>
-                            <div class="bg-purple-900 rounded-lg p-4">
-                                <p class="text-gray-300">The time between when you're fresh off base until your next reset/recall.</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="content-card">
-                        <h2>How to Use Your Turn</h2>
-                        <div class="grid grid-2" style="gap: 1.5rem; margin-top: 1.5rem;">
-                            <div class="space-y-4">
-                                <div class="bg-gray-900 rounded-lg p-4">
-                                    <h3 class="text-green-300" style="font-weight: 600; margin-bottom: 0.5rem;">Pressure Towers</h3>
-                                    <p class="text-gray-300" style="margin-bottom: 0.5rem;">Go for plates when you have priority</p>
-                                    <span style="color: #fbbf24; font-size: 0.875rem;">⚠️ Requires vision protection</span>
-                                </div>
-                                <div class="bg-gray-900 rounded-lg p-4">
-                                    <h3 class="text-green-300" style="font-weight: 600; margin-bottom: 0.5rem;">Roam to Another Lane</h3>
-                                    <p class="text-gray-300" style="margin-bottom: 0.5rem;">Help other lanes with your priority</p>
-                                    <span style="color: #fbbf24; font-size: 0.875rem;">⚠️ Need vision control</span>
-                                </div>
-                                <div class="bg-gray-900 rounded-lg p-4">
-                                    <h3 class="text-green-300" style="font-weight: 600; margin-bottom: 0.5rem;">Invade Jungle</h3>
-                                    <p class="text-gray-300" style="margin-bottom: 0.5rem;">Deny gold/XP, set up dives</p>
-                                    <span style="color: #fbbf24; font-size: 0.875rem;">⚠️ Know enemy positions</span>
+                            <!-- Dashboard Hero -->
+                            <div class="dashboard-hero">
+                                <h1>APM ESPORT : LEAGUE TEAM WIKI</h1>
+                                <p>All the essentials for the APM League of legend program by coach Gerrah</p>
+                                <div class="hero-features">
+                                    <div class="hero-feature">
+                                        <span>👥</span>
+                                        <span>Team Coordination</span>
+                                    </div>
+                                    <div class="hero-feature">
+                                        <span>🎯</span>
+                                        <span>Macro Strategy</span>
+                                    </div>
+                                    <div class="hero-feature">
+                                        <span>🏆</span>
+                                        <span>Competitive Edge</span>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="space-y-4">
-                                <div class="bg-gray-900 rounded-lg p-4">
-                                    <h3 class="text-green-300" style="font-weight: 600; margin-bottom: 0.5rem;">Neutral Objectives</h3>
-                                    <p class="text-gray-300" style="margin-bottom: 0.5rem;">Move for dragon, herald, baron</p>
-                                    <span style="color: #fbbf24; font-size: 0.875rem;">⚠️ Requires setup</span>
+
+                            <!-- Quick Access Cards -->
+                            <div class="dashboard-grid">
+                                <div class="dashboard-card" onclick="showPage('tempo')">
+                                    <div class="card-header">
+                                        <div class="card-icon">📚</div>
+                                        <div class="card-title">Learning Path</div>
+                                    </div>
+                                    <div class="card-description">
+                                        Master the Tempo, Turns & Action Waves framework with our structured learning modules.
+                                    </div>
+                                    <button class="card-action">Start Learning</button>
                                 </div>
-                                <div class="bg-gray-900 rounded-lg p-4">
-                                    <h3 class="text-green-300" style="font-weight: 600; margin-bottom: 0.5rem;">Slow Push Setup</h3>
-                                    <p class="text-gray-300" style="margin-bottom: 0.5rem;">Build big wave for dives</p>
-                                    <span style="color: #fbbf24; font-size: 0.875rem;">⚠️ Requires coordination</span>
+
+                                <div class="dashboard-card" onclick="showPage('draft')">
+                                    <div class="card-header">
+                                        <div class="card-icon">🛠️</div>
+                                        <div class="card-title">Strategy Tools</div>
+                                    </div>
+                                    <div class="card-description">
+                                        Access collaborative drafting tools and wave calculators for your team preparation.
+                                    </div>
+                                    <button class="card-action">Open Tools</button>
+                                </div>
+
+                                <div class="dashboard-card" onclick="showPage('weekly')">
+                                    <div class="card-header">
+                                        <div class="card-icon">📈</div>
+                                        <div class="card-title">Weekly Progress</div>
+                                    </div>
+                                    <div class="card-description">
+                                        Track your learning progress through our 6-week structured program.
+                                    </div>
+                                    <button class="card-action">View Progress</button>
+                                </div>
+                            </div>
+
+                            <!-- Quick Learning Modules -->
+                            <h2 style="color: #f0e6d2; margin-bottom: 1.5rem;">Learning Modules</h2>
+                            <div class="learning-grid">
+                                <div class="learning-card" onclick="showPage('tempo')">
+                                    <h3>⚡ Tempo Fundamentals</h3>
+                                    <p>Learn to control game pacing and initiative</p>
+                                </div>
+                                <div class="learning-card" onclick="showPage('turns')">
+                                    <h3>🎯 Turns & Rounds</h3>
+                                    <p>Master lane priority and timing windows</p>
+                                </div>
+                                <div class="learning-card" onclick="showPage('action-waves')">
+                                    <h3>📊 Action Waves</h3>
+                                    <p>Coordinate team plays with minion waves</p>
+                                </div>
+                                <div class="learning-card" onclick="showPage('action-plan')">
+                                    <h3>✅ 5-Step Action Plan</h3>
+                                    <p>Systematic approach to team coordination</p>
+                                </div>
+                            </div>
+
+                            <!-- Strategy Tools -->
+                            <h2 style="color: #f0e6d2; margin-bottom: 1.5rem;">Strategy Tools</h2>
+                            <div class="tools-grid">
+                                <div class="tool-card">
+                                    <div class="tool-header">
+                                        <div class="tool-icon">🎭</div>
+                                        <div class="tool-info">
+                                            <h3>Draft Tool</h3>
+                                            <p>Collaborative drafting</p>
+                                        </div>
+                                    </div>
+                                    <div class="tool-description">
+                                        Real-time collaborative draft preparation with tempo analysis and action wave planning.
+                                    </div>
+                                    <div class="tool-actions">
+                                        <button class="tool-btn primary" onclick="showPage('draft')">Open Tool</button>
+                                        <button class="tool-btn secondary" onclick="createQuickDraft()">New Room</button>
+                                    </div>
+                                </div>
+
+                                <div class="tool-card">
+                                    <div class="tool-header">
+                                        <div class="tool-icon">🧮</div>
+                                        <div class="tool-info">
+                                            <h3>Wave Calculator</h3>
+                                            <p>Action wave timing</p>
+                                        </div>
+                                    </div>
+                                    <div class="tool-description">
+                                        Calculate precise action wave timings for objectives with live game timer.
+                                    </div>
+                                    <div class="tool-actions">
+                                        <button class="tool-btn primary" onclick="showPage('calculator')">Open Calculator</button>
+                                        <button class="tool-btn secondary" onclick="startQuickTimer()">Quick Timer</button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    <div class="content-card">
-                        <h2>Turn Examples by Role</h2>
-                        <div class="grid grid-3" style="gap: 1rem; margin-top: 1.5rem;">
-                            <div class="bg-gray-900 rounded-lg p-4">
-                                <h3 class="text-yellow-300" style="font-weight: 600; margin-bottom: 0.75rem;">Mid Laner</h3>
-                                <ul style="color: #d1d5db; font-size: 0.875rem; list-style: none; padding: 0;">
-                                    <li style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.25rem;">
-                                        <span style="color: #fbbf24;">✓</span> Roam bot/top
-                                    </li>
-                                    <li style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.25rem;">
-                                        <span style="color: #fbbf24;">✓</span> Contest scuttle
-                                    </li>
-                                    <li style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.25rem;">
-                                        <span style="color: #fbbf24;">✓</span> Invade enemy jungle
-                                    </li>
-                                    <li style="display: flex; align-items: center; gap: 0.5rem;">
-                                        <span style="color: #fbbf24;">✓</span> Help with herald
-                                    </li>
-                                </ul>
-                            </div>
-                            <div class="bg-gray-900 rounded-lg p-4">
-                                <h3 class="text-blue-300" style="font-weight: 600; margin-bottom: 0.75rem;">ADC</h3>
-                                <ul style="color: #d1d5db; font-size: 0.875rem; list-style: none; padding: 0;">
-                                    <li style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.25rem;">
-                                        <span style="color: #60a5fa;">✓</span> Pressure tower plates
-                                    </li>
-                                    <li style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.25rem;">
-                                        <span style="color: #60a5fa;">✓</span> Ward tribush
-                                    </li>
-                                    <li style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.25rem;">
-                                        <span style="color: #60a5fa;">✓</span> Help jungle invade
-                                    </li>
-                                    <li style="display: flex; align-items: center; gap: 0.5rem;">
-                                        <span style="color: #60a5fa;">✓</span> Rotate to dragon
-                                    </li>
-                                </ul>
-                            </div>
-                            <div class="bg-gray-900 rounded-lg p-4">
-                                <h3 class="text-green-300" style="font-weight: 600; margin-bottom: 0.75rem;">Support</h3>
-                                <ul style="color: #d1d5db; font-size: 0.875rem; list-style: none; padding: 0;">
-                                    <li style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.25rem;">
-                                        <span style="color: #10b981;">✓</span> Deep ward enemy jungle
-                                    </li>
-                                    <li style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.25rem;">
-                                        <span style="color: #10b981;">✓</span> Roam mid for gank
-                                    </li>
-                                    <li style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.25rem;">
-                                        <span style="color: #10b981;">✓</span> Set up vision control
-                                    </li>
-                                    <li style="display: flex; align-items: center; gap: 0.5rem;">
-                                        <span style="color: #10b981;">✓</span> Zone enemy laners
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="content-card">
-                        <h2>Key Concept</h2>
-                        <div class="bg-blue-900 rounded-lg p-6">
-                            <p style="font-size: 1.125rem; color: #e5e7eb;">
-                                League of Legends is about <span style="color: #93c5fd; font-weight: 600;">How do you use your turns</span> to do something that will either:
-                            </p>
-                            <ul style="color: #93c5fd; list-style: none; padding: 0; margin-top: 1rem;">
-                                <li style="display: flex; align-items: flex-start; gap: 0.5rem; margin-bottom: 0.5rem;">
-                                    <span style="color: #fbbf24;">A)</span>
-                                    <span>Connect yourself to the plan</span>
-                                </li>
-                                <li style="display: flex; align-items: flex-start; gap: 0.5rem; margin-bottom: 0.5rem;">
-                                    <span style="color: #fbbf24;">B)</span>
-                                    <span>Do something proactive</span>
-                                </li>
-                                <li style="display: flex; align-items: flex-start; gap: 0.5rem;">
-                                    <span style="color: #fbbf24;">C)</span>
-                                    <span>Get tempo</span>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Action Waves Page -->
-            <div id="action-waves-page" class="page hidden">
-                <button class="back-btn" onclick="showPage('home')">
-                    ← Back to Home
-                </button>
-                
-                <div class="page-header waves-header">
-                    <div class="page-header-icon">📊</div>
-                    <div>
-                        <h1>Action Waves</h1>
-                        <p>Specific minion wave that serves as your execution timer</p>
-                    </div>
-                </div>
-
-                <div class="space-y-8">
-                    <div class="grid grid-2" style="gap: 2rem;">
-                        <div class="content-card">
-                            <h2>What Are Action Waves?</h2>
-                            <div class="space-y-4">
-                                <div class="bg-purple-900 rounded-lg p-4">
-                                    <h3 class="text-purple-300" style="font-weight: 600; margin-bottom: 0.5rem;">Short Definition:</h3>
-                                    <p class="text-gray-300">The specific minion wave that serves as your team's execution timer</p>
-                                </div>
-                                <div class="bg-gray-900 rounded-lg p-4">
-                                    <h3 class="text-purple-300" style="font-weight: 600; margin-bottom: 0.5rem;">Detailed:</h3>
-                                    <p class="text-gray-300">Instead of saying "move at 4:45" while everyone is focused on farming, you say "we go when wave 7 crashes." This transforms chaotic macro calls into precise coordination.</p>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="content-card">
-                            <h2>Why Waves Work Better</h2>
-                            <ul style="color: #d1d5db; list-style: none; padding: 0;">
-                                <li style="display: flex; align-items: flex-start; gap: 0.5rem; margin-bottom: 0.75rem;">
-                                    <span style="color: #10b981; margin-top: 0.25rem;">✓</span>
-                                    <span>Players already track minions for CS and lane management</span>
-                                </li>
-                                <li style="display: flex; align-items: flex-start; gap: 0.5rem; margin-bottom: 0.75rem;">
-                                    <span style="color: #10b981; margin-top: 0.25rem;">✓</span>
-                                    <span>Waves provide natural "ready checks" - wrong position = not ready</span>
-                                </li>
-                                <li style="display: flex; align-items: flex-start; gap: 0.5rem; margin-bottom: 0.75rem;">
-                                    <span style="color: #10b981; margin-top: 0.25rem;">✓</span>
-                                    <span>Creates automatic coordination - when wave moves, everyone moves</span>
-                                </li>
-                                <li style="display: flex; align-items: flex-start; gap: 0.5rem;">
-                                    <span style="color: #10b981; margin-top: 0.25rem;">✓</span>
-                                    <span>Accounts for travel time and positioning naturally</span>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-
-                    <div class="content-card">
-                        <h2>30-Second Metronome System</h2>
-                        <div class="grid grid-2" style="gap: 2rem; margin-top: 1.5rem;">
+                    <!-- Tempo Page -->
+                    <div id="tempo-page" class="page hidden">
+                        <button class="back-btn" onclick="showPage('dashboard')">
+                            ← Back to Dashboard
+                        </button>
+                        
+                        <div class="page-header tempo-header">
+                            <div class="page-header-icon">⚡</div>
                             <div>
-                                <h3 style="color: #60a5fa; font-size: 1.125rem; font-weight: 600; margin-bottom: 1rem;">Basic Wave Timing</h3>
-                                <div class="bg-gray-900 rounded-lg p-4">
-                                    <div class="grid grid-2" style="gap: 0.75rem; color: #d1d5db;">
-                                        <div>Wave 1: 1:30</div>
-                                        <div>Wave 2: 2:00</div>
-                                        <div>Wave 3: 2:30</div>
-                                        <div>Wave 4: 3:00</div>
-                                        <div>Wave 5: 3:30</div>
-                                        <div>Wave 6: 4:00</div>
-                                        <div>Wave 7: 4:30</div>
-                                        <div>Wave 8: 5:00</div>
+                                <h1>Tempo</h1>
+                                <p>Having initiative - you act, they react</p>
+                            </div>
+                        </div>
+
+                        <div class="space-y-8">
+                            <div class="grid grid-2" style="gap: 2rem;">
+                                <div class="content-card">
+                                    <h2>What is Tempo?</h2>
+                                    <div class="space-y-4">
+                                        <div class="bg-yellow-900 rounded-lg p-4">
+                                            <h3 class="text-yellow-300">Quick Definition:</h3>
+                                            <p class="text-gray-300">Having initiative - you act, they react</p>
+                                        </div>
+                                        <div class="bg-gray-900 rounded-lg p-4">
+                                            <h3 class="text-yellow-300">Detailed Definition:</h3>
+                                            <p class="text-gray-300">Tempo is who controls the pacing and timing of the game. When you have tempo, you can make proactive plays that force the enemy team to react to you.</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="content-card">
+                                    <h2>Key Rule</h2>
+                                    <div class="bg-red-900 rounded-lg p-4">
+                                        <h3 class="text-red-300">One Action for One Action</h3>
+                                        <div class="space-y-2 text-gray-300" style="margin-top: 0.5rem;">
+                                            <p>✓ Kill enemy laner → Push wave (tempo maintained)</p>
+                                            <p>✗ Stay for plates after kill → Enemy gains tempo</p>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
+
+                            <div class="content-card">
+                                <h2>How to Use Tempo Practically</h2>
+                                <div class="grid grid-4" style="gap: 1rem; margin-top: 1.5rem;">
+                                    <div class="bg-gray-900 rounded-lg p-4 text-center">
+                                        <div style="font-size: 2rem; margin-bottom: 0.5rem;">🏃</div>
+                                        <h3 style="font-weight: 600; margin-bottom: 0.5rem;">Roam to Impact</h3>
+                                        <p style="color: #9ca3af; font-size: 0.875rem;">Use priority to influence other lanes</p>
+                                    </div>
+                                    <div class="bg-gray-900 rounded-lg p-4 text-center">
+                                        <div style="font-size: 2rem; margin-bottom: 0.5rem;">🌲</div>
+                                        <h3 style="font-weight: 600; margin-bottom: 0.5rem;">Invade Jungle</h3>
+                                        <p style="color: #9ca3af; font-size: 0.875rem;">Deny enemy resources and map control</p>
+                                    </div>
+                                    <div class="bg-gray-900 rounded-lg p-4 text-center">
+                                        <div style="font-size: 2rem; margin-bottom: 0.5rem;">👁️</div>
+                                        <h3 style="font-weight: 600; margin-bottom: 0.5rem;">Vision Control</h3>
+                                        <p style="color: #9ca3af; font-size: 0.875rem;">Contest and gain vision in key areas</p>
+                                    </div>
+                                    <div class="bg-gray-900 rounded-lg p-4 text-center">
+                                        <div style="font-size: 2rem; margin-bottom: 0.5rem;">🐲</div>
+                                        <h3 style="font-weight: 600; margin-bottom: 0.5rem;">Objective Setup</h3>
+                                        <p style="color: #9ca3af; font-size: 0.875rem;">Prepare for dragon, baron, or herald</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="content-card">
+                                <h2>Tempo Check Questions</h2>
+                                <div class="bg-blue-900 rounded-lg p-6">
+                                    <p style="font-size: 1.125rem; color: #e5e7eb; margin-bottom: 1rem;">Use these constantly during the game:</p>
+                                    <ul style="color: #93c5fd; list-style: none; padding: 0;">
+                                        <li style="display: flex; align-items: flex-start; gap: 0.5rem; margin-bottom: 0.5rem;">
+                                            <span style="color: #fbbf24;">•</span>
+                                            <span>What is the plan?</span>
+                                        </li>
+                                        <li style="display: flex; align-items: flex-start; gap: 0.5rem; margin-bottom: 0.5rem;">
+                                            <span style="color: #fbbf24;">•</span>
+                                            <span>What is every player's job in relation to the plan?</span>
+                                        </li>
+                                        <li style="display: flex; align-items: flex-start; gap: 0.5rem; margin-bottom: 0.5rem;">
+                                            <span style="color: #fbbf24;">•</span>
+                                            <span>How is each player using their turn?</span>
+                                        </li>
+                                        <li style="display: flex; align-items: flex-start; gap: 0.5rem;">
+                                            <span style="color: #fbbf24;">•</span>
+                                            <span>What comms do we need to give us the highest chance of executing well?</span>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Draft Page -->
+                    <div id="draft-page" class="page hidden">
+                        <button class="back-btn" onclick="showPage('dashboard')">← Back to Dashboard</button>
+                        
+                        <div class="page-header" style="background: linear-gradient(to right, #1e3a8a, #7c3aed);">
+                            <div class="page-header-icon">🎭</div>
                             <div>
-                                <h3 style="color: #10b981; font-size: 1.125rem; font-weight: 600; margin-bottom: 1rem;">Calculation Steps</h3>
-                                <div class="space-y-3 text-gray-300">
-                                    <div class="bg-gray-900 rounded-lg p-3">
-                                        <strong>Step 1:</strong> Identify objective time (e.g., 5:00 Drake)
+                                <h1>Draft Tool</h1>
+                                <p>Collaborative team draft planning with real-time sync</p>
+                            </div>
+                        </div>
+
+                        <div class="draft-container">
+                            <div class="draft-main">
+                                <!-- Room Management -->
+                                <div class="draft-controls">
+                                    <button onclick="createDraftRoom()" class="btn btn-primary">Create Room</button>
+                                    <button onclick="joinDraftRoom()" class="btn btn-secondary">Join Room</button>
+                                    <button onclick="resetDraft()" class="btn btn-warning">Reset Draft</button>
+                                    <button onclick="clearAll()" class="btn btn-danger">Clear All</button>
+                                </div>
+
+                                <!-- Room Status -->
+                                <div class="draft-status">
+                                    <div class="status-indicator">
+                                        <div class="status-dot" id="connection-status"></div>
+                                        <span id="connection-text">Not connected</span>
                                     </div>
-                                    <div class="bg-gray-900 rounded-lg p-3">
-                                        <strong>Step 2:</strong> Subtract 30 seconds (4:30 positioning)
+                                </div>
+
+                                <div id="room-info" class="room-info hidden">
+                                    <div>Room Code: <span id="room-code" class="room-code"></span></div>
+                                    <div style="font-size: 0.875rem; color: #9ca3af; margin-top: 0.5rem;">Share this code with your team</div>
+                                </div>
+
+                                <!-- Draft Phase -->
+                                <div class="draft-phase">
+                                    <!-- Blue Team -->
+                                    <div class="team-section blue">
+                                        <div class="team-title">Blue Team</div>
+                                        <div style="margin-bottom: 1rem;">
+                                            <h4 style="color: #93c5fd; margin-bottom: 0.5rem;">Bans</h4>
+                                            <div class="ban-slots">
+                                                <div class="ban-slot" data-team="blue" data-slot="0" data-type="ban" onclick="selectSlot(this)" oncontextmenu="clearSlot(this); return false;">B1</div>
+                                                <div class="ban-slot" data-team="blue" data-slot="1" data-type="ban" onclick="selectSlot(this)" oncontextmenu="clearSlot(this); return false;">B2</div>
+                                                <div class="ban-slot" data-team="blue" data-slot="2" data-type="ban" onclick="selectSlot(this)" oncontextmenu="clearSlot(this); return false;">B3</div>
+                                                <div class="ban-slot" data-team="blue" data-slot="3" data-type="ban" onclick="selectSlot(this)" oncontextmenu="clearSlot(this); return false;">B4</div>
+                                                <div class="ban-slot" data-team="blue" data-slot="4" data-type="ban" onclick="selectSlot(this)" oncontextmenu="clearSlot(this); return false;">B5</div>
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <h4 style="color: #93c5fd; margin-bottom: 0.5rem;">Picks</h4>
+                                            <div class="champion-slots">
+                                                <div class="champion-slot" data-team="blue" data-slot="0" data-type="pick" onclick="selectSlot(this)" oncontextmenu="clearSlot(this); return false;"><span>Pick 1</span></div>
+                                                <div class="champion-slot" data-team="blue" data-slot="1" data-type="pick" onclick="selectSlot(this)" oncontextmenu="clearSlot(this); return false;"><span>Pick 2</span></div>
+                                                <div class="champion-slot" data-team="blue" data-slot="2" data-type="pick" onclick="selectSlot(this)" oncontextmenu="clearSlot(this); return false;"><span>Pick 3</span></div>
+                                                <div class="champion-slot" data-team="blue" data-slot="3" data-type="pick" onclick="selectSlot(this)" oncontextmenu="clearSlot(this); return false;"><span>Pick 4</span></div>
+                                                <div class="champion-slot" data-team="blue" data-slot="4" data-type="pick" onclick="selectSlot(this)" oncontextmenu="clearSlot(this); return false;"><span>Pick 5</span></div>
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div class="bg-gray-900 rounded-lg p-3">
-                                        <strong>Step 3:</strong> Find corresponding wave (Wave 7)
+
+                                    <!-- Red Team -->
+                                    <div class="team-section red">
+                                        <div class="team-title">Red Team</div>
+                                        <div style="margin-bottom: 1rem;">
+                                            <h4 style="color: #fca5a5; margin-bottom: 0.5rem;">Bans</h4>
+                                            <div class="ban-slots">
+                                                <div class="ban-slot" data-team="red" data-slot="0" data-type="ban" onclick="selectSlot(this)" oncontextmenu="clearSlot(this); return false;">B1</div>
+                                                <div class="ban-slot" data-team="red" data-slot="1" data-type="ban" onclick="selectSlot(this)" oncontextmenu="clearSlot(this); return false;">B2</div>
+                                                <div class="ban-slot" data-team="red" data-slot="2" data-type="ban" onclick="selectSlot(this)" oncontextmenu="clearSlot(this); return false;">B3</div>
+                                                <div class="ban-slot" data-team="red" data-slot="3" data-type="ban" onclick="selectSlot(this)" oncontextmenu="clearSlot(this); return false;">B4</div>
+                                                <div class="ban-slot" data-team="red" data-slot="4" data-type="ban" onclick="selectSlot(this)" oncontextmenu="clearSlot(this); return false;">B5</div>
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <h4 style="color: #fca5a5; margin-bottom: 0.5rem;">Picks</h4>
+                                            <div class="champion-slots">
+                                                <div class="champion-slot" data-team="red" data-slot="0" data-type="pick" onclick="selectSlot(this)" oncontextmenu="clearSlot(this); return false;"><span>Pick 1</span></div>
+                                                <div class="champion-slot" data-team="red" data-slot="1" data-type="pick" onclick="selectSlot(this)" oncontextmenu="clearSlot(this); return false;"><span>Pick 2</span></div>
+                                                <div class="champion-slot" data-team="red" data-slot="2" data-type="pick" onclick="selectSlot(this)" oncontextmenu="clearSlot(this); return false;"><span>Pick 3</span></div>
+                                                <div class="champion-slot" data-team="red" data-slot="3" data-type="pick" onclick="selectSlot(this)" oncontextmenu="clearSlot(this); return false;"><span>Pick 4</span></div>
+                                                <div class="champion-slot" data-team="red" data-slot="4" data-type="pick" onclick="selectSlot(this)" oncontextmenu="clearSlot(this); return false;"><span>Pick 5</span></div>
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div class="bg-gray-900 rounded-lg p-3">
-                                        <strong>Step 4:</strong> Count backwards for setup
+                                </div>
+
+                                <!-- Strategy Section -->
+                                <div class="strategy-section">
+                                    <div class="strategy-tabs">
+                                        <button class="strategy-tab active" onclick="switchStrategyTab('game')">Game Plan</button>
+                                        <button class="strategy-tab" onclick="switchStrategyTab('objectives')">Objectives</button>
+                                        <button class="strategy-tab" onclick="switchStrategyTab('notes')">Notes</button>
+                                    </div>
+                                    
+                                    <div id="game-strategy" class="strategy-content active">
+                                        <input type="text" id="win-condition" class="strategy-input" placeholder="Win condition (e.g., Team fight at 25 min with 3 items)">
+                                        <input type="text" id="enemy-weakness" class="strategy-input" placeholder="Enemy weakness to exploit">
+                                    </div>
+                                    
+                                    <div id="objectives-strategy" class="strategy-content">
+                                        <input type="text" id="drake-plan" class="strategy-input" placeholder="Drake plan & timing">
+                                        <input type="text" id="herald-plan" class="strategy-input" placeholder="Herald plan & timing">
+                                        <input type="text" id="custom-time" class="strategy-input" placeholder="Custom objective time (e.g., 15:30)">
+                                        <input type="text" id="custom-plan" class="strategy-input" placeholder="Custom objective plan">
+                                    </div>
+                                    
+                                    <div id="notes-strategy" class="strategy-content">
+                                        <textarea id="draft-notes" class="strategy-input strategy-textarea" placeholder="Draft strategy notes..."></textarea>
+                                        <textarea id="ban-notes" class="strategy-input strategy-textarea" placeholder="Ban reasoning..."></textarea>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    </div>
 
-                    <div class="content-card">
-                        <h2>Lane Speed Differences</h2>
-                        <div class="grid grid-3" style="gap: 1rem; margin-top: 1.5rem;">
-                            <div class="bg-gray-900 rounded-lg p-4">
-                                <h3 class="text-yellow-300" style="font-weight: 600; margin-bottom: 0.75rem;">Mid Lane (Fastest)</h3>
-                                <ul style="color: #d1d5db; font-size: 0.875rem; list-style: none; padding: 0;">
-                                    <li style="margin-bottom: 0.5rem;">• Waves crash faster</li>
-                                    <li style="margin-bottom: 0.5rem;">• More action wave opportunities</li>
-                                    <li style="margin-bottom: 0.5rem;">• Quick rotations to objectives</li>
-                                    <li>• Better for rapid plays</li>
-                                </ul>
-                            </div>
-                            <div class="bg-gray-900 rounded-lg p-4">
-                                <h3 class="text-blue-300" style="font-weight: 600; margin-bottom: 0.75rem;">Bot Lane (Medium)</h3>
-                                <ul style="color: #d1d5db; font-size: 0.875rem; list-style: none; padding: 0;">
-                                    <li style="margin-bottom: 0.5rem;">• Longer push/crash time</li>
-                                    <li style="margin-bottom: 0.5rem;">• Fewer wave opportunities</li>
-                                    <li style="margin-bottom: 0.5rem;">• Slower objective rotations</li>
-                                    <li>• Better for extended setups</li>
-                                </ul>
-                            </div>
-                            <div class="bg-gray-900 rounded-lg p-4">
-                                <h3 class="text-red-300" style="font-weight: 600; margin-bottom: 0.75rem;">Top Lane (Slowest)</h3>
-                                <ul style="color: #d1d5db; font-size: 0.875rem; list-style: none; padding: 0;">
-                                    <li style="margin-bottom: 0.5rem;">• Slowest wave crashes</li>
-                                    <li style="margin-bottom: 0.5rem;">• Most isolated position</li>
-                                    <li style="margin-bottom: 0.5rem;">• TP-dependent timing</li>
-                                    <li>• Limited early impact</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="content-card">
-                        <h2>Common Action Wave Mistakes</h2>
-                        <div class="grid grid-2" style="gap: 1rem; margin-top: 1.5rem;">
-                            <div class="bg-red-900 rounded-lg p-4">
-                                <h3 class="text-red-300" style="font-weight: 600; margin-bottom: 0.75rem;">❌ Wrong Wave Calculation</h3>
-                                <p class="text-gray-300" style="margin-bottom: 0.5rem;">Thinking you have more time than you do</p>
-                                <p style="color: #9ca3af; font-size: 0.875rem;">Example: Calling wave 8 for 5:00 objective (too late)</p>
-                            </div>
-                            <div class="bg-red-900 rounded-lg p-4">
-                                <h3 class="text-red-300" style="font-weight: 600; margin-bottom: 0.75rem;">❌ Lane Mismatch</h3>
-                                <p class="text-gray-300" style="margin-bottom: 0.5rem;">Using bot timing for mid plays</p>
-                                <p style="color: #9ca3af; font-size: 0.875rem;">Solution: Match action wave to primary lane</p>
-                            </div>
-                            <div class="bg-red-900 rounded-lg p-4">
-                                <h3 class="text-red-300" style="font-weight: 600; margin-bottom: 0.75rem;">❌ Solo Action Wave</h3>
-                                <p class="text-gray-300" style="margin-bottom: 0.5rem;">One player moving, others not ready</p>
-                                <p style="color: #9ca3af; font-size: 0.875rem;">Always confirm everyone's timing</p>
-                            </div>
-                            <div class="bg-red-900 rounded-lg p-4">
-                                <h3 class="text-red-300" style="font-weight: 600; margin-bottom: 0.75rem;">❌ No Backup Plan</h3>
-                                <p class="text-gray-300" style="margin-bottom: 0.5rem;">Missing action wave with no alternative</p>
-                                <p style="color: #9ca3af; font-size: 0.875rem;">Always have next wave as backup</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="content-card">
-                        <h2>Action Wave Chains</h2>
-                        <div class="bg-blue-900 rounded-lg p-6">
-                            <h3 style="color: #93c5fd; font-size: 1.25rem; font-weight: bold; margin-bottom: 1rem;">Concept: Using one action wave to set up the next</h3>
-                            <div class="space-y-3 text-gray-300">
-                                <div style="display: flex; align-items: center; gap: 1rem;">
-                                    <span style="background-color: #1e3a8a; padding: 0.5rem 1rem; border-radius: 0.5rem; font-weight: 600;">Wave 4</span>
-                                    <span>Support roams for vision</span>
-                                </div>
-                                <div style="display: flex; align-items: center; gap: 1rem;">
-                                    <span style="background-color: #1e40af; padding: 0.5rem 1rem; border-radius: 0.5rem; font-weight: 600;">Wave 5</span>
-                                    <span>Jungler clears enemy vision</span>
-                                </div>
-                                <div style="display: flex; align-items: center; gap: 1rem;">
-                                    <span style="background-color: #1d4ed8; padding: 0.5rem 1rem; border-radius: 0.5rem; font-weight: 600;">Wave 6</span>
-                                    <span>Mid builds priority</span>
-                                </div>
-                                <div style="display: flex; align-items: center; gap: 1rem;">
-                                    <span style="background-color: #2563eb; padding: 0.5rem 1rem; border-radius: 0.5rem; font-weight: 600;">Wave 7</span>
-                                    <span style="color: #fbbf24; font-weight: 600;">ACTION WAVE - Everyone moves</span>
-                                </div>
-                            </div>
-                            <p style="color: #e5e7eb; margin-top: 1rem; font-style: italic;">Each wave builds toward the final execution.</p>
-                        </div>
-                    </div>
-
-                    <div class="content-card">
-                        <h2>Action Wave Communication</h2>
-                        <div class="grid grid-3" style="gap: 1.5rem; margin-top: 1.5rem;">
-                            <div class="bg-green-900 rounded-lg p-4">
-                                <h4 style="color: #86efac; font-weight: 600; margin-bottom: 0.75rem;">Setup Phase</h4>
-                                <div class="bg-gray-800" style="padding: 0.75rem; border-radius: 0.25rem; font-size: 0.875rem; color: #d1d5db;">
-                                    "Drake 5:00, action wave 6 through mid. Bot move first, Top hold TP."
-                                </div>
-                            </div>
-                            <div class="bg-yellow-900 rounded-lg p-4">
-                                <h4 style="color: #fcd34d; font-weight: 600; margin-bottom: 0.75rem;">Execution</h4>
-                                <div class="bg-gray-800" style="padding: 0.75rem; border-radius: 0.25rem; font-size: 0.875rem; color: #d1d5db;">
-                                    "Action wave NOW, everyone move. Support first, carries follow."
-                                </div>
-                            </div>
-                            <div class="bg-blue-900 rounded-lg p-4">
-                                <h4 style="color: #93c5fd; font-weight: 600; margin-bottom: 0.75rem;">Backup Plan</h4>
-                                <div class="bg-gray-800" style="padding: 0.75rem; border-radius: 0.25rem; font-size: 0.875rem; color: #d1d5db;">
-                                    "Wave 6 failed, reset to wave 7. Everyone get ready."
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Calculator Page -->
-            <div id="calculator-page" class="page hidden">
-                <button class="back-btn" onclick="showPage('home')">
-                    ← Back to Home
-                </button>
-                
-                <div class="page-header calculator-header">
-                    <div class="page-header-icon">🧮</div>
-                    <div>
-                        <h1>Tools & Calculator</h1>
-                        <p>Calculate action waves and track your game progress</p>
-                    </div>
-                </div>
-
-                <div class="space-y-8">
-                    <div class="grid grid-2" style="gap: 2rem;">
-                        <!-- Action Wave Calculator -->
-                        <div class="content-card">
-                            <h2 style="display: flex; align-items: center; gap: 0.5rem;">
-                                🧮 <span>Action Wave Calculator</span>
-                            </h2>
-                            
-                            <div class="space-y-6">
-                                <div class="form-group">
-                                    <label class="form-label">Objective Time (MM:SS)</label>
-                                    <input type="text" id="objective-time" class="form-input" placeholder="5:00">
-                                    <p style="color: #9ca3af; font-size: 0.875rem; margin-top: 0.5rem;">Enter when the objective spawns or when you want to execute</p>
+                            <!-- Champion Pool -->
+                            <div class="champion-pool">
+                                <div class="search-container">
+                                    <input type="text" id="champion-search" class="search-input" placeholder="Search champions..." oninput="filterChampions()">
                                 </div>
                                 
-                                <button onclick="calculateActionWave()" class="btn btn-primary" style="width: 100%;">
-                                    Calculate Action Wave
+                                <div class="role-filters">
+                                    <button class="role-filter active" onclick="filterByRole('all')">All</button>
+                                    <button class="role-filter" onclick="filterByRole('Top')">Top</button>
+                                    <button class="role-filter" onclick="filterByRole('Jungle')">Jungle</button>
+                                    <button class="role-filter" onclick="filterByRole('Mid')">Mid</button>
+                                    <button class="role-filter" onclick="filterByRole('ADC')">ADC</button>
+                                    <button class="role-filter" onclick="filterByRole('Support')">Support</button>
+                                </div>
+                                
+                                <div id="champion-grid" class="champion-grid"></div>
+                                <div id="champion-count" class="champion-count"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Calculator Page -->
+                    <div id="calculator-page" class="page hidden">
+                        <button class="back-btn" onclick="showPage('dashboard')">← Back to Dashboard</button>
+                        
+                        <div class="page-header calculator-header">
+                            <div class="page-header-icon">🧮</div>
+                            <div>
+                                <h1>Wave Calculator</h1>
+                                <p>Calculate action waves and track your game progress</p>
+                            </div>
+                        </div>
+
+                        <div class="space-y-8">
+                            <div class="grid grid-2" style="gap: 2rem;">
+                                <!-- Action Wave Calculator -->
+                                <div class="content-card">
+                                    <h2 style="display: flex; align-items: center; gap: 0.5rem;">
+                                        🧮 <span>Action Wave Calculator</span>
+                                    </h2>
+                                    
+                                    <div class="space-y-6">
+                                        <div class="form-group">
+                                            <label class="form-label">Objective Time (MM:SS)</label>
+                                            <input type="text" id="objective-time" class="form-input" placeholder="5:00">
+                                            <p style="color: #9ca3af; font-size: 0.875rem; margin-top: 0.5rem;">Enter when the objective spawns or when you want to execute</p>
+                                        </div>
+                                        
+                                        <button onclick="calculateActionWave()" class="btn btn-primary" style="width: 100%;">
+                                            Calculate Action Wave
+                                        </button>
+                                        
+                                        <div id="calc-results" class="calc-results hidden">
+                                            <h3 style="color: #10b981; font-weight: bold; margin-bottom: 1rem;">📊 Results:</h3>
+                                            <div class="space-y-3">
+                                                <div class="calc-result-item result-execute">
+                                                    <span style="color: #93c5fd;">Execute Wave:</span>
+                                                    <span id="execute-wave" style="font-weight: bold;"></span>
+                                                </div>
+                                                <div class="calc-result-item result-time">
+                                                    <span style="color: #86efac;">Execute Time:</span>
+                                                    <span id="execute-time" style="font-weight: bold;"></span>
+                                                </div>
+                                                <div class="calc-result-item result-setup">
+                                                    <span style="color: #c4b5fd;">Setup Waves:</span>
+                                                    <span id="setup-waves" style="font-weight: bold;"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Live Game Timer -->
+                                <div class="content-card">
+                                    <h2 style="display: flex; align-items: center; gap: 0.5rem;">
+                                        🕐 <span>Live Game Timer</span>
+                                    </h2>
+                                    
+                                    <div class="space-y-6">
+                                        <div class="text-center">
+                                            <div id="timer-display" class="timer-display">0:00</div>
+                                            <div style="color: #9ca3af; font-size: 1.125rem;">
+                                                Current Wave: ~<span id="current-wave">1</span>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="timer-controls">
+                                            <button id="timer-btn" onclick="toggleTimer()" class="btn btn-success">Start</button>
+                                            <button onclick="resetTimer()" class="btn" style="background-color: #4b5563;">Reset</button>
+                                        </div>
+
+                                        <div class="bg-gray-900 rounded-lg p-4">
+                                            <h4 style="color: #60a5fa; font-weight: 600; margin-bottom: 0.75rem;">Quick Reference:</h4>
+                                            <div class="grid grid-2" style="gap: 0.5rem; font-size: 0.875rem; color: #d1d5db;">
+                                                <div>1st Drake: 5:00</div>
+                                                <div>1st Herald: 8:00</div>
+                                                <div>Baron: 20:00</div>
+                                                <div>Elder: 35:00</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Quick Examples -->
+                            <div class="content-card">
+                                <h2>Quick Calculation Examples</h2>
+                                <div class="grid grid-3" style="gap: 1rem; margin-top: 1.5rem;">
+                                    <div class="bg-gray-900 rounded-lg p-4">
+                                        <h3 style="color: #60a5fa; font-weight: 600; margin-bottom: 0.75rem;">First Drake</h3>
+                                        <div style="color: #d1d5db; font-size: 0.875rem;">
+                                            <div>Spawn: 5:00</div>
+                                            <div>Execute: 4:30</div>
+                                            <div style="color: #10b981; font-weight: 500;">Wave 6</div>
+                                        </div>
+                                    </div>
+                                    <div class="bg-gray-900 rounded-lg p-4">
+                                        <h3 style="color: #60a5fa; font-weight: 600; margin-bottom: 0.75rem;">First Herald</h3>
+                                        <div style="color: #d1d5db; font-size: 0.875rem;">
+                                            <div>Spawn: 8:00</div>
+                                            <div>Execute: 7:30</div>
+                                            <div style="color: #10b981; font-weight: 500;">Wave 12</div>
+                                        </div>
+                                    </div>
+                                    <div class="bg-gray-900 rounded-lg p-4">
+                                        <h3 style="color: #60a5fa; font-weight: 600; margin-bottom: 0.75rem;">Baron</h3>
+                                        <div style="color: #d1d5db; font-size: 0.875rem;">
+                                            <div>Spawn: 20:00</div>
+                                            <div>Execute: 19:30</div>
+                                            <div style="color: #10b981; font-weight: 500;">Wave 38</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Weekly Page -->
+                    <div id="weekly-page" class="page hidden">
+                        <button class="back-btn" onclick="showPage('dashboard')">← Back to Dashboard</button>
+                        
+                        <div class="page-header weekly-header" style="justify-content: space-between;">
+                            <div style="display: flex; align-items: center; gap: 1rem;">
+                                <div class="page-header-icon">📅</div>
+                                <div>
+                                    <h1>Weekly Focus Program</h1>
+                                    <p>Structured 6-week learning path to master the framework</p>
+                                </div>
+                            </div>
+                            
+                            <div style="display: flex; flex-direction: column; align-items: end; gap: 0.5rem;">
+                                <button id="admin-toggle" onclick="toggleAdmin()" class="btn btn-warning">
+                                    🔧 Admin Mode
                                 </button>
-                                
-                                <div id="calc-results" class="calc-results hidden">
-                                    <h3 style="color: #10b981; font-weight: bold; margin-bottom: 1rem;">📊 Results:</h3>
-                                    <div class="space-y-3">
-                                        <div class="calc-result-item result-execute">
-                                            <span style="color: #93c5fd;">Execute Wave:</span>
-                                            <span id="execute-wave" style="font-weight: bold;"></span>
-                                        </div>
-                                        <div class="calc-result-item result-time">
-                                            <span style="color: #86efac;">Execute Time:</span>
-                                            <span id="execute-time" style="font-weight: bold;"></span>
-                                        </div>
-                                        <div class="calc-result-item result-setup">
-                                            <span style="color: #c4b5fd;">Setup Waves:</span>
-                                            <span id="setup-waves" style="font-weight: bold;"></span>
-                                        </div>
-                                    </div>
+                                <span id="admin-indicator" class="admin-active hidden">Admin Active</span>
+                            </div>
+                        </div>
+
+                        <!-- Admin Controls -->
+                        <div id="admin-panel" class="admin-panel hidden">
+                            <h2 style="color: white; font-size: 1.25rem; font-weight: bold; margin-bottom: 1rem;">🔧 Admin Controls</h2>
+                            <div class="admin-controls">
+                                <button onclick="resetProgram()" class="btn" style="background-color: #d97706;">Reset to Week 1</button>
+                                <button id="back-week-btn" onclick="goBackWeek()" class="btn" style="background-color: #4b5563;">Go Back One Week</button>
+                                <div class="admin-status">
+                                    Current: Week <span id="admin-current-week">1</span> | 
+                                    Completed: <span id="admin-completed-count">0</span>/6
                                 </div>
                             </div>
                         </div>
 
-                        <!-- Live Game Timer -->
+                        <!-- Program Status -->
                         <div class="content-card">
-                            <h2 style="display: flex; align-items: center; gap: 0.5rem;">
-                                🕐 <span>Live Game Timer</span>
-                            </h2>
+                            <h2>Program Status</h2>
+                            <div class="grid grid-4" style="gap: 1.5rem; margin-bottom: 1.5rem;">
+                                <div class="bg-green-900 rounded-lg p-4 text-center">
+                                    <div style="font-size: 1.5rem; font-weight: bold; color: #86efac;" id="completed-weeks">0/6</div>
+                                    <div class="text-gray-300">Weeks Completed</div>
+                                </div>
+                                <div class="bg-blue-900 rounded-lg p-4 text-center">
+                                    <div style="font-size: 1.5rem; font-weight: bold; color: #93c5fd;" id="current-week-display">Week 1</div>
+                                    <div class="text-gray-300">Current Focus</div>
+                                </div>
+                                <div class="bg-purple-900 rounded-lg p-4 text-center">
+                                    <div style="font-size: 1.5rem; font-weight: bold; color: #c4b5fd;" id="progress-percentage">0%</div>
+                                    <div class="text-gray-300">Progress</div>
+                                </div>
+                                <div class="bg-gray-700 rounded-lg p-4 text-center">
+                                    <div style="font-size: 1.5rem; font-weight: bold; color: #d1d5db;" id="remaining-weeks">6</div>
+                                    <div class="text-gray-300">Weeks Remaining</div>
+                                </div>
+                            </div>
                             
+                            <p class="text-gray-300" id="program-description">
+                                Each week builds on the previous, starting with fundamental concepts and progressing to advanced team coordination. 
+                                Complete all exercises before moving to the next week for best results.
+                            </p>
+                        </div>
+
+                        <!-- Weekly Challenges -->
+                        <div id="weekly-challenges">
+                            <!-- Weeks will be populated by JavaScript -->
+                        </div>
+                    </div>
+
+                    <!-- Turns Page -->
+                    <div id="turns-page" class="page hidden">
+                        <button class="back-btn" onclick="showPage('dashboard')">← Back to Dashboard</button>
+                        
+                        <div class="page-header turns-header">
+                            <div class="page-header-icon">🎯</div>
+                            <div>
+                                <h1>Turns & Rounds</h1>
+                                <p>Using lane priority to create opportunities</p>
+                            </div>
+                        </div>
+
+                        <div class="space-y-8">
+                            <div class="grid grid-3" style="gap: 1.5rem;">
+                                <div class="content-card">
+                                    <h2>Lane Priority</h2>
+                                    <div class="bg-green-900 rounded-lg p-4">
+                                        <p class="text-gray-300">You gain lane priority when you push/crash wave under enemy tower, essentially locking your opponent or making them lose gold & XP.</p>
+                                    </div>
+                                </div>
+
+                                <div class="content-card">
+                                    <h2>Turn</h2>
+                                    <div class="bg-blue-900 rounded-lg p-4">
+                                        <p class="text-gray-300">When you have time before the next wave arrives - this is how you use your priority window.</p>
+                                    </div>
+                                </div>
+
+                                <div class="content-card">
+                                    <h2>Round</h2>
+                                    <div class="bg-purple-900 rounded-lg p-4">
+                                        <p class="text-gray-300">The time between when you're fresh off base until your next reset/recall.</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="content-card">
+                                <h2>How to Use Your Turn</h2>
+                                <div class="grid grid-2" style="gap: 1.5rem; margin-top: 1.5rem;">
+                                    <div class="space-y-4">
+                                        <div class="bg-gray-900 rounded-lg p-4">
+                                            <h3 class="text-green-300" style="font-weight: 600; margin-bottom: 0.5rem;">Pressure Towers</h3>
+                                            <p class="text-gray-300" style="margin-bottom: 0.5rem;">Go for plates when you have priority</p>
+                                            <span style="color: #fbbf24; font-size: 0.875rem;">⚠️ Requires vision protection</span>
+                                        </div>
+                                        <div class="bg-gray-900 rounded-lg p-4">
+                                            <h3 class="text-green-300" style="font-weight: 600; margin-bottom: 0.5rem;">Roam to Another Lane</h3>
+                                            <p class="text-gray-300" style="margin-bottom: 0.5rem;">Help other lanes with your priority</p>
+                                            <span style="color: #fbbf24; font-size: 0.875rem;">⚠️ Need vision control</span>
+                                        </div>
+                                        <div class="bg-gray-900 rounded-lg p-4">
+                                            <h3 class="text-green-300" style="font-weight: 600; margin-bottom: 0.5rem;">Invade Jungle</h3>
+                                            <p class="text-gray-300" style="margin-bottom: 0.5rem;">Deny gold/XP, set up dives</p>
+                                            <span style="color: #fbbf24; font-size: 0.875rem;">⚠️ Know enemy positions</span>
+                                        </div>
+                                    </div>
+                                    <div class="space-y-4">
+                                        <div class="bg-gray-900 rounded-lg p-4">
+                                            <h3 class="text-green-300" style="font-weight: 600; margin-bottom: 0.5rem;">Neutral Objectives</h3>
+                                            <p class="text-gray-300" style="margin-bottom: 0.5rem;">Move for dragon, herald, baron</p>
+                                            <span style="color: #fbbf24; font-size: 0.875rem;">⚠️ Requires setup</span>
+                                        </div>
+                                        <div class="bg-gray-900 rounded-lg p-4">
+                                            <h3 class="text-green-300" style="font-weight: 600; margin-bottom: 0.5rem;">Slow Push Setup</h3>
+                                            <p class="text-gray-300" style="margin-bottom: 0.5rem;">Build big wave for dives</p>
+                                            <span style="color: #fbbf24; font-size: 0.875rem;">⚠️ Requires coordination</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="content-card">
+                                <h2>Key Concept</h2>
+                                <div class="bg-blue-900 rounded-lg p-6">
+                                    <p style="font-size: 1.125rem; color: #e5e7eb;">
+                                        League of Legends is about <span style="color: #93c5fd; font-weight: 600;">How do you use your turns</span> to do something that will either:
+                                    </p>
+                                    <ul style="color: #93c5fd; list-style: none; padding: 0; margin-top: 1rem;">
+                                        <li style="display: flex; align-items: flex-start; gap: 0.5rem; margin-bottom: 0.5rem;">
+                                            <span style="color: #fbbf24;">A)</span>
+                                            <span>Connect yourself to the plan</span>
+                                        </li>
+                                        <li style="display: flex; align-items: flex-start; gap: 0.5rem; margin-bottom: 0.5rem;">
+                                            <span style="color: #fbbf24;">B)</span>
+                                            <span>Do something proactive</span>
+                                        </li>
+                                        <li style="display: flex; align-items: flex-start; gap: 0.5rem;">
+                                            <span style="color: #fbbf24;">C)</span>
+                                            <span>Get tempo</span>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Action Waves Page -->
+                    <div id="action-waves-page" class="page hidden">
+                        <button class="back-btn" onclick="showPage('dashboard')">← Back to Dashboard</button>
+                        
+                        <div class="page-header waves-header">
+                            <div class="page-header-icon">📊</div>
+                            <div>
+                                <h1>Action Waves</h1>
+                                <p>Specific minion wave that serves as your execution timer</p>
+                            </div>
+                        </div>
+
+                        <div class="space-y-8">
+                            <div class="grid grid-2" style="gap: 2rem;">
+                                <div class="content-card">
+                                    <h2>What Are Action Waves?</h2>
+                                    <div class="space-y-4">
+                                        <div class="bg-purple-900 rounded-lg p-4">
+                                            <h3 class="text-purple-300" style="font-weight: 600; margin-bottom: 0.5rem;">Short Definition:</h3>
+                                            <p class="text-gray-300">The specific minion wave that serves as your team's execution timer</p>
+                                        </div>
+                                        <div class="bg-gray-900 rounded-lg p-4">
+                                            <h3 class="text-purple-300" style="font-weight: 600; margin-bottom: 0.5rem;">Detailed:</h3>
+                                            <p class="text-gray-300">Instead of saying "move at 4:45" while everyone is focused on farming, you say "we go when wave 7 crashes." This transforms chaotic macro calls into precise coordination.</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="content-card">
+                                    <h2>Why Waves Work Better</h2>
+                                    <ul style="color: #d1d5db; list-style: none; padding: 0;">
+                                        <li style="display: flex; align-items: flex-start; gap: 0.5rem; margin-bottom: 0.75rem;">
+                                            <span style="color: #10b981; margin-top: 0.25rem;">✓</span>
+                                            <span>Players already track minions for CS and lane management</span>
+                                        </li>
+                                        <li style="display: flex; align-items: flex-start; gap: 0.5rem; margin-bottom: 0.75rem;">
+                                            <span style="color: #10b981; margin-top: 0.25rem;">✓</span>
+                                            <span>Waves provide natural "ready checks" - wrong position = not ready</span>
+                                        </li>
+                                        <li style="display: flex; align-items: flex-start; gap: 0.5rem; margin-bottom: 0.75rem;">
+                                            <span style="color: #10b981; margin-top: 0.25rem;">✓</span>
+                                            <span>Creates automatic coordination - when wave moves, everyone moves</span>
+                                        </li>
+                                        <li style="display: flex; align-items: flex-start; gap: 0.5rem;">
+                                            <span style="color: #10b981; margin-top: 0.25rem;">✓</span>
+                                            <span>Accounts for travel time and positioning naturally</span>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="content-card">
+                                <h2>30-Second Metronome System</h2>
+                                <div class="grid grid-2" style="gap: 2rem; margin-top: 1.5rem;">
+                                    <div>
+                                        <h3 style="color: #60a5fa; font-size: 1.125rem; font-weight: 600; margin-bottom: 1rem;">Basic Wave Timing</h3>
+                                        <div class="bg-gray-900 rounded-lg p-4">
+                                            <div class="grid grid-2" style="gap: 0.75rem; color: #d1d5db;">
+                                                <div>Wave 1: 1:30</div>
+                                                <div>Wave 2: 2:00</div>
+                                                <div>Wave 3: 2:30</div>
+                                                <div>Wave 4: 3:00</div>
+                                                <div>Wave 5: 3:30</div>
+                                                <div>Wave 6: 4:00</div>
+                                                <div>Wave 7: 4:30</div>
+                                                <div>Wave 8: 5:00</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <h3 style="color: #10b981; font-size: 1.125rem; font-weight: 600; margin-bottom: 1rem;">Calculation Steps</h3>
+                                        <div class="space-y-3 text-gray-300">
+                                            <div class="bg-gray-900 rounded-lg p-3">
+                                                <strong>Step 1:</strong> Identify objective time (e.g., 5:00 Drake)
+                                            </div>
+                                            <div class="bg-gray-900 rounded-lg p-3">
+                                                <strong>Step 2:</strong> Subtract 30 seconds (4:30 positioning)
+                                            </div>
+                                            <div class="bg-gray-900 rounded-lg p-3">
+                                                <strong>Step 3:</strong> Find corresponding wave (Wave 7)
+                                            </div>
+                                            <div class="bg-gray-900 rounded-lg p-3">
+                                                <strong>Step 4:</strong> Count backwards for setup
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="content-card">
+                                <h2>Action Wave Chains</h2>
+                                <div class="bg-blue-900 rounded-lg p-6">
+                                    <h3 style="color: #93c5fd; font-size: 1.25rem; font-weight: bold; margin-bottom: 1rem;">Concept: Using one action wave to set up the next</h3>
+                                    <div class="space-y-3 text-gray-300">
+                                        <div style="display: flex; align-items: center; gap: 1rem;">
+                                            <span style="background-color: #1e3a8a; padding: 0.5rem 1rem; border-radius: 0.5rem; font-weight: 600;">Wave 4</span>
+                                            <span>Support roams for vision</span>
+                                        </div>
+                                        <div style="display: flex; align-items: center; gap: 1rem;">
+                                            <span style="background-color: #1e40af; padding: 0.5rem 1rem; border-radius: 0.5rem; font-weight: 600;">Wave 5</span>
+                                            <span>Jungler clears enemy vision</span>
+                                        </div>
+                                        <div style="display: flex; align-items: center; gap: 1rem;">
+                                            <span style="background-color: #1d4ed8; padding: 0.5rem 1rem; border-radius: 0.5rem; font-weight: 600;">Wave 6</span>
+                                            <span>Mid builds priority</span>
+                                        </div>
+                                        <div style="display: flex; align-items: center; gap: 1rem;">
+                                            <span style="background-color: #2563eb; padding: 0.5rem 1rem; border-radius: 0.5rem; font-weight: 600;">Wave 7</span>
+                                            <span style="color: #fbbf24; font-weight: 600;">ACTION WAVE - Everyone moves</span>
+                                        </div>
+                                    </div>
+                                    <p style="color: #e5e7eb; margin-top: 1rem; font-style: italic;">Each wave builds toward the final execution.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Action Plan Page -->
+                    <div id="action-plan-page" class="page hidden">
+                        <button class="back-btn" onclick="showPage('dashboard')">← Back to Dashboard</button>
+                        
+                        <div class="page-header plan-header">
+                            <div class="page-header-icon">✅</div>
+                            <div>
+                                <h1>5-Step Action Plan</h1>
+                                <p>Systematic approach to executing coordinated team plays</p>
+                            </div>
+                        </div>
+
+                        <div class="space-y-8">
                             <div class="space-y-6">
-                                <div class="text-center">
-                                    <div id="timer-display" class="timer-display">0:00</div>
-                                    <div style="color: #9ca3af; font-size: 1.125rem;">
-                                        Current Wave: ~<span id="current-wave">1</span>
+                                <div class="content-card" style="border: 1px solid #374151; border-left: 4px solid #10b981; transition: border-color 0.3s;">
+                                    <div style="display: flex; align-items: flex-start; gap: 1rem; margin-bottom: 1rem;">
+                                        <div style="width: 2.5rem; height: 2.5rem; background-color: #059669; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; color: white; font-size: 1.125rem; flex-shrink: 0;">1</div>
+                                        <div style="flex: 1;">
+                                            <h3 style="font-size: 1.5rem; font-weight: bold; margin-bottom: 0.5rem;">IDENTIFY (2 minutes before)</h3>
+                                            <p style="color: #d1d5db; font-size: 1.125rem; margin-bottom: 0.75rem;">Define the objective and calculate your action wave timing</p>
+                                            <p style="color: #9ca3af; margin-bottom: 1rem;">Objective time - 30 seconds = Execute Wave. Count backwards for preparation phases.</p>
+                                        </div>
+                                    </div>
+                                    
+                                    <div style="margin-left: 3.5rem;">
+                                        <div class="bg-gray-900 rounded-lg p-4">
+                                            <h4 style="color: #10b981; font-weight: 600; margin-bottom: 0.75rem;">💡 Examples:</h4>
+                                            <ul style="list-style: none; padding: 0;">
+                                                <li style="display: flex; align-items: flex-start; gap: 0.5rem; margin-bottom: 0.5rem; color: #d1d5db;">
+                                                    <span style="color: #10b981; margin-top: 0.125rem;">✓</span>
+                                                    <span>5:00 Dragon → Execute on Wave 6 → Setup starts at Wave 3-4</span>
+                                                </li>
+                                                <li style="display: flex; align-items: flex-start; gap: 0.5rem; margin-bottom: 0.5rem; color: #d1d5db;">
+                                                    <span style="color: #10b981; margin-top: 0.125rem;">✓</span>
+                                                    <span>Calculate precise timing for team coordination</span>
+                                                </li>
+                                                <li style="display: flex; align-items: flex-start; gap: 0.5rem; color: #d1d5db;">
+                                                    <span style="color: #10b981; margin-top: 0.125rem;">✓</span>
+                                                    <span>Identify which lane will be primary for execution</span>
+                                                </li>
+                                            </ul>
+                                        </div>
                                     </div>
                                 </div>
-                                
-                                <div class="timer-controls">
-                                    <button id="timer-btn" onclick="toggleTimer()" class="btn btn-success">Start</button>
-                                    <button onclick="resetTimer()" class="btn" style="background-color: #4b5563;">Reset</button>
+
+                                <div class="content-card" style="border: 1px solid #374151; border-left: 4px solid #10b981;">
+                                    <div style="display: flex; align-items: flex-start; gap: 1rem; margin-bottom: 1rem;">
+                                        <div style="width: 2.5rem; height: 2.5rem; background-color: #059669; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; color: white; font-size: 1.125rem; flex-shrink: 0;">2</div>
+                                        <div style="flex: 1;">
+                                            <h3 style="font-size: 1.5rem; font-weight: bold; margin-bottom: 0.5rem;">ASSIGN LANES (As soon as necessary)</h3>
+                                            <p style="color: #d1d5db; font-size: 1.125rem; margin-bottom: 0.75rem;">Assign roles based on distance and rotation priority</p>
+                                            <p style="color: #9ca3af; margin-bottom: 1rem;">Use distance priority rule to determine who moves first and who supports.</p>
+                                        </div>
+                                    </div>
+                                    
+                                    <div style="margin-left: 3.5rem;">
+                                        <div class="bg-gray-900 rounded-lg p-4">
+                                            <h4 style="color: #10b981; font-weight: 600; margin-bottom: 0.75rem;">💡 Examples:</h4>
+                                            <ul style="list-style: none; padding: 0;">
+                                                <li style="display: flex; align-items: flex-start; gap: 0.5rem; margin-bottom: 0.5rem; color: #d1d5db;">
+                                                    <span style="color: #10b981; margin-top: 0.125rem;">✓</span>
+                                                    <span>Closest to Objective: Duo bot lane (shortest rotate)</span>
+                                                </li>
+                                                <li style="display: flex; align-items: flex-start; gap: 0.5rem; margin-bottom: 0.5rem; color: #d1d5db;">
+                                                    <span style="color: #10b981; margin-top: 0.125rem;">✓</span>
+                                                    <span>Medium Distance: Mid + Jungle (flexible support)</span>
+                                                </li>
+                                                <li style="display: flex; align-items: flex-start; gap: 0.5rem; color: #d1d5db;">
+                                                    <span style="color: #10b981; margin-top: 0.125rem;">✓</span>
+                                                    <span>Furthest: Top lane (TP dependent or split pressure)</span>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
                                 </div>
 
-                                <div class="bg-gray-900 rounded-lg p-4">
-                                    <h4 style="color: #60a5fa; font-weight: 600; margin-bottom: 0.75rem;">Quick Reference:</h4>
-                                    <div class="grid grid-2" style="gap: 0.5rem; font-size: 0.875rem; color: #d1d5db;">
-                                        <div>1st Drake: 5:00</div>
-                                        <div>1st Herald: 8:00</div>
-                                        <div>Baron: 20:00</div>
-                                        <div>Elder: 35:00</div>
+                                <div class="content-card" style="border: 1px solid #374151; border-left: 4px solid #10b981;">
+                                    <div style="display: flex; align-items: flex-start; gap: 1rem; margin-bottom: 1rem;">
+                                        <div style="width: 2.5rem; height: 2.5rem; background-color: #059669; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; color: white; font-size: 1.125rem; flex-shrink: 0;">3</div>
+                                        <div style="flex: 1;">
+                                            <h3 style="font-size: 1.5rem; font-weight: bold; margin-bottom: 0.5rem;">PREPARE LANES (1 minute before Execute Wave)</h3>
+                                            <p style="color: #d1d5db; font-size: 1.125rem; margin-bottom: 0.75rem;">Set up wave states for optimal positioning</p>
+                                            <p style="color: #9ca3af; margin-bottom: 1rem;">Each role must prepare their lane state to enable the team play.</p>
+                                        </div>
+                                    </div>
+                                    
+                                    <div style="margin-left: 3.5rem;">
+                                        <div class="bg-gray-900 rounded-lg p-4">
+                                            <h4 style="color: #10b981; font-weight: 600; margin-bottom: 0.75rem;">💡 Examples:</h4>
+                                            <ul style="list-style: none; padding: 0;">
+                                                <li style="display: flex; align-items: flex-start; gap: 0.5rem; margin-bottom: 0.5rem; color: #d1d5db;">
+                                                    <span style="color: #10b981; margin-top: 0.125rem;">✓</span>
+                                                    <span>Pushing: Leave lane without losing CS</span>
+                                                </li>
+                                                <li style="display: flex; align-items: flex-start; gap: 0.5rem; margin-bottom: 0.5rem; color: #d1d5db;">
+                                                    <span style="color: #10b981; margin-top: 0.125rem;">✓</span>
+                                                    <span>Crashed: Enemy chooses between objective and farm</span>
+                                                </li>
+                                                <li style="display: flex; align-items: flex-start; gap: 0.5rem; color: #d1d5db;">
+                                                    <span style="color: #10b981; margin-top: 0.125rem;">✓</span>
+                                                    <span>Bouncing Back: Enemy locked in lane, can't rotate</span>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="content-card" style="border: 1px solid #374151; border-left: 4px solid #10b981;">
+                                    <div style="display: flex; align-items: flex-start; gap: 1rem; margin-bottom: 1rem;">
+                                        <div style="width: 2.5rem; height: 2.5rem; background-color: #059669; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; color: white; font-size: 1.125rem; flex-shrink: 0;">4</div>
+                                        <div style="flex: 1;">
+                                            <h3 style="font-size: 1.5rem; font-weight: bold; margin-bottom: 0.5rem;">VISION (1 minute to 30 seconds before)</h3>
+                                            <p style="color: #d1d5db; font-size: 1.125rem; margin-bottom: 0.75rem;">Control vision around the objective area</p>
+                                            <p style="color: #9ca3af; margin-bottom: 1rem;">Support and jungle work together to secure vision control.</p>
+                                        </div>
+                                    </div>
+                                    
+                                    <div style="margin-left: 3.5rem;">
+                                        <div class="bg-gray-900 rounded-lg p-4">
+                                            <h4 style="color: #10b981; font-weight: 600; margin-bottom: 0.75rem;">💡 Examples:</h4>
+                                            <ul style="list-style: none; padding: 0;">
+                                                <li style="display: flex; align-items: flex-start; gap: 0.5rem; margin-bottom: 0.5rem; color: #d1d5db;">
+                                                    <span style="color: #10b981; margin-top: 0.125rem;">✓</span>
+                                                    <span>Support: Place key wards, deny enemy vision spots</span>
+                                                </li>
+                                                <li style="display: flex; align-items: flex-start; gap: 0.5rem; margin-bottom: 0.5rem; color: #d1d5db;">
+                                                    <span style="color: #10b981; margin-top: 0.125rem;">✓</span>
+                                                    <span>Jungle: Clear enemy vision, secure safe pathways</span>
+                                                </li>
+                                                <li style="display: flex; align-items: flex-start; gap: 0.5rem; color: #d1d5db;">
+                                                    <span style="color: #10b981; margin-top: 0.125rem;">✓</span>
+                                                    <span>Control flanks and escape routes for team safety</span>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="content-card" style="border: 1px solid #374151; border-left: 4px solid #10b981;">
+                                    <div style="display: flex; align-items: flex-start; gap: 1rem; margin-bottom: 1rem;">
+                                        <div style="width: 2.5rem; height: 2.5rem; background-color: #059669; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; color: white; font-size: 1.125rem; flex-shrink: 0;">5</div>
+                                        <div style="flex: 1;">
+                                            <h3 style="font-size: 1.5rem; font-weight: bold; margin-bottom: 0.5rem;">RE-PREPARE & MOVE (Final positioning)</h3>
+                                            <p style="color: #d1d5db; font-size: 1.125rem; margin-bottom: 0.75rem;">Execute final positioning and movement coordination</p>
+                                            <p style="color: #9ca3af; margin-bottom: 1rem;">Coordinate final movement timing based on travel distance.</p>
+                                        </div>
+                                    </div>
+                                    
+                                    <div style="margin-left: 3.5rem;">
+                                        <div class="bg-gray-900 rounded-lg p-4">
+                                            <h4 style="color: #10b981; font-weight: 600; margin-bottom: 0.75rem;">💡 Examples:</h4>
+                                            <ul style="list-style: none; padding: 0;">
+                                                <li style="display: flex; align-items: flex-start; gap: 0.5rem; margin-bottom: 0.5rem; color: #d1d5db;">
+                                                    <span style="color: #10b981; margin-top: 0.125rem;">✓</span>
+                                                    <span>40 seconds: If recalling from lane (recall + walk time)</span>
+                                                </li>
+                                                <li style="display: flex; align-items: flex-start; gap: 0.5rem; margin-bottom: 0.5rem; color: #d1d5db;">
+                                                    <span style="color: #10b981; margin-top: 0.125rem;">✓</span>
+                                                    <span>30 seconds: If walking from lane (direct rotate)</span>
+                                                </li>
+                                                <li style="display: flex; align-items: flex-start; gap: 0.5rem; color: #d1d5db;">
+                                                    <span style="color: #10b981; margin-top: 0.125rem;">✓</span>
+                                                    <span>10 seconds: Final positioning adjustments only</span>
+                                                </li>
+                                            </ul>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
+                </main>
 
-                    <!-- Quick Examples -->
-                    <div class="content-card">
-                        <h2>Quick Calculation Examples</h2>
-                        <div class="grid grid-3" style="gap: 1rem; margin-top: 1.5rem;">
-                            <div class="bg-gray-900 rounded-lg p-4">
-                                <h3 style="color: #60a5fa; font-weight: 600; margin-bottom: 0.75rem;">First Drake</h3>
-                                <div style="color: #d1d5db; font-size: 0.875rem;">
-                                    <div>Spawn: 5:00</div>
-                                    <div>Execute: 4:30</div>
-                                    <div style="color: #10b981; font-weight: 500;">Wave 6</div>
-                                </div>
-                            </div>
-                            <div class="bg-gray-900 rounded-lg p-4">
-                                <h3 style="color: #60a5fa; font-weight: 600; margin-bottom: 0.75rem;">First Herald</h3>
-                                <div style="color: #d1d5db; font-size: 0.875rem;">
-                                    <div>Spawn: 8:00</div>
-                                    <div>Execute: 7:30</div>
-                                    <div style="color: #10b981; font-weight: 500;">Wave 12</div>
-                                </div>
-                            </div>
-                            <div class="bg-gray-900 rounded-lg p-4">
-                                <h3 style="color: #60a5fa; font-weight: 600; margin-bottom: 0.75rem;">Baron</h3>
-                                <div style="color: #d1d5db; font-size: 0.875rem;">
-                                    <div>Spawn: 20:00</div>
-                                    <div>Execute: 19:30</div>
-                                    <div style="color: #10b981; font-weight: 500;">Wave 38</div>
-                                </div>
-                            </div>
+                <!-- Right Sidebar -->
+                <aside class="right-sidebar">
+                    <div class="widget">
+                        <div class="widget-title">Learning Progress</div>
+                        <div class="progress-item">
+                            <span class="progress-label">Tempo Mastery</span>
+                            <span class="progress-value">75%</span>
                         </div>
-                    </div>
-
-                    <!-- Wave Timeline Tool -->
-                    <div class="content-card">
-                        <h2>Wave Timeline Reference</h2>
-                        <div class="bg-gray-900 rounded-lg p-6" style="margin-top: 1.5rem;">
-                            <div class="grid grid-4" style="gap: 1rem; color: #d1d5db; font-size: 0.875rem;">
-                                <div><strong>Early Game</strong></div>
-                                <div><strong>Mid Game</strong></div>
-                                <div><strong>Late Game</strong></div>
-                                <div><strong>End Game</strong></div>
-                                
-                                <div>Wave 1: 1:30</div>
-                                <div>Wave 10: 6:00</div>
-                                <div>Wave 20: 11:00</div>
-                                <div>Wave 40: 21:00</div>
-                                
-                                <div>Wave 2: 2:00</div>
-                                <div>Wave 12: 7:00</div>
-                                <div>Wave 25: 13:30</div>
-                                <div>Wave 50: 26:00</div>
-                                
-                                <div>Wave 3: 2:30</div>
-                                <div>Wave 15: 8:30</div>
-                                <div>Wave 30: 16:00</div>
-                                <div>Wave 60: 31:00</div>
-                                
-                                <div style="color: #10b981;">Drake: Wave 6</div>
-                                <div style="color: #fbbf24;">Herald: Wave 12</div>
-                                <div style="color: #dc2626;">Baron: Wave 38</div>
-                                <div style="color: #c084fc;">Elder: Wave 68</div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Practice Exercises -->
-                    <div class="content-card">
-                        <h2>Practice Exercises</h2>
-                        <div class="grid grid-2" style="gap: 1.5rem; margin-top: 1.5rem;">
-                            <div class="bg-blue-900 rounded-lg p-4">
-                                <h3 style="color: #93c5fd; font-weight: 600; margin-bottom: 0.75rem;">Exercise 1: Wave Counting</h3>
-                                <div style="color: #e5e7eb; font-size: 0.875rem;">
-                                    <p style="margin-bottom: 0.75rem;"><strong>Goal:</strong> Get comfortable with wave timing</p>
-                                    <ul style="list-style: none; padding: 0;">
-                                        <li>• Pick any objective (Drake, Herald, etc.)</li>
-                                        <li>• Calculate the action wave needed</li>
-                                        <li>• Count waves in real-time during game</li>
-                                        <li>• See if your calculation was accurate</li>
-                                    </ul>
-                                </div>
-                            </div>
-                            
-                            <div class="bg-green-900 rounded-lg p-4">
-                                <h3 style="color: #86efac; font-weight: 600; margin-bottom: 0.75rem;">Exercise 2: Lane Speed Comparison</h3>
-                                <div style="color: #e5e7eb; font-size: 0.875rem;">
-                                    <p style="margin-bottom: 0.75rem;"><strong>Goal:</strong> Understand timing differences</p>
-                                    <ul style="list-style: none; padding: 0;">
-                                        <li>• Compare mid vs bot action waves for same objective</li>
-                                        <li>• Notice the timing difference</li>
-                                        <li>• Practice calling different action waves for different lanes</li>
-                                    </ul>
-                                </div>
-                            </div>
-                            
-                            <div class="bg-purple-900 rounded-lg p-4">
-                                <h3 style="color: #c4b5fd; font-weight: 600; margin-bottom: 0.75rem;">Exercise 3: Action Wave Chains</h3>
-                                <div style="color: #e5e7eb; font-size: 0.875rem;">
-                                    <p style="margin-bottom: 0.75rem;"><strong>Goal:</strong> Plan multi-wave setups</p>
-                                    <ul style="list-style: none; padding: 0;">
-                                        <li>• Pick an objective 2 minutes away</li>
-                                        <li>• Plan what happens each wave leading up</li>
-                                        <li>• Execute the chain in practice</li>
-                                    </ul>
-                                </div>
-                            </div>
-                            
-                            <div class="bg-yellow-900 rounded-lg p-4">
-                                <h3 style="color: #fcd34d; font-weight: 600; margin-bottom: 0.75rem;">Exercise 4: Communication Practice</h3>
-                                <div style="color: #e5e7eb; font-size: 0.875rem;">
-                                    <p style="margin-bottom: 0.75rem;"><strong>Goal:</strong> Master team coordination</p>
-                                    <ul style="list-style: none; padding: 0;">
-                                        <li>• Practice calling action waves clearly</li>
-                                        <li>• Use backup wave communication</li>
-                                        <li>• Confirm team readiness before execution</li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Action Plan Page -->
-            <div id="action-plan-page" class="page hidden">
-                <button class="back-btn" onclick="showPage('home')">
-                    ← Back to Home
-                </button>
-                
-                <div class="page-header plan-header">
-                    <div class="page-header-icon">✅</div>
-                    <div>
-                        <h1>5-Step Action Plan</h1>
-                        <p>Systematic approach to executing coordinated team plays</p>
-                    </div>
-                </div>
-
-                <div class="space-y-8">
-                    <div class="space-y-6">
-                        <div class="content-card" style="border: 1px solid #374151; border-left: 4px solid #10b981; transition: border-color 0.3s;">
-                            <div style="display: flex; align-items: flex-start; gap: 1rem; margin-bottom: 1rem;">
-                                <div style="width: 2.5rem; height: 2.5rem; background-color: #059669; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; color: white; font-size: 1.125rem; flex-shrink: 0;">1</div>
-                                <div style="flex: 1;">
-                                    <h3 style="font-size: 1.5rem; font-weight: bold; margin-bottom: 0.5rem;">IDENTIFY (2 minutes before)</h3>
-                                    <p style="color: #d1d5db; font-size: 1.125rem; margin-bottom: 0.75rem;">Define the objective and calculate your action wave timing</p>
-                                    <p style="color: #9ca3af; margin-bottom: 1rem;">Objective time - 30 seconds = Execute Wave. Count backwards for preparation phases.</p>
-                                </div>
-                            </div>
-                            
-                            <div style="margin-left: 3.5rem;">
-                                <div class="bg-gray-900 rounded-lg p-4">
-                                    <h4 style="color: #10b981; font-weight: 600; margin-bottom: 0.75rem;">💡 Examples:</h4>
-                                    <ul style="list-style: none; padding: 0;">
-                                        <li style="display: flex; align-items: flex-start; gap: 0.5rem; margin-bottom: 0.5rem; color: #d1d5db;">
-                                            <span style="color: #10b981; margin-top: 0.125rem;">✓</span>
-                                            <span>5:00 Dragon → Execute on Wave 6 → Setup starts at Wave 3-4</span>
-                                        </li>
-                                        <li style="display: flex; align-items: flex-start; gap: 0.5rem; margin-bottom: 0.5rem; color: #d1d5db;">
-                                            <span style="color: #10b981; margin-top: 0.125rem;">✓</span>
-                                            <span>Calculate precise timing for team coordination</span>
-                                        </li>
-                                        <li style="display: flex; align-items: flex-start; gap: 0.5rem; color: #d1d5db;">
-                                            <span style="color: #10b981; margin-top: 0.125rem;">✓</span>
-                                            <span>Identify which lane will be primary for execution</span>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="content-card" style="border: 1px solid #374151; border-left: 4px solid #10b981;">
-                            <div style="display: flex; align-items: flex-start; gap: 1rem; margin-bottom: 1rem;">
-                                <div style="width: 2.5rem; height: 2.5rem; background-color: #059669; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; color: white; font-size: 1.125rem; flex-shrink: 0;">2</div>
-                                <div style="flex: 1;">
-                                    <h3 style="font-size: 1.5rem; font-weight: bold; margin-bottom: 0.5rem;">ASSIGN LANES (As soon as necessary)</h3>
-                                    <p style="color: #d1d5db; font-size: 1.125rem; margin-bottom: 0.75rem;">Assign roles based on distance and rotation priority</p>
-                                    <p style="color: #9ca3af; margin-bottom: 1rem;">Use distance priority rule to determine who moves first and who supports.</p>
-                                </div>
-                            </div>
-                            
-                            <div style="margin-left: 3.5rem;">
-                                <div class="bg-gray-900 rounded-lg p-4">
-                                    <h4 style="color: #10b981; font-weight: 600; margin-bottom: 0.75rem;">💡 Examples:</h4>
-                                    <ul style="list-style: none; padding: 0;">
-                                        <li style="display: flex; align-items: flex-start; gap: 0.5rem; margin-bottom: 0.5rem; color: #d1d5db;">
-                                            <span style="color: #10b981; margin-top: 0.125rem;">✓</span>
-                                            <span>Closest to Objective: Duo bot lane (shortest rotate)</span>
-                                        </li>
-                                        <li style="display: flex; align-items: flex-start; gap: 0.5rem; margin-bottom: 0.5rem; color: #d1d5db;">
-                                            <span style="color: #10b981; margin-top: 0.125rem;">✓</span>
-                                            <span>Medium Distance: Mid + Jungle (flexible support)</span>
-                                        </li>
-                                        <li style="display: flex; align-items: flex-start; gap: 0.5rem; color: #d1d5db;">
-                                            <span style="color: #10b981; margin-top: 0.125rem;">✓</span>
-                                            <span>Furthest: Top lane (TP dependent or split pressure)</span>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="content-card" style="border: 1px solid #374151; border-left: 4px solid #10b981;">
-                            <div style="display: flex; align-items: flex-start; gap: 1rem; margin-bottom: 1rem;">
-                                <div style="width: 2.5rem; height: 2.5rem; background-color: #059669; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; color: white; font-size: 1.125rem; flex-shrink: 0;">3</div>
-                                <div style="flex: 1;">
-                                    <h3 style="font-size: 1.5rem; font-weight: bold; margin-bottom: 0.5rem;">PREPARE LANES (1 minute before Execute Wave)</h3>
-                                    <p style="color: #d1d5db; font-size: 1.125rem; margin-bottom: 0.75rem;">Set up wave states for optimal positioning</p>
-                                    <p style="color: #9ca3af; margin-bottom: 1rem;">Each role must prepare their lane state to enable the team play.</p>
-                                </div>
-                            </div>
-                            
-                            <div style="margin-left: 3.5rem;">
-                                <div class="bg-gray-900 rounded-lg p-4">
-                                    <h4 style="color: #10b981; font-weight: 600; margin-bottom: 0.75rem;">💡 Examples:</h4>
-                                    <ul style="list-style: none; padding: 0;">
-                                        <li style="display: flex; align-items: flex-start; gap: 0.5rem; margin-bottom: 0.5rem; color: #d1d5db;">
-                                            <span style="color: #10b981; margin-top: 0.125rem;">✓</span>
-                                            <span>Pushing: Leave lane without losing CS</span>
-                                        </li>
-                                        <li style="display: flex; align-items: flex-start; gap: 0.5rem; margin-bottom: 0.5rem; color: #d1d5db;">
-                                            <span style="color: #10b981; margin-top: 0.125rem;">✓</span>
-                                            <span>Crashed: Enemy chooses between objective and farm</span>
-                                        </li>
-                                        <li style="display: flex; align-items: flex-start; gap: 0.5rem; color: #d1d5db;">
-                                            <span style="color: #10b981; margin-top: 0.125rem;">✓</span>
-                                            <span>Bouncing Back: Enemy locked in lane, can't rotate</span>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="content-card" style="border: 1px solid #374151; border-left: 4px solid #10b981;">
-                            <div style="display: flex; align-items: flex-start; gap: 1rem; margin-bottom: 1rem;">
-                                <div style="width: 2.5rem; height: 2.5rem; background-color: #059669; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; color: white; font-size: 1.125rem; flex-shrink: 0;">4</div>
-                                <div style="flex: 1;">
-                                    <h3 style="font-size: 1.5rem; font-weight: bold; margin-bottom: 0.5rem;">VISION (1 minute to 30 seconds before)</h3>
-                                    <p style="color: #d1d5db; font-size: 1.125rem; margin-bottom: 0.75rem;">Control vision around the objective area</p>
-                                    <p style="color: #9ca3af; margin-bottom: 1rem;">Support and jungle work together to secure vision control.</p>
-                                </div>
-                            </div>
-                            
-                            <div style="margin-left: 3.5rem;">
-                                <div class="bg-gray-900 rounded-lg p-4">
-                                    <h4 style="color: #10b981; font-weight: 600; margin-bottom: 0.75rem;">💡 Examples:</h4>
-                                    <ul style="list-style: none; padding: 0;">
-                                        <li style="display: flex; align-items: flex-start; gap: 0.5rem; margin-bottom: 0.5rem; color: #d1d5db;">
-                                            <span style="color: #10b981; margin-top: 0.125rem;">✓</span>
-                                            <span>Support: Place key wards, deny enemy vision spots</span>
-                                        </li>
-                                        <li style="display: flex; align-items: flex-start; gap: 0.5rem; margin-bottom: 0.5rem; color: #d1d5db;">
-                                            <span style="color: #10b981; margin-top: 0.125rem;">✓</span>
-                                            <span>Jungle: Clear enemy vision, secure safe pathways</span>
-                                        </li>
-                                        <li style="display: flex; align-items: flex-start; gap: 0.5rem; color: #d1d5db;">
-                                            <span style="color: #10b981; margin-top: 0.125rem;">✓</span>
-                                            <span>Control flanks and escape routes for team safety</span>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="content-card" style="border: 1px solid #374151; border-left: 4px solid #10b981;">
-                            <div style="display: flex; align-items: flex-start; gap: 1rem; margin-bottom: 1rem;">
-                                <div style="width: 2.5rem; height: 2.5rem; background-color: #059669; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; color: white; font-size: 1.125rem; flex-shrink: 0;">5</div>
-                                <div style="flex: 1;">
-                                    <h3 style="font-size: 1.5rem; font-weight: bold; margin-bottom: 0.5rem;">RE-PREPARE & MOVE (Final positioning)</h3>
-                                    <p style="color: #d1d5db; font-size: 1.125rem; margin-bottom: 0.75rem;">Execute final positioning and movement coordination</p>
-                                    <p style="color: #9ca3af; margin-bottom: 1rem;">Coordinate final movement timing based on travel distance.</p>
-                                </div>
-                            </div>
-                            
-                            <div style="margin-left: 3.5rem;">
-                                <div class="bg-gray-900 rounded-lg p-4">
-                                    <h4 style="color: #10b981; font-weight: 600; margin-bottom: 0.75rem;">💡 Examples:</h4>
-                                    <ul style="list-style: none; padding: 0;">
-                                        <li style="display: flex; align-items: flex-start; gap: 0.5rem; margin-bottom: 0.5rem; color: #d1d5db;">
-                                            <span style="color: #10b981; margin-top: 0.125rem;">✓</span>
-                                            <span>40 seconds: If recalling from lane (recall + walk time)</span>
-                                        </li>
-                                        <li style="display: flex; align-items: flex-start; gap: 0.5rem; margin-bottom: 0.5rem; color: #d1d5db;">
-                                            <span style="color: #10b981; margin-top: 0.125rem;">✓</span>
-                                            <span>30 seconds: If walking from lane (direct rotate)</span>
-                                        </li>
-                                        <li style="display: flex; align-items: flex-start; gap: 0.5rem; color: #d1d5db;">
-                                            <span style="color: #10b981; margin-top: 0.125rem;">✓</span>
-                                            <span>10 seconds: Final positioning adjustments only</span>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="grid grid-2" style="gap: 2rem;">
-                        <div style="background: linear-gradient(to right, #581c87, #1e3a8a); border-radius: 0.75rem; padding: 1.5rem;">
-                            <h3 style="color: white; font-size: 1.25rem; font-weight: bold; margin-bottom: 1rem;">🔍 Tempo Checks - Before Objective</h3>
-                            <ul style="color: #e5e7eb; list-style: none; padding: 0;">
-                                <li style="display: flex; align-items: flex-start; gap: 0.5rem; margin-bottom: 0.5rem;">
-                                    <span style="color: #c4b5fd;">•</span>
-                                    <span>Do we just want to take objective and leave?</span>
-                                </li>
-                                <li style="display: flex; align-items: flex-start; gap: 0.5rem; margin-bottom: 0.5rem;">
-                                    <span style="color: #c4b5fd;">•</span>
-                                    <span>If they contest, do we turn and fight?</span>
-                                </li>
-                                <li style="display: flex; align-items: flex-start; gap: 0.5rem;">
-                                    <span style="color: #c4b5fd;">•</span>
-                                    <span>If contested and we disengage, what do we trade?</span>
-                                </li>
-                            </ul>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 75%"></div>
                         </div>
                         
-                        <div style="background: linear-gradient(to right, #1e3a8a, #0891b2); border-radius: 0.75rem; padding: 1.5rem;">
-                            <h3 style="color: white; font-size: 1.25rem; font-weight: bold; margin-bottom: 1rem;">⚔️ Tempo Checks - At the Objective</h3>
-                            <ul style="color: #e5e7eb; list-style: none; padding: 0;">
-                                <li style="display: flex; align-items: flex-start; gap: 0.5rem; margin-bottom: 0.5rem;">
-                                    <span style="color: #60a5fa;">•</span>
-                                    <span>If we turn, who is the target?</span>
-                                </li>
-                                <li style="display: flex; align-items: flex-start; gap: 0.5rem; margin-bottom: 0.5rem;">
-                                    <span style="color: #60a5fa;">•</span>
-                                    <span>Where do we pull the objective?</span>
-                                </li>
-                                <li style="display: flex; align-items: flex-start; gap: 0.5rem;">
-                                    <span style="color: #60a5fa;">•</span>
-                                    <span>What tools do they have?</span>
-                                </li>
-                            </ul>
+                        <div class="progress-item">
+                            <span class="progress-label">Action Waves</span>
+                            <span class="progress-value">45%</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 45%"></div>
+                        </div>
+                        
+                        <div class="progress-item">
+                            <span class="progress-label">Weekly Program</span>
+                            <span class="progress-value">60%</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 60%"></div>
                         </div>
                     </div>
 
-                    <div class="content-card">
-                        <h2>📢 Communication Templates</h2>
-                        <div class="grid grid-3" style="gap: 1.5rem; margin-top: 1.5rem;">
-                            <div class="bg-green-900 rounded-lg p-4">
-                                <h4 style="color: #86efac; font-weight: 600; margin-bottom: 0.75rem;">Setup Phase</h4>
-                                <div class="bg-gray-800" style="padding: 0.75rem; border-radius: 0.25rem; font-size: 0.875rem; color: #d1d5db;">
-                                    "Drake 5:00, action wave 6 through mid. Bot move first, Top hold TP."
-                                </div>
-                            </div>
-                            <div class="bg-yellow-900 rounded-lg p-4">
-                                <h4 style="color: #fcd34d; font-weight: 600; margin-bottom: 0.75rem;">Execution</h4>
-                                <div class="bg-gray-800" style="padding: 0.75rem; border-radius: 0.25rem; font-size: 0.875rem; color: #d1d5db;">
-                                    "Action wave NOW, everyone move. Support first, carries follow."
-                                </div>
-                            </div>
-                            <div class="bg-blue-900 rounded-lg p-4">
-                                <h4 style="color: #93c5fd; font-weight: 600; margin-bottom: 0.75rem;">Backup Plan</h4>
-                                <div class="bg-gray-800" style="padding: 0.75rem; border-radius: 0.25rem; font-size: 0.875rem; color: #d1d5db;">
-                                    "Wave 6 failed, reset to wave 7. Everyone get ready."
-                                </div>
-                            </div>
+                    <div class="widget">
+                        <div class="widget-title">Quick Actions</div>
+                        <div style="display: flex; flex-direction: column; gap: 0.75rem;">
+                            <button class="tool-btn primary" onclick="showPage('draft')">
+                                🎭 Start Draft
+                            </button>
+                            <button class="tool-btn secondary" onclick="showPage('calculator')">
+                                🧮 Wave Timer
+                            </button>
+                            <button class="tool-btn secondary" onclick="showPage('weekly')">
+                                📅 Check Progress
+                            </button>
                         </div>
                     </div>
 
-                    <!-- Implementation Checklist -->
-                    <div class="content-card">
-                        <h2>📋 Implementation Checklist</h2>
-                        <div class="bg-blue-900 rounded-lg p-6" style="margin-top: 1.5rem;">
-                            <h3 style="color: #93c5fd; font-size: 1.25rem; font-weight: bold; margin-bottom: 1rem;">Before Every Major Objective:</h3>
-                            <div class="grid grid-2" style="gap: 1.5rem;">
-                                <div>
-                                    <h4 style="color: #e5e7eb; font-weight: 600; margin-bottom: 0.75rem;">Pre-Game Planning</h4>
-                                    <ul style="color: #d1d5db; list-style: none; padding: 0; font-size: 0.875rem;">
-                                        <li>☐ Early game plan discussed in champ select</li>
-                                        <li>☐ Primary objective windows identified</li>
-                                        <li>☐ Action wave numbers pre-calculated</li>
-                                        <li>☐ Backup plans for tempo loss scenarios</li>
-                                    </ul>
-                                </div>
-                                <div>
-                                    <h4 style="color: #e5e7eb; font-weight: 600; margin-bottom: 0.75rem;">Live Game Execution</h4>
-                                    <ul style="color: #d1d5db; list-style: none; padding: 0; font-size: 0.875rem;">
-                                        <li>☐ "We have tempo" - Look for opportunities</li>
-                                        <li>☐ "Wave X incoming" - Coordinate timing</li>
-                                        <li>☐ "Turn mid/bot" - Identify priority player</li>
-                                        <li>☐ "Tempo lost, reset" - Fall back to farming</li>
-                                    </ul>
-                                </div>
+                    <div class="widget">
+                        <div class="widget-title">Latest Updates</div>
+                        <div style="color: #9ca3af; font-size: 0.875rem; line-height: 1.5;">
+                            <div style="margin-bottom: 0.75rem;">
+                                <strong style="color: #c89b3c;">New:</strong> Draft tool with real-time collaboration
+                            </div>
+                            <div style="margin-bottom: 0.75rem;">
+                                <strong style="color: #c89b3c;">Updated:</strong> Action wave calculator improvements
+                            </div>
+                            <div>
+                                <strong style="color: #c89b3c;">Coming:</strong> VOD review integration
                             </div>
                         </div>
                     </div>
-                </div>
+                </aside>
             </div>
-
-            <!-- Weekly Focus Page -->
-            <div id="weekly-page" class="page hidden">
-                <button class="back-btn" onclick="showPage('home')">
-                    ← Back to Home
-                </button>
-                
-                <div class="page-header weekly-header" style="justify-content: space-between;">
-                    <div style="display: flex; align-items: center; gap: 1rem;">
-                        <div class="page-header-icon">📅</div>
-                        <div>
-                            <h1>Weekly Focus Program</h1>
-                            <p>Structured 6-week learning path to master the framework</p>
-                        </div>
-                    </div>
-                    
-                    <div style="display: flex; flex-direction: column; align-items: end; gap: 0.5rem;">
-                        <button id="admin-toggle" onclick="toggleAdmin()" class="btn btn-warning">
-                            🔧 Admin Mode
-                        </button>
-                        <span id="admin-indicator" class="admin-active hidden">Admin Active</span>
-                    </div>
-                </div>
-
-                <!-- Admin Controls -->
-                <div id="admin-panel" class="admin-panel hidden">
-                    <h2 style="color: white; font-size: 1.25rem; font-weight: bold; margin-bottom: 1rem;">🔧 Admin Controls</h2>
-                    <div class="admin-controls">
-                        <button onclick="resetProgram()" class="btn" style="background-color: #d97706;">Reset to Week 1</button>
-                        <button id="back-week-btn" onclick="goBackWeek()" class="btn" style="background-color: #4b5563;">Go Back One Week</button>
-                        <div class="admin-status">
-                            Current: Week <span id="admin-current-week">1</span> | 
-                            Completed: <span id="admin-completed-count">0</span>/6
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Program Status -->
-                <div class="content-card">
-                    <h2>Program Status</h2>
-                    <div class="grid grid-4" style="gap: 1.5rem; margin-bottom: 1.5rem;">
-                        <div class="bg-green-900 rounded-lg p-4 text-center">
-                            <div style="font-size: 1.5rem; font-weight: bold; color: #86efac;" id="completed-weeks">0/6</div>
-                            <div class="text-gray-300">Weeks Completed</div>
-                        </div>
-                        <div class="bg-blue-900 rounded-lg p-4 text-center">
-                            <div style="font-size: 1.5rem; font-weight: bold; color: #93c5fd;" id="current-week-display">Week 1</div>
-                            <div class="text-gray-300">Current Focus</div>
-                        </div>
-                        <div class="bg-purple-900 rounded-lg p-4 text-center">
-                            <div style="font-size: 1.5rem; font-weight: bold; color: #c4b5fd;" id="progress-percentage">0%</div>
-                            <div class="text-gray-300">Progress</div>
-                        </div>
-                        <div class="bg-gray-700 rounded-lg p-4 text-center">
-                            <div style="font-size: 1.5rem; font-weight: bold; color: #d1d5db;" id="remaining-weeks">6</div>
-                            <div class="text-gray-300">Weeks Remaining</div>
-                        </div>
-                    </div>
-                    
-                    <p class="text-gray-300" id="program-description">
-                        Each week builds on the previous, starting with fundamental concepts and progressing to advanced team coordination. 
-                        Complete all exercises before moving to the next week for best results.
-                    </p>
-                </div>
-
-                <!-- Weekly Challenges -->
-                <div id="weekly-challenges">
-                    <!-- Weeks will be populated by JavaScript -->
-                </div>
-            </div>
-        </main>
-
-        <!-- Footer -->
-        <footer class="footer">
-            <div class="footer-content">
-                <div>
-                    <p class="footer-text">Resource hub for APM Esports • All right reserved</p>
-                    <p style="color: #6b7280; font-size: 0.875rem; margin-top: 0.25rem;">Hosted on Github</p>
-                </div>
-                <div class="footer-brand">
-                    <span style="font-size: 0.875rem;">Created by Coach Gerrah</span>
-                    <div class="footer-dots">
-                        <div class="footer-dot dot-blue"></div>
-                        <div class="footer-dot dot-green"></div>
-                        <div class="footer-dot dot-purple"></div>
-                    </div>
-                </div>
-            </div>
-        </footer>
+        </div>
     </div>
 
     <!-- Firebase -->
