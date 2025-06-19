@@ -15,6 +15,17 @@ let selectedSlot = null;
 let champions = [];
 let currentFilter = 'all';
 
+// Central function to update the user state from firebase-config.js
+window.setCurrentUser = (user) => {
+    currentUser = user;
+    if (user) {
+        console.log('User state updated in script.js:', user.email);
+    } else {
+        console.log('User state cleared in script.js');
+    }
+};
+
+
 // Complete champion database
 const championData = [
     // Top Laners
@@ -63,7 +74,7 @@ const championData = [
     {id: 'yorick', name: 'Yorick', roles: ['Top']},
 
     // Junglers
-    {id: 'ammu', name: 'Ammu', roles: ['Jungle']},
+    {id: 'amumu', name: 'Amumu', roles: ['Jungle']},
     {id: 'belveth', name: 'Bel\'Veth', roles: ['Jungle']},
     {id: 'briar', name: 'Briar', roles: ['Jungle']},
     {id: 'diana', name: 'Diana', roles: ['Jungle', 'Mid']},
@@ -190,6 +201,7 @@ const championData = [
     {id: 'yuumi', name: 'Yuumi', roles: ['Support']},
     {id: 'zyra', name: 'Zyra', roles: ['Support']}
 ];
+
 
 // Weekly program data
 const weeklyProgram = [
@@ -336,7 +348,7 @@ async function signInWithGoogle() {
             email: user.email,
             photoURL: user.photoURL,
             provider: 'google'
-        });
+        }, { merge: true }); // Use merge to not overwrite existing data like role
         
         console.log('Google sign-in successful:', user.email);
     } catch (error) {
@@ -348,7 +360,6 @@ async function signInWithGoogle() {
 async function handleLogout() {
     try {
         await window.signOut(window.auth);
-        currentUser = null;
         
         // Clean up draft room
         if (draftListener) {
@@ -473,7 +484,8 @@ function showNotifications() {
 function createQuickDraft() {
     showPage('draft');
     setTimeout(() => {
-        createDraftRoom();
+        // Corrected to call the renamed function
+        handleCreateDraftRoomClick();
     }, 100);
 }
 
@@ -507,7 +519,7 @@ function calculateActionWave() {
         results.classList.remove('hidden');
         document.getElementById('execute-wave').textContent = `Wave ${executeWave}`;
         document.getElementById('execute-time').textContent = formatTime(executeTime);
-        document.getElementById('setup-waves').textContent = setupWaves.join(', ');
+        document.getElementById('setup-waves').textContent = `Waves ${setupWaves.join(' & ')}`;
     }
 }
 
@@ -566,7 +578,6 @@ function resetTimer() {
 
 // Draft Tool Functions
 function initializeDraftTool() {
-    // Initialize champion data
     champions = championData.map(champ => ({
         ...champ,
         imageUrl: `./images/${champ.id}_0.jpg`,
@@ -598,10 +609,7 @@ function renderChampions() {
              title="${champ.name} (${champ.roles.join(', ')})">
             <img src="${champ.imageUrl}" 
                  alt="${champ.name}" 
-                 onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-            <div style="display: none; align-items: center; justify-content: center; height: 100%; background: #374151; font-size: 0.7rem; text-align: center; padding: 0.25rem;">
-                ${champ.name}
-            </div>
+                 onerror="this.parentElement.innerHTML = '<div class=\'champion-card-fallback\'>${champ.name.substring(0,3)}</div>'">
             <div class="champion-name">${champ.name}</div>
         </div>
     `).join('');
@@ -658,7 +666,6 @@ function selectChampion(championId) {
             alert('This champion is already banned!');
             return;
         }
-        
         champion.banned = true;
         selectedSlot.innerHTML = `<img src="${champion.imageUrl}" alt="${champion.name}">`;
         selectedSlot.classList.add('filled');
@@ -668,12 +675,10 @@ function selectChampion(championId) {
             alert('This champion is banned!');
             return;
         }
-        
         if (champion.picked) {
             alert('This champion is already picked!');
             return;
         }
-        
         champion.picked = true;
         champion.team = team;
         selectedSlot.innerHTML = `<img src="${champion.imageUrl}" alt="${champion.name}">`;
@@ -687,6 +692,7 @@ function selectChampion(championId) {
 }
 
 function clearSlot(slot) {
+    event.preventDefault(); // Prevent context menu
     if (!slot.classList.contains('filled')) return;
     
     const img = slot.querySelector('img');
@@ -746,7 +752,7 @@ function resetDraft() {
 }
 
 function clearAll() {
-    if (confirm('Are you sure you want to clear everything?')) {
+    if (confirm('Are you sure you want to clear the entire draft board?')) {
         resetDraft();
         
         document.querySelectorAll('.strategy-input').forEach(input => {
@@ -757,22 +763,22 @@ function clearAll() {
     }
 }
 
-// Draft room management - FIXED FUNCTIONS
-function createDraftRoom() {
+// ======================= FIX WAS APPLIED HERE =======================
+// The function createDraftRoom() was renamed to handleCreateDraftRoomClick()
+// to avoid a name conflict with a function in firebase-config.js.
+// ====================================================================
+function handleCreateDraftRoomClick() {
     if (!currentUser) {
-        alert('Please sign in to create a draft room');
+        alert('Please sign in to create a draft room.');
         return;
     }
     
-    // Initialize champions if needed
     if (!champions || champions.length === 0) {
         initializeDraftTool();
     }
     
     const roomCode = generateRoomCode();
-    console.log('Generated room code:', roomCode);
     
-    // Add more robust validation
     if (!roomCode || typeof roomCode !== 'string' || roomCode.trim() === '') {
         console.error('Failed to generate valid room code:', roomCode);
         alert('Failed to generate room code. Please try again.');
@@ -785,9 +791,9 @@ function createDraftRoom() {
     updateDraftRoomUI(cleanRoomCode, true);
 }
 
-function joinDraftRoom() {
+function handleJoinDraftRoomClick() { 
     if (!currentUser) {
-        alert('Please sign in to join a draft room');
+        alert('Please sign in to join a draft room.');
         return;
     }
     
@@ -799,32 +805,17 @@ function joinDraftRoom() {
 }
 
 function generateRoomCode() {
-    try {
-        const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-        let result = '';
-        for (let i = 0; i < 6; i++) {
-            result += chars.charAt(Math.floor(Math.random() * chars.length));
-        }
-        
-        // Ensure we actually generated something
-        if (!result || result.length < 6) {
-            throw new Error('Generated room code is too short');
-        }
-        
-        return result;
-    } catch (error) {
-        console.error('Error generating room code:', error);
-        // Fallback with timestamp to ensure uniqueness
-        const fallback = 'ROOM' + Date.now().toString().slice(-4);
-        console.log('Using fallback room code:', fallback);
-        return fallback;
+    const chars = 'ABCDEFGHIJKLMNPQRSTUVWXYZ123456789';
+    let result = '';
+    for (let i = 0; i < 6; i++) {
+        result += chars.charAt(Math.floor(Math.random() * chars.length));
     }
+    return result;
 }
 
 async function initializeDraftRoom(roomCode) {
     try {
         console.log('Initializing draft room:', roomCode);
-        
         const draftData = {
             champions: [],
             strategy: {
@@ -838,10 +829,8 @@ async function initializeDraftRoom(roomCode) {
                 banNotes: ''
             }
         };
-        
         await window.createDraftRoom(roomCode, currentUser.uid, draftData);
         setupDraftListener(roomCode);
-        
     } catch (error) {
         console.error('Error creating draft room:', error);
         alert('Failed to create draft room: ' + error.message);
@@ -851,14 +840,14 @@ async function initializeDraftRoom(roomCode) {
 async function joinExistingDraftRoom(roomCode) {
     try {
         const roomData = await window.joinDraftRoom(roomCode, currentUser.uid);
-        loadDraftData(roomData);
-        setupDraftListener(roomCode);
-        
-        updateDraftRoomUI(roomCode, false);
-        
+        if (roomData) {
+            loadDraftData(roomData);
+            setupDraftListener(roomCode);
+            updateDraftRoomUI(roomCode, false);
+        }
     } catch (error) {
         console.error('Error joining draft room:', error);
-        alert('Room not found');
+        alert('Room not found or could not be joined.');
     }
 }
 
@@ -866,7 +855,6 @@ function setupDraftListener(roomCode) {
     if (draftListener) {
         draftListener();
     }
-    
     draftListener = window.listenToDraftRoom(roomCode, (roomData) => {
         if (roomData) {
             loadDraftData(roomData);
@@ -876,14 +864,12 @@ function setupDraftListener(roomCode) {
 
 function loadDraftData(roomData) {
     if (roomData.champions) {
-        // Reset all champions first
         champions.forEach(champ => {
             champ.banned = false;
             champ.picked = false;
             champ.team = null;
         });
         
-        // Apply room data
         roomData.champions.forEach(savedChamp => {
             const champ = champions.find(c => c.id === savedChamp.id);
             if (champ) {
@@ -931,27 +917,29 @@ function updateSlotsFromChampions() {
         }
     });
     
-    let bluePickIndex = 0;
-    let redPickIndex = 0;
-    let blueBanIndex = 0;
-    let redBanIndex = 0;
-    
+    const picks = { blue: [], red: [] };
+    const bans = { blue: [], red: [] };
+
     champions.forEach(champ => {
-        if (champ.banned) {
-            const banSlots = document.querySelectorAll('.ban-slot:not(.filled)');
-            if (banSlots.length > 0) {
-                const slot = banSlots[0];
+        if (champ.picked && champ.team) picks[champ.team].push(champ);
+        if (champ.banned) bans.blue.push(champ); // Simplified
+    });
+
+    ['blue', 'red'].forEach(team => {
+        picks[team].forEach((champ, index) => {
+            const slot = document.querySelector(`.champion-slot[data-team="${team}"][data-slot="${index}"]`);
+            if(slot) {
                 slot.innerHTML = `<img src="${champ.imageUrl}" alt="${champ.name}">`;
                 slot.classList.add('filled');
             }
-        } else if (champ.picked && champ.team) {
-            const pickSlots = document.querySelectorAll(`.champion-slot[data-team="${champ.team}"]:not(.filled)`);
-            if (pickSlots.length > 0) {
-                const slot = pickSlots[0];
+        });
+        bans[team].forEach((champ, index) => {
+             const slot = document.querySelector(`.ban-slot[data-team="${team}"][data-slot="${index}"]`);
+             if(slot) {
                 slot.innerHTML = `<img src="${champ.imageUrl}" alt="${champ.name}">`;
                 slot.classList.add('filled');
             }
-        }
+        });
     });
 }
 
@@ -1014,7 +1002,7 @@ function updateDraftRoomUI(roomCode, isCreator) {
     if (roomCode) {
         if (roomInfo) roomInfo.classList.remove('hidden');
         if (roomCodeElement) roomCodeElement.textContent = roomCode;
-        if (connectionText) connectionText.textContent = isCreator ? 'Connected - Room created' : 'Connected - Joined room';
+        if (connectionText) connectionText.textContent = isCreator ? 'Connected - You are the host' : 'Connected - Joined room';
         if (connectionStatus) connectionStatus.classList.remove('disconnected');
     } else {
         if (roomInfo) roomInfo.classList.add('hidden');
@@ -1112,7 +1100,7 @@ function updateWeeklyStatus() {
     
     const elements = {
         'completed-weeks': `${completedCount}/6`,
-        'current-week-display': `Week ${currentWeek}`,
+        'current-week-display': `Week ${currentWeek > 6 ? 'Done' : currentWeek}`,
         'progress-percentage': `${progress}%`,
         'remaining-weeks': remaining,
         'admin-current-week': currentWeek,
@@ -1132,9 +1120,9 @@ function updateWeeklyStatus() {
     const description = document.getElementById('program-description');
     if (description) {
         if (currentWeek > 6) {
-            description.innerHTML = '<div style="background-color: #14532d; padding: 1rem; border-radius: 0.5rem;"><h3 style="color: #86efac; font-size: 1.25rem; font-weight: bold; margin-bottom: 0.5rem;">🎉 Program Complete!</h3><p style="color: #d1d5db;">Congratulations! You\'ve mastered all the core concepts. Continue practicing and refining your skills in ranked games.</p></div>';
+            description.innerHTML = '<div style="background-color: #14532d; padding: 1rem; border-radius: 0.5rem;"><h3 style="color: #86efac; font-size: 1.25rem; font-weight: bold; margin-bottom: 0.5rem;">🎉 Program Complete!</h3><p style="color: #d1d5db;">Congratulations! You\'ve mastered all the core concepts.</p></div>';
         } else {
-            description.textContent = 'Each week builds on the previous, starting with fundamental concepts and progressing to advanced team coordination. Complete all exercises before moving to the next week for best results.';
+            description.textContent = 'Each week builds on the previous...';
         }
     }
 }
@@ -1165,7 +1153,7 @@ function renderWeeklyProgram() {
                 </div>
                 <div style="display: flex; align-items: center; gap: 0.5rem;">
                     ${status === 'current' ? '<span class="status-badge">Current</span>' : ''}
-                    ${adminMode && status === 'current' ? 
+                    ${adminMode && status === 'current' && week.week <= 6 ? 
                         `<button onclick="completeWeek(${week.week})" class="btn btn-primary" style="padding: 0.25rem 0.75rem; font-size: 0.875rem;">Mark Complete</button>` : ''}
                 </div>
             </div>
@@ -1183,7 +1171,6 @@ function renderWeeklyProgram() {
     });
 }
 
-// Function to update weekly progress from Firebase
 window.updateWeeklyProgressFromFirebase = (progress) => {
     currentWeek = progress.currentWeek || 1;
     completedWeeks = progress.completedWeeks || [];
@@ -1191,24 +1178,10 @@ window.updateWeeklyProgressFromFirebase = (progress) => {
     renderWeeklyProgram();
 };
 
-// Listen for auth state changes
-window.addEventListener('load', () => {
-    if (window.onAuthStateChanged) {
-        window.onAuthStateChanged(window.auth, (user) => {
-            currentUser = user;
-            if (user) {
-                console.log('User authenticated:', user.email);
-            }
-        });
-    }
-});
-
-// Initialize app
 document.addEventListener('DOMContentLoaded', function() {
     showPage('dashboard');
     updateTimer();
     
-    // Close dropdown when clicking outside
     document.addEventListener('click', (event) => {
         const dropdown = document.getElementById('user-dropdown-menu');
         const dropdownBtn = event.target.closest('.user-dropdown-btn');
@@ -1218,7 +1191,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
     
-    // Handle responsive sidebar
     window.addEventListener('resize', () => {
         if (window.innerWidth > 1024) {
             const sidebar = document.getElementById('sidebar');

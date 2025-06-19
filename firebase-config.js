@@ -66,13 +66,13 @@ window.serverTimestamp = serverTimestamp;
 window.deleteDoc = deleteDoc;
 
 // User management functions
-window.saveUserData = async (uid, userData) => {
+window.saveUserData = async (uid, userData, options = {}) => {
     try {
         await setDoc(doc(db, 'users', uid), {
             ...userData,
             createdAt: serverTimestamp(),
             lastLogin: serverTimestamp()
-        });
+        }, options);
         console.log('User data saved successfully');
     } catch (error) {
         console.error('Error saving user data:', error);
@@ -136,17 +136,14 @@ window.getWeeklyProgress = async (uid) => {
     }
 };
 
-// Complete Draft Room Functions
+// Draft Room Functions
 window.createDraftRoom = async (roomCode, creatorUid, initialData) => {
    try {
-       const { collection } = await import('https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js');
-       
-       const cleanRoomCode = roomCode?.toString().trim().toUpperCase() || 'ROOM' + Date.now();
-       
-       // Fix: Check if creatorUid exists
        if (!creatorUid) {
            throw new Error('User not authenticated');
        }
+       
+       const cleanRoomCode = roomCode?.toString().trim().toUpperCase() || 'ROOM' + Date.now();
        
        const draftRoomData = {
            roomCode: cleanRoomCode,
@@ -159,20 +156,21 @@ window.createDraftRoom = async (roomCode, creatorUid, initialData) => {
            participants: [creatorUid]
        };
        
+       const { collection } = await import('https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js');
        const docRef = doc(collection(db, 'draftRooms'), cleanRoomCode);
        await setDoc(docRef, draftRoomData);
        
        return draftRoomData;
    } catch (error) {
-       console.error('Error:', error);
+       console.error('Error creating draft room:', error);
        throw error;
    }
 };
 
-
 window.joinDraftRoom = async (roomCode, userUid) => {
     try {
-        const roomDoc = await getDoc(doc(db, 'draftRooms', roomCode));
+        const roomRef = doc(db, 'draftRooms', roomCode);
+        const roomDoc = await getDoc(roomRef);
         
         if (!roomDoc.exists()) {
             throw new Error('Room not found');
@@ -180,9 +178,8 @@ window.joinDraftRoom = async (roomCode, userUid) => {
         
         const roomData = roomDoc.data();
         
-        // Add user to participants if not already there
         if (!roomData.participants.includes(userUid)) {
-            await updateDoc(doc(db, 'draftRooms', roomCode), {
+            await updateDoc(roomRef, {
                 participants: [...roomData.participants, userUid],
                 lastUpdated: serverTimestamp(),
                 lastUpdatedBy: userUid
@@ -240,7 +237,7 @@ window.deleteDraftRoom = async (roomCode, userUid) => {
         const roomData = roomDoc.data();
         
         if (roomData.createdBy !== userUid) {
-            throw new Error('Only room creator can delete');
+            throw new Error('Only the room creator can delete the room');
         }
         
         await deleteDoc(doc(db, 'draftRooms', roomCode));
@@ -253,39 +250,41 @@ window.deleteDraftRoom = async (roomCode, userUid) => {
 
 // Initialize auth state listener when DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {
-    console.log('Firebase initialized with complete draft room support');
+    console.log('Firebase configuration loaded successfully');
     
-    // Listen for authentication state changes
+    // THIS IS NOW THE SINGLE SOURCE OF TRUTH FOR AUTHENTICATION STATE
     onAuthStateChanged(auth, async (user) => {
         const loadingScreen = document.getElementById('loading-screen');
         const authModal = document.getElementById('auth-modal');
         const appContainer = document.getElementById('app-container');
         
+        // Update the global currentUser variable in script.js
+        if (window.setCurrentUser) {
+            window.setCurrentUser(user);
+        }
+
         if (user) {
-            console.log('User signed in:', user.email);
+            // User is signed in
+            console.log('User is signed in:', user.email);
             
-            // Update last login
             try {
                 await updateUserData(user.uid, { lastLogin: serverTimestamp() });
             } catch (error) {
-                console.log('Could not update last login:', error);
+                console.log('Could not update last login timestamp:', error);
             }
             
-            // Load user data and progress
             await loadUserSession(user);
             
-            // Hide auth modal and show app
             if (authModal) authModal.classList.add('hidden');
             if (appContainer) appContainer.classList.remove('hidden');
             
         } else {
-            console.log('User signed out');
-            // Show auth modal
+            // User is signed out
+            console.log('User is signed out');
             if (appContainer) appContainer.classList.add('hidden');
             if (authModal) authModal.classList.remove('hidden');
         }
         
-        // Hide loading screen
         if (loadingScreen) loadingScreen.classList.add('hidden');
     });
 });
@@ -293,38 +292,38 @@ document.addEventListener('DOMContentLoaded', () => {
 // Load user session data
 window.loadUserSession = async (user) => {
     try {
-        // Get user data from Firestore
         const userData = await getUserData(user.uid);
         
-        // Update UI with user info
         const userName = userData?.displayName || user.displayName || user.email.split('@')[0];
         const userAvatar = userData?.photoURL || user.photoURL || `https://ui-avatars.com/api/?name=${encodeURIComponent(userName)}&background=2563eb&color=fff`;
         
-        // Update main header elements
-        const elements = {
-            'user-name': userName,
+        const elementsToUpdate = {
             'welcome-name': userName,
             'sidebar-username': userName,
             'sidebar-role': userData?.role || 'Player'
         };
         
-        Object.entries(elements).forEach(([id, value]) => {
+        Object.entries(elementsToUpdate).forEach(([id, value]) => {
             const element = document.getElementById(id);
-            if (element) element.textContent = value;
+            if (element) {
+                element.textContent = value;
+            } else {
+                console.warn(`Element with ID '${id}' not found.`);
+            }
         });
         
-        // Update avatar elements
         const avatarElements = ['user-avatar', 'sidebar-avatar'];
         avatarElements.forEach(id => {
             const element = document.getElementById(id);
-            if (element) element.src = userAvatar;
+            if (element) {
+                element.src = userAvatar;
+                element.alt = userName;
+            }
         });
         
-        // Show user welcome
         const userWelcome = document.getElementById('user-welcome');
         if (userWelcome) userWelcome.classList.remove('hidden');
         
-        // Load weekly progress
         const progress = await getWeeklyProgress(user.uid);
         if (window.updateWeeklyProgressFromFirebase) {
             window.updateWeeklyProgressFromFirebase(progress);
@@ -335,4 +334,4 @@ window.loadUserSession = async (user) => {
     }
 };
 
-console.log('Firebase configuration loaded successfully with complete functionality');
+console.log('Firebase configuration loaded with complete functionality');
