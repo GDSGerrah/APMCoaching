@@ -7,7 +7,7 @@ let adminMode = false;
 let currentWeek = 1;
 let completedWeeks = [];
 let currentUser = null;
-const baseUrl = 'https://gdsgerrah.github.io/APMCoaching/images'
+const baseUrl = 'https://gdsgerrah.github.io/APMCoaching/images';
 
 // Draft room state
 let currentDraftRoom = null;
@@ -25,7 +25,6 @@ window.setCurrentUser = (user) => {
         console.log('User state cleared in script.js');
     }
 };
-
 
 // Complete champion database
 const championData = [
@@ -202,7 +201,6 @@ const championData = [
     {id: 'yuumi', name: 'Yuumi', roles: ['Support']},
     {id: 'zyra', name: 'Zyra', roles: ['Support']}
 ];
-
 
 // Weekly program data
 const weeklyProgram = [
@@ -485,7 +483,6 @@ function showNotifications() {
 function createQuickDraft() {
     showPage('draft');
     setTimeout(() => {
-        // Corrected to call the renamed function
         handleCreateDraftRoomClick();
     }, 100);
 }
@@ -577,11 +574,39 @@ function resetTimer() {
     }
 }
 
-// Draft Tool Functions
+// Helper function to format champion IDs to match file names
+function formatChampionIdForFiles(championId) {
+    // Handle special cases that might have different capitalization in your files
+    const specialCases = {
+        'chogath': 'Chogath',
+        'drmundo': 'DrMundo',
+        'jarvaniv': 'JarvanIV',
+        'khazix': 'Khazix',
+        'kogmaw': 'KogMaw',
+        'leblanc': 'LeBlanc',
+        'leesin': 'LeeSin',
+        'masteryi': 'MasterYi',
+        'missfortune': 'MissFortune',
+        'nunu': 'Nunu',
+        'reksai': 'RekSai',
+        'tahmkench': 'TahmKench',
+        'twistedfate': 'TwistedFate',
+        'velkoz': 'VelKoz',
+        'xinzhao': 'XinZhao',
+        'aurelionsol': 'AurelionSol',
+        'belveth': 'Belveth'
+    };
+    
+    // Return special case or just capitalize first letter
+    return specialCases[championId] || (championId.charAt(0).toUpperCase() + championId.slice(1));
+}
+
+// Draft Tool Functions - FIXED VERSION
 function initializeDraftTool() {
     champions = championData.map(champ => ({
         ...champ,
-        imageUrl: `${baseUrl}/${champ.id}_0.jpg`, // FIXED: removed semicolon, added proper template literal
+        // FIXED: Use proper champion ID formatting to match your file names
+        imageUrl: `${baseUrl}/${formatChampionIdForFiles(champ.id)}_0.jpg`,
         banned: false,
         picked: false,
         team: null
@@ -618,7 +643,6 @@ function renderChampions() {
         `;
     }).join('');
 }
-
 
 function updateChampionCount() {
     const search = document.getElementById('champion-search')?.value.toLowerCase() || '';
@@ -768,10 +792,6 @@ function clearAll() {
     }
 }
 
-// ======================= FIX WAS APPLIED HERE =======================
-// The function createDraftRoom() was renamed to handleCreateDraftRoomClick()
-// to avoid a name conflict with a function in firebase-config.js.
-// ====================================================================
 function handleCreateDraftRoomClick() {
     if (!currentUser) {
         alert('Please sign in to create a draft room.');
