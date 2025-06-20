@@ -580,7 +580,7 @@ function resetTimer() {
 function initializeDraftTool() {
     champions = championData.map(champ => ({
         ...champ,
-        imageUrl:  `${baseUrl}/images/${champ.id}_0.jpg`,
+         imageUrl: `/APMCoaching/COACHING/images/${champ.id}_0.jpg`,
         banned: false,
         picked: false,
         team: null
