@@ -1515,3 +1515,15 @@ body {
     animation: spin 1s linear infinite;
     margin-right: 0.75rem;
 }
+
+.champion-card-fallback {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #4b5563;
+    color: #f3f4f6;
+    font-weight: bold;
+    font-size: 0.875rem;
+}
