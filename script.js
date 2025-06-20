@@ -595,7 +595,7 @@ function formatChampionIdForFiles(championId) {
         'xinzhao': 'XinZhao',
         'aurelionsol': 'AurelionSol',
         'belveth': 'Belveth',
-        'fiddlesticks': 'Fiddlesticks'  
+        'fiddlesticks': 'FiddleSticks'  
     };
     
     return specialCases[championId] || (championId.charAt(0).toUpperCase() + championId.slice(1));
