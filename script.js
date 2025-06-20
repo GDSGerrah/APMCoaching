@@ -583,7 +583,7 @@ function formatChampionIdForFiles(championId) {
         'jarvaniv': 'JarvanIV',
         'khazix': 'Khazix',
         'kogmaw': 'KogMaw',
-        'leblanc': 'LeBlanc',
+        'leblanc': 'Leblanc',
         'leesin': 'LeeSin',
         'masteryi': 'MasterYi',
         'missfortune': 'MissFortune',
@@ -591,10 +591,11 @@ function formatChampionIdForFiles(championId) {
         'reksai': 'RekSai',
         'tahmkench': 'TahmKench',
         'twistedfate': 'TwistedFate',
-        'velkoz': 'VelKoz',
+        'velkoz': 'Velkoz',
         'xinzhao': 'XinZhao',
         'aurelionsol': 'AurelionSol',
         'belveth': 'Belveth'
+        'fiddlesticks': 'FiddleSticks'
     };
     
     // Return special case or just capitalize first letter
