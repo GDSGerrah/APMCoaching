@@ -7,6 +7,7 @@ let adminMode = false;
 let currentWeek = 1;
 let completedWeeks = [];
 let currentUser = null;
+const baseUrl = 'https://gdsgerrah.github.io/APMCoaching/images'
 
 // Draft room state
 let currentDraftRoom = null;
@@ -580,7 +581,7 @@ function resetTimer() {
 function initializeDraftTool() {
     champions = championData.map(champ => ({
         ...champ,
-        imageUrl:  'https://gdsgerrah.github.io/APMCoaching/images';
+        imageUrl: `${baseUrl}/${champ.id}_0.jpg`, // FIXED: removed semicolon, added proper template literal
         banned: false,
         picked: false,
         team: null
@@ -617,6 +618,7 @@ function renderChampions() {
         `;
     }).join('');
 }
+
 
 function updateChampionCount() {
     const search = document.getElementById('champion-search')?.value.toLowerCase() || '';
