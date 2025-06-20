@@ -1,4 +1,5 @@
 // Global state
+console.log('🚀 Script starting...');
 let currentPage = 'dashboard';
 let gameTimer = 0;
 let isTimerRunning = false;
@@ -582,7 +583,7 @@ function formatChampionIdForFiles(championId) {
         'jarvaniv': 'JarvanIV',
         'khazix': 'Khazix',
         'kogmaw': 'KogMaw',
-        'leblanc': 'Leblanc',        // ← Make sure there's a comma here
+        'leblanc': 'Leblanc',        
         'leesin': 'LeeSin',
         'masteryi': 'MasterYi',
         'missfortune': 'MissFortune',
@@ -590,11 +591,11 @@ function formatChampionIdForFiles(championId) {
         'reksai': 'RekSai',
         'tahmkench': 'TahmKench',
         'twistedfate': 'TwistedFate',
-        'velkoz': 'Velkoz',          // ← And here
+        'velkoz': 'Velkoz',          
         'xinzhao': 'XinZhao',
         'aurelionsol': 'AurelionSol',
         'belveth': 'Belveth',
-        'fiddlesticks': 'Fiddlesticks'  // ← No comma on last item
+        'fiddlesticks': 'Fiddlesticks'  
     };
     
     return specialCases[championId] || (championId.charAt(0).toUpperCase() + championId.slice(1));
