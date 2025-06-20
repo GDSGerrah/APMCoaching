@@ -576,14 +576,13 @@ function resetTimer() {
 
 // Helper function to format champion IDs to match file names
 function formatChampionIdForFiles(championId) {
-    // Handle special cases that might have different capitalization in your files
     const specialCases = {
         'chogath': 'Chogath',
         'drmundo': 'DrMundo',
         'jarvaniv': 'JarvanIV',
         'khazix': 'Khazix',
         'kogmaw': 'KogMaw',
-        'leblanc': 'Leblanc',
+        'leblanc': 'Leblanc',        // ← Make sure there's a comma here
         'leesin': 'LeeSin',
         'masteryi': 'MasterYi',
         'missfortune': 'MissFortune',
@@ -591,14 +590,13 @@ function formatChampionIdForFiles(championId) {
         'reksai': 'RekSai',
         'tahmkench': 'TahmKench',
         'twistedfate': 'TwistedFate',
-        'velkoz': 'Velkoz',
+        'velkoz': 'Velkoz',          // ← And here
         'xinzhao': 'XinZhao',
         'aurelionsol': 'AurelionSol',
-        'belveth': 'Belveth'
-        'fiddlesticks': 'FiddleSticks'
+        'belveth': 'Belveth',
+        'fiddlesticks': 'Fiddlesticks'  // ← No comma on last item
     };
     
-    // Return special case or just capitalize first letter
     return specialCases[championId] || (championId.charAt(0).toUpperCase() + championId.slice(1));
 }
 
