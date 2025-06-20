@@ -603,16 +603,19 @@ function renderChampions() {
         return matchesSearch && matchesRole;
     });
 
-    grid.innerHTML = filteredChampions.map(champ => `
-        <div class="champion-card ${champ.banned ? 'banned' : ''} ${champ.picked ? 'picked' : ''}" 
-             onclick="selectChampion('${champ.id}')"
-             title="${champ.name} (${champ.roles.join(', ')})">
-            <img src="${champ.imageUrl}" 
-                 alt="${champ.name}" 
-                 onerror="this.parentElement.innerHTML = '<div class=\'champion-card-fallback\'>${champ.name.substring(0,3)}</div>'">
-            <div class="champion-name">${champ.name}</div>
-        </div>
-    `).join('');
+    grid.innerHTML = filteredChampions.map(champ => {
+        const fallbackText = champ.name.substring(0, 3).toUpperCase();
+        return `
+            <div class="champion-card ${champ.banned ? 'banned' : ''} ${champ.picked ? 'picked' : ''}" 
+                 onclick="selectChampion('${champ.id}')"
+                 title="${champ.name} (${champ.roles.join(', ')})">
+                <img src="${champ.imageUrl}" 
+                     alt="${champ.name}" 
+                     onerror="this.parentElement.innerHTML = '<div class=\\'champion-card-fallback\\'>${fallbackText}</div>'">
+                <div class="champion-name">${champ.name}</div>
+            </div>
+        `;
+    }).join('');
 }
 
 function updateChampionCount() {
