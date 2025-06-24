@@ -99,11 +99,25 @@ window.getUserData = async (uid) => {
 
 window.updateUserData = async (uid, updateData) => {
     try {
-        await updateDoc(doc(db, 'users', uid), {
-            ...updateData,
-            lastUpdated: serverTimestamp()
-        });
-        console.log('User data updated successfully');
+        // Check if document exists first
+        const userDoc = await getDoc(doc(db, 'users', uid));
+        
+        if (userDoc.exists()) {
+            await updateDoc(doc(db, 'users', uid), {
+                ...updateData,
+                lastUpdated: serverTimestamp()
+            });
+            console.log('User data updated successfully');
+        } else {
+            // If document doesn't exist, create it instead of updating
+            console.log('User document does not exist, creating it...');
+            await setDoc(doc(db, 'users', uid), {
+                ...updateData,
+                lastUpdated: serverTimestamp(),
+                createdAt: serverTimestamp()
+            });
+            console.log('User document created successfully');
+        }
     } catch (error) {
         console.error('Error updating user data:', error);
         throw error;
@@ -387,10 +401,16 @@ document.addEventListener('DOMContentLoaded', () => {
             // User is signed in
             console.log('User is signed in:', user.email);
             
+            // Try to update last login, but don't fail if document doesn't exist
             try {
-                await updateUserData(user.uid, { lastLogin: serverTimestamp() });
+                const userDoc = await getDoc(doc(db, 'users', user.uid));
+                if (userDoc.exists()) {
+                    await updateUserData(user.uid, { lastLogin: serverTimestamp() });
+                } else {
+                    console.log('User document not found, will be created during session load');
+                }
             } catch (error) {
-                console.log('Could not update last login timestamp:', error);
+                console.log('Could not update last login timestamp:', error.message);
             }
             
             await loadUserSession(user);
@@ -430,7 +450,21 @@ document.addEventListener('DOMContentLoaded', () => {
 // Load user session data
 window.loadUserSession = async (user) => {
     try {
-        const userData = await getUserData(user.uid);
+        let userData = await getUserData(user.uid);
+        
+        // If no user data exists, create it
+        if (!userData) {
+            console.log('No user data found, creating default user data...');
+            const defaultUserData = {
+                displayName: user.displayName || user.email.split('@')[0],
+                email: user.email,
+                photoURL: user.photoURL,
+                role: 'Player'
+            };
+            
+            await saveUserData(user.uid, defaultUserData);
+            userData = defaultUserData;
+        }
         
         const userName = userData?.displayName || user.displayName || user.email.split('@')[0];
         const userAvatar = userData?.photoURL || user.photoURL || `https://ui-avatars.com/api/?name=${encodeURIComponent(userName)}&background=2563eb&color=fff`;
@@ -446,7 +480,7 @@ window.loadUserSession = async (user) => {
             if (element) {
                 element.textContent = value;
             } else {
-                console.warn(`Element with ID '${id}' not found.`);
+                console.warn(`Element with ID '${id}' not found (this is normal on some pages).`);
             }
         });
         
@@ -467,6 +501,9 @@ window.loadUserSession = async (user) => {
         if (window.updateWeeklyProgressFromFirebase) {
             window.updateWeeklyProgressFromFirebase(progress);
         }
+        
+        // Update last login now that document exists
+        await updateUserData(user.uid, { lastLogin: serverTimestamp() });
         
     } catch (error) {
         console.error('Error loading user session:', error);

@@ -274,20 +274,28 @@ const moduleDefinitions = {
 
 // Initialize learning progress system
 window.initializeLearningProgress = async function() {
+    // Check both global variable and Firebase auth directly
+    let user = window.currentUser;
+    
+    if (!user && window.auth) {
+        user = window.auth.currentUser;
+    }
+    
     // Wait for auth state to be established
     let attempts = 0;
-    while (!window.currentUser && attempts < 10) {
+    while (!user && attempts < 20) {
         await new Promise(resolve => setTimeout(resolve, 100));
+        user = window.currentUser || (window.auth ? window.auth.currentUser : null);
         attempts++;
     }
 
-    if (!window.currentUser) {
+    if (!user) {
         console.log('No user logged in after waiting, cannot initialize learning progress');
         return;
     }
 
     try {
-        console.log('Initializing learning progress for user:', window.currentUser.email);
+        console.log('Initializing learning progress for user:', user.email);
         
         // Load progress from Firebase
         await loadLearningProgress();
@@ -307,10 +315,11 @@ window.initializeLearningProgress = async function() {
 
 // Load progress from Firebase
 async function loadLearningProgress() {
-    if (!window.currentUser) return;
+    const user = window.currentUser || (window.auth ? window.auth.currentUser : null);
+    if (!user) return;
 
     try {
-        const progressDoc = await window.getDoc(window.doc(window.db, 'learningProgress', window.currentUser.uid));
+        const progressDoc = await window.getDoc(window.doc(window.db, 'learningProgress', user.uid));
         
         if (progressDoc.exists()) {
             const savedProgress = progressDoc.data();
@@ -328,10 +337,11 @@ async function loadLearningProgress() {
 
 // Save progress to Firebase
 async function saveLearningProgress() {
-    if (!window.currentUser) return;
+    const user = window.currentUser || (window.auth ? window.auth.currentUser : null);
+    if (!user) return;
 
     try {
-        await window.setDoc(window.doc(window.db, 'learningProgress', window.currentUser.uid), {
+        await window.setDoc(window.doc(window.db, 'learningProgress', user.uid), {
             ...learningProgress,
             lastUpdated: window.serverTimestamp()
         });
@@ -425,7 +435,8 @@ function updateOverallProgress() {
 
 // Toggle exercise completion
 window.toggleExercise = async function(exerciseId) {
-    if (!window.currentUser) {
+    const user = window.currentUser || (window.auth ? window.auth.currentUser : null);
+    if (!user) {
         alert('Please sign in to track your progress');
         return;
     }
