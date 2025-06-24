@@ -272,62 +272,85 @@ const moduleDefinitions = {
     }
 };
 
-// Initialize learning progress system
+// Helper function to get current user reliably
+function getCurrentUser() {
+    return window.currentUser || (window.auth ? window.auth.currentUser : null);
+}
+
+// Initialize learning progress system - ROBUST VERSION
 window.initializeLearningProgress = async function() {
-    // Check both global variable and Firebase auth directly
-    let user = window.currentUser;
+    console.log('=== Learning Progress Initialization Started ===');
     
-    if (!user && window.auth) {
-        user = window.auth.currentUser;
-    }
+    // Step 1: Check for user in multiple ways
+    let user = getCurrentUser();
+    console.log('Initial user check:', user?.email || 'No user');
     
-    // Wait for auth state to be established
-    let attempts = 0;
-    while (!user && attempts < 20) {
-        await new Promise(resolve => setTimeout(resolve, 100));
-        user = window.currentUser || (window.auth ? window.auth.currentUser : null);
-        attempts++;
+    // Step 2: Wait for authentication if needed
+    if (!user) {
+        console.log('⏳ Waiting for authentication to be ready...');
+        
+        for (let attempt = 0; attempt < 50; attempt++) { // 5 seconds total
+            await new Promise(resolve => setTimeout(resolve, 100));
+            
+            user = getCurrentUser();
+            if (user) {
+                console.log(`✅ User found after ${attempt + 1} attempts:`, user.email);
+                // Ensure global variable is set
+                if (!window.currentUser) {
+                    window.currentUser = user;
+                }
+                break;
+            }
+        }
     }
 
+    // Step 3: Final check
     if (!user) {
-        console.log('No user logged in after waiting, cannot initialize learning progress');
+        console.log('❌ No user found after all attempts - cannot initialize learning progress');
+        // Still render basic UI for debugging
+        renderBasicModulesGrid();
         return;
     }
 
     try {
-        console.log('Initializing learning progress for user:', user.email);
+        console.log('🚀 Initializing learning progress for user:', user.email);
         
-        // Load progress from Firebase
+        // Step 4: Load progress from Firebase
         await loadLearningProgress();
         
-        // Render modules
+        // Step 5: Render UI
         renderModulesGrid();
         updateOverallProgress();
         
-        console.log('Learning progress system initialized successfully');
+        console.log('✅ Learning progress system initialized successfully');
     } catch (error) {
-        console.error('Error initializing learning progress:', error);
-        // Initialize with default empty progress
-        renderModulesGrid();
+        console.error('❌ Error initializing learning progress:', error);
+        // Fallback to default rendering
+        renderBasicModulesGrid();
         updateOverallProgress();
     }
 };
 
 // Load progress from Firebase
 async function loadLearningProgress() {
-    const user = window.currentUser || (window.auth ? window.auth.currentUser : null);
-    if (!user) return;
+    const user = getCurrentUser();
+    if (!user) {
+        console.log('No user available for loading progress');
+        return;
+    }
 
     try {
+        console.log('Loading learning progress from Firebase...');
         const progressDoc = await window.getDoc(window.doc(window.db, 'learningProgress', user.uid));
         
         if (progressDoc.exists()) {
             const savedProgress = progressDoc.data();
             if (savedProgress.modules) {
                 learningProgress = savedProgress;
+                console.log('✅ Loaded existing progress from Firebase');
             }
         } else {
-            // Initialize with default progress
+            console.log('No existing progress found, creating default progress...');
             await saveLearningProgress();
         }
     } catch (error) {
@@ -337,24 +360,30 @@ async function loadLearningProgress() {
 
 // Save progress to Firebase
 async function saveLearningProgress() {
-    const user = window.currentUser || (window.auth ? window.auth.currentUser : null);
-    if (!user) return;
+    const user = getCurrentUser();
+    if (!user) {
+        console.log('No user available for saving progress');
+        return;
+    }
 
     try {
         await window.setDoc(window.doc(window.db, 'learningProgress', user.uid), {
             ...learningProgress,
             lastUpdated: window.serverTimestamp()
         });
-        console.log('Learning progress saved');
+        console.log('✅ Learning progress saved to Firebase');
     } catch (error) {
-        console.error('Error saving learning progress:', error);
+        console.error('❌ Error saving learning progress:', error);
     }
 }
 
 // Render modules grid
 function renderModulesGrid() {
     const container = document.getElementById('modules-grid');
-    if (!container) return;
+    if (!container) {
+        console.log('modules-grid container not found');
+        return;
+    }
 
     container.innerHTML = '';
     
@@ -413,6 +442,27 @@ function renderModulesGrid() {
 
         container.appendChild(moduleCard);
     });
+    
+    console.log('✅ Modules grid rendered successfully');
+}
+
+// Fallback basic rendering for debugging
+function renderBasicModulesGrid() {
+    const container = document.getElementById('modules-grid');
+    if (!container) return;
+
+    container.innerHTML = `
+        <div style="grid-column: 1/-1; text-align: center; padding: 2rem; color: #9ca3af;">
+            <h3>Learning Modules</h3>
+            <p>Authentication in progress... Please wait.</p>
+            <div style="margin-top: 1rem;">
+                <div style="color: #60a5fa;">Debug Info:</div>
+                <div>window.currentUser: ${window.currentUser?.email || 'Not set'}</div>
+                <div>window.auth: ${window.auth ? 'Available' : 'Not available'}</div>
+                <div>window.auth.currentUser: ${window.auth?.currentUser?.email || 'Not set'}</div>
+            </div>
+        </div>
+    `;
 }
 
 // Update overall progress
@@ -435,7 +485,7 @@ function updateOverallProgress() {
 
 // Toggle exercise completion
 window.toggleExercise = async function(exerciseId) {
-    const user = window.currentUser || (window.auth ? window.auth.currentUser : null);
+    const user = getCurrentUser();
     if (!user) {
         alert('Please sign in to track your progress');
         return;
@@ -546,8 +596,10 @@ function isExerciseLocked(exerciseId, moduleId) {
 }
 
 // Render exercises for a specific module
-function renderModuleExercises(moduleId) {
+window.renderModuleExercises = function(moduleId) {
     const module = moduleDefinitions[moduleId];
+    if (!module) return;
+    
     const moduleProgress = learningProgress.modules[moduleId];
     
     module.exercises.forEach((exercise, index) => {
@@ -580,18 +632,10 @@ function renderModuleExercises(moduleId) {
             }
         }
     });
-}
-
-// Initialize exercises on page load
-document.addEventListener('DOMContentLoaded', function() {
-    // Set up exercise cards for the tempo module (as example)
-    setTimeout(() => {
-        if (document.getElementById('tempo-page')) {
-            renderModuleExercises('tempo');
-        }
-    }, 100);
-});
+};
 
 // Export for global access
 window.learningProgress = learningProgress;
 window.moduleDefinitions = moduleDefinitions;
+
+console.log('Learning progress system loaded');

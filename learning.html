@@ -367,6 +367,207 @@
                         </div>
                     </div>
 
+                    <!-- Turns & Rounds Module -->
+                    <div id="turns-page" class="page hidden">
+                        <button class="back-btn" onclick="showPage('learning-hub')">← Back to Learning Hub</button>
+                        
+                        <div class="page-header turns-header">
+                            <div class="page-header-icon">🎯</div>
+                            <div>
+                                <h1>Turns & Rounds</h1>
+                                <p>Master lane priority and timing windows</p>
+                            </div>
+                        </div>
+
+                        <!-- Module Progress -->
+                        <div class="module-progress-card">
+                            <div class="module-progress-header">
+                                <h3>Module Progress</h3>
+                                <span id="turns-progress-text">0 of 3 exercises completed</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" id="turns-progress" style="width: 0%"></div>
+                            </div>
+                        </div>
+
+                        <div class="content-card">
+                            <h2>Core Definitions</h2>
+                            
+                            <div style="background-color: #065f46; padding: 1.5rem; border-radius: 0.5rem; margin-bottom: 1.5rem;">
+                                <h3 style="color: #86efac; margin-bottom: 1rem;">Lane Priority</h3>
+                                <p>You gain lane priority when you have push/crash wave under enemy tower, essentially locking your opponent or making them lose gold & XP.</p>
+                            </div>
+
+                            <div style="background-color: #1e3a8a; padding: 1.5rem; border-radius: 0.5rem; margin-bottom: 1.5rem;">
+                                <h3 style="color: #93c5fd; margin-bottom: 1rem;">Turn</h3>
+                                <p>When you have time before the next wave → how you use your priority.</p>
+                            </div>
+
+                            <div style="background-color: #581c87; padding: 1.5rem; border-radius: 0.5rem; margin-bottom: 1.5rem;">
+                                <h3 style="color: #c4b5fd; margin-bottom: 1rem;">Rounds</h3>
+                                <p>A round is the time between when you are fresh off base until your next reset.</p>
+                            </div>
+
+                            <h3>How You Can Use Your Turn</h3>
+                            <div class="space-y-4">
+                                <div style="background-color: #111827; padding: 1rem; border-radius: 0.5rem; border-left: 4px solid #60a5fa;">
+                                    <strong>Pressure towers for plates</strong> (need vision protection)
+                                </div>
+                                <div style="background-color: #111827; padding: 1rem; border-radius: 0.5rem; border-left: 4px solid #10b981;">
+                                    <strong>Roam to another lane</strong> (vision control)
+                                </div>
+                                <div style="background-color: #111827; padding: 1rem; border-radius: 0.5rem; border-left: 4px solid #f59e0b;">
+                                    <strong>Invade jungle</strong> (deny gold/XP, set up dives)
+                                </div>
+                                <div style="background-color: #111827; padding: 1rem; border-radius: 0.5rem; border-left: 4px solid #ef4444;">
+                                    <strong>Move for neutral objectives</strong> (requires setup)
+                                </div>
+                                <div style="background-color: #111827; padding: 1rem; border-radius: 0.5rem; border-left: 4px solid #8b5cf6;">
+                                    <strong>Slow push for dive setup</strong> (requires setup)
+                                </div>
+                            </div>
+
+                            <div style="background-color: #7f1d1d; padding: 1.5rem; border-radius: 0.5rem; margin-top: 2rem;">
+                                <h3 style="color: #fca5a5; margin-bottom: 1rem;">🎯 Core Principle</h3>
+                                <p><strong>League of Legends is about: How do you use your turns to do something that will either A) Connect yourself to the plan, B) Do something proactive, or C) get tempo.</strong></p>
+                                <p style="margin-top: 0.5rem; font-style: italic;">You can also get turn by catching the second wave.</p>
+                            </div>
+                        </div>
+
+                        <!-- Individual Exercises for Turns -->
+                        <div class="content-card">
+                            <h2>🎯 Individual Exercises</h2>
+                            <p style="color: #9ca3af; margin-bottom: 1.5rem;">Complete these exercises to unlock the next module:</p>
+                            
+                            <div class="exercises-grid">
+                                <div class="exercise-card" data-exercise="turns-1">
+                                    <div class="exercise-header">
+                                        <h4>Exercise 1: Priority Recognition</h4>
+                                        <button class="exercise-toggle" onclick="toggleExercise('turns-1')">
+                                            <span class="exercise-status">🔒 Locked</span>
+                                        </button>
+                                    </div>
+                                    <div class="exercise-content">
+                                        <p><strong>Objective:</strong> Identify when you have lane priority and act on it</p>
+                                        <p><strong>Instructions:</strong> In 3 games, call out every time you gain priority and immediately use it for one meaningful action.</p>
+                                        <div class="exercise-requirements">
+                                            <p><strong>Requirements:</strong></p>
+                                            <ul>
+                                                <li>Identify priority windows 10 times</li>
+                                                <li>Use priority for roaming or objective setup</li>
+                                                <li>Track success rate of priority usage</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="exercise-card" data-exercise="turns-2">
+                                    <div class="exercise-header">
+                                        <h4>Exercise 2: Turn Optimization</h4>
+                                        <button class="exercise-toggle" onclick="toggleExercise('turns-2')">
+                                            <span class="exercise-status">🔒 Locked</span>
+                                        </button>
+                                    </div>
+                                    <div class="exercise-content">
+                                        <p><strong>Objective:</strong> Maximize value from each turn</p>
+                                        <p><strong>Instructions:</strong> Focus on getting maximum value from every turn you have between waves.</p>
+                                        <div class="exercise-requirements">
+                                            <p><strong>Requirements:</strong></p>
+                                            <ul>
+                                                <li>Plan your turn usage before each wave</li>
+                                                <li>Execute 5 high-value turns per game</li>
+                                                <li>Document turn outcomes</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="exercise-card" data-exercise="turns-3">
+                                    <div class="exercise-header">
+                                        <h4>Exercise 3: Round Management</h4>
+                                        <button class="exercise-toggle" onclick="toggleExercise('turns-3')">
+                                            <span class="exercise-status">🔒 Locked</span>
+                                        </button>
+                                    </div>
+                                    <div class="exercise-content">
+                                        <p><strong>Objective:</strong> Coordinate multiple turns within a single round</p>
+                                        <p><strong>Instructions:</strong> Plan and execute coordinated sequences of turns from base to base.</p>
+                                        <div class="exercise-requirements">
+                                            <p><strong>Requirements:</strong></p>
+                                            <ul>
+                                                <li>Plan 3 complete rounds</li>
+                                                <li>Execute turn sequences successfully</li>
+                                                <li>Show improvement in round efficiency</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="module-completion" id="turns-completion" style="display: none;">
+                                <div class="completion-message">
+                                    <h3>🎉 Module Complete!</h3>
+                                    <p>Congratulations! You've mastered Turns & Rounds. The next module is now unlocked.</p>
+                                    <button class="btn btn-primary" onclick="showPage('action-waves')">Continue to Action Waves →</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Other module pages follow the same pattern... -->
+                    <div id="action-waves-page" class="page hidden">
+                        <button class="back-btn" onclick="showPage('learning-hub')">← Back to Learning Hub</button>
+                        
+                        <div class="page-header waves-header">
+                            <div class="page-header-icon">📊</div>
+                            <div>
+                                <h1>Action Waves</h1>
+                                <p>Coordinate team plays with minion wave timing</p>
+                            </div>
+                        </div>
+
+                        <div class="content-card">
+                            <p style="color: #9ca3af; margin-bottom: 2rem;">Complete the Turns & Rounds module to unlock this content.</p>
+                        </div>
+                    </div>
+
+                    <div id="action-plan-page" class="page hidden">
+                        <button class="back-btn" onclick="showPage('learning-hub')">← Back to Learning Hub</button>
+                        
+                        <div class="page-header plan-header">
+                            <div class="page-header-icon">✅</div>
+                            <div>
+                                <h1>5-Step Action Plan</h1>
+                                <p>Systematic approach to team coordination</p>
+                            </div>
+                        </div>
+
+                        <div class="content-card">
+                            <p style="color: #9ca3af; margin-bottom: 2rem;">Complete the Action Waves module to unlock this content.</p>
+                        </div>
+                    </div>
+
+                    <div id="weekly-page" class="page hidden">
+                        <button class="back-btn" onclick="showPage('learning-hub')">← Back to Learning Hub</button>
+                        
+                        <div class="page-header weekly-header">
+                            <div class="page-header-icon">📅</div>
+                            <div>
+                                <h1>Weekly Focus Program</h1>
+                                <p>Track your 6-week learning journey</p>
+                            </div>
+                        </div>
+
+                        <div class="content-card">
+                            <p style="color: #9ca3af; margin-bottom: 2rem;">Complete all previous modules to unlock the weekly program.</p>
+                        </div>
+                    </div>    <p>Congratulations! You've mastered Tempo Fundamentals. The next module is now unlocked.</p>
+                                    <button class="btn btn-primary" onclick="showPage('turns')">Continue to Turns & Rounds →</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                     <!-- Add similar structure for other modules... -->
                     <div id="turns-page" class="page hidden">
                         <button class="back-btn" onclick="showPage('learning-hub')">← Back to Learning Hub</button>
@@ -444,6 +645,8 @@
     <script>
         // Learning page specific functions
         function showPage(pageId) {
+            console.log('Navigating to page:', pageId);
+            
             // Hide all pages
             document.querySelectorAll('.page').forEach(page => {
                 page.classList.add('hidden');
@@ -453,6 +656,9 @@
             const targetPage = document.getElementById(pageId + '-page');
             if (targetPage) {
                 targetPage.classList.remove('hidden');
+                console.log('Showing page:', pageId + '-page');
+            } else {
+                console.error('Page not found:', pageId + '-page');
             }
 
             // Update nav items
@@ -465,7 +671,8 @@
             if (navItem) {
                 navItem.classList.add('active');
             } else if (pageId === 'learning-hub') {
-                document.querySelector('a[href="learning.html"]').classList.add('active');
+                const learningHubNav = document.querySelector('a[href="learning.html"]');
+                if (learningHubNav) learningHubNav.classList.add('active');
             }
 
             // Update breadcrumb
@@ -481,6 +688,13 @@
                 };
                 breadcrumb.textContent = pageNames[pageId] || 'Learning Modules';
             }
+
+            // Initialize exercises for the current module
+            if (pageId !== 'learning-hub' && window.renderModuleExercises) {
+                setTimeout(() => {
+                    window.renderModuleExercises(pageId);
+                }, 100);
+            }
         }
 
         function showLockedMessage() {
@@ -489,10 +703,12 @@
 
         // Initialize the learning hub on page load
         document.addEventListener('DOMContentLoaded', function() {
+            console.log('📚 Learning page DOM loaded');
             showPage('learning-hub');
-            if (window.initializeLearningProgress) {
-                window.initializeLearningProgress();
-            }
+            
+            // DO NOT initialize learning progress here - Firebase config handles it
+            // This prevents double initialization
+            console.log('🔄 Waiting for Firebase auth to initialize learning progress...');
         });
     </script>
 </body>
