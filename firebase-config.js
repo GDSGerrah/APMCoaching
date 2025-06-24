@@ -77,6 +77,109 @@ window.saveUserData = async (uid, userData, options = {}) => {
         }, options);
         console.log('User data saved successfully');
     } catch (error) {
+        console.error('Error saving user data:', error);
+        throw error;
+    }
+};
+
+window.getUserData = async (uid) => {
+    try {
+        const userDoc = await getDoc(doc(db, 'users', uid));
+        if (userDoc.exists()) {
+            return userDoc.data();
+        } else {
+            console.log('No user data found');
+            return null;
+        }
+    } catch (error) {
+        console.error('Error getting user data:', error);
+        throw error;
+    }
+};
+
+window.updateUserData = async (uid, updateData) => {
+    try {
+        // Check if document exists first
+        const userDoc = await getDoc(doc(db, 'users', uid));
+        
+        if (userDoc.exists()) {
+            await updateDoc(doc(db, 'users', uid), {
+                ...updateData,
+                lastUpdated: serverTimestamp()
+            });
+            console.log('User data updated successfully');
+        } else {
+            // If document doesn't exist, create it instead of updating
+            console.log('User document does not exist, creating it...');
+            await setDoc(doc(db, 'users', uid), {
+                ...updateData,
+                lastUpdated: serverTimestamp(),
+                createdAt: serverTimestamp()
+            });
+            console.log('User document created successfully');
+        }
+    } catch (error) {
+        console.error('Error updating user data:', error);
+        throw error;
+    }
+};
+
+// Learning Progress Functions
+window.saveLearningProgress = async (uid, progressData) => {
+    try {
+        await setDoc(doc(db, 'learningProgress', uid), {
+            ...progressData,
+            lastUpdated: serverTimestamp()
+        });
+        console.log('Learning progress saved');
+    } catch (error) {
+        console.error('Error saving learning progress:', error);
+        throw error;
+    }
+};
+
+window.getLearningProgress = async (uid) => {
+    try {
+        const progressDoc = await getDoc(doc(db, 'learningProgress', uid));
+        if (progressDoc.exists()) {
+            return progressDoc.data();
+        } else {
+            // Return default progress structure
+            return {
+                modules: {
+                    tempo: { completed: false, exercises: { 'tempo-1': false, 'tempo-2': false, 'tempo-3': false } },
+                    turns: { completed: false, exercises: { 'turns-1': false, 'turns-2': false, 'turns-3': false } },
+                    'action-waves': { completed: false, exercises: { 'waves-1': false, 'waves-2': false, 'waves-3': false } },
+                    'action-plan': { completed: false, exercises: { 'plan-1': false, 'plan-2': false, 'plan-3': false } },
+                    weekly: { completed: false, exercises: { 'weekly-1': false, 'weekly-2': false, 'weekly-3': false } },
+                    advanced: { completed: false, exercises: { 'advanced-1': false, 'advanced-2': false, 'advanced-3': false } }
+                }
+            };
+        }
+    } catch (error) {
+        console.error('Error getting learning progress:', error);
+        return {
+            modules: {
+                tempo: { completed: false, exercises: { 'tempo-1': false, 'tempo-2': false, 'tempo-3': false } },
+                turns: { completed: false, exercises: { 'turns-1': false, 'turns-2': false, 'turns-3': false } },
+                'action-waves': { completed: false, exercises: { 'waves-1': false, 'waves-2': false, 'waves-3': false } },
+                'action-plan': { completed: false, exercises: { 'plan-1': false, 'plan-2': false, 'plan-3': false } },
+                weekly: { completed: false, exercises: { 'weekly-1': false, 'weekly-2': false, 'weekly-3': false } },
+                advanced: { completed: false, exercises: { 'advanced-1': false, 'advanced-2': false, 'advanced-3': false } }
+            }
+        };
+    }
+};
+
+// Weekly progress functions (legacy support)
+window.saveWeeklyProgress = async (uid, weekData) => {
+    try {
+        await setDoc(doc(db, 'weeklyProgress', uid), {
+            ...weekData,
+            lastUpdated: serverTimestamp()
+        });
+        console.log('Weekly progress saved');
+    } catch (error) {
         console.error('Error saving weekly progress:', error);
         throw error;
     }
@@ -430,111 +533,4 @@ window.loadUserSession = async (user) => {
     }
 };
 
-console.log('Firebase configuration loaded with complete functionality including learning progress');) {
-        console.error('Error saving user data:', error);
-        throw error;
-    }
-};
-
-window.getUserData = async (uid) => {
-    try {
-        const userDoc = await getDoc(doc(db, 'users', uid));
-        if (userDoc.exists()) {
-            return userDoc.data();
-        } else {
-            console.log('No user data found');
-            return null;
-        }
-    } catch (error) {
-        console.error('Error getting user data:', error);
-        throw error;
-    }
-};
-
-window.updateUserData = async (uid, updateData) => {
-    try {
-        // Check if document exists first
-        const userDoc = await getDoc(doc(db, 'users', uid));
-        
-        if (userDoc.exists()) {
-            await updateDoc(doc(db, 'users', uid), {
-                ...updateData,
-                lastUpdated: serverTimestamp()
-            });
-            console.log('User data updated successfully');
-        } else {
-            // If document doesn't exist, create it instead of updating
-            console.log('User document does not exist, creating it...');
-            await setDoc(doc(db, 'users', uid), {
-                ...updateData,
-                lastUpdated: serverTimestamp(),
-                createdAt: serverTimestamp()
-            });
-            console.log('User document created successfully');
-        }
-    } catch (error) {
-        console.error('Error updating user data:', error);
-        throw error;
-    }
-};
-
-// Learning Progress Functions
-window.saveLearningProgress = async (uid, progressData) => {
-    try {
-        await setDoc(doc(db, 'learningProgress', uid), {
-            ...progressData,
-            lastUpdated: serverTimestamp()
-        });
-        console.log('Learning progress saved');
-    } catch (error) {
-        console.error('Error saving learning progress:', error);
-        throw error;
-    }
-};
-
-window.getLearningProgress = async (uid) => {
-    try {
-        const progressDoc = await getDoc(doc(db, 'learningProgress', uid));
-        if (progressDoc.exists()) {
-            return progressDoc.data();
-        } else {
-            // Return default progress structure
-            return {
-                modules: {
-                    tempo: { completed: false, exercises: { 'tempo-1': false, 'tempo-2': false, 'tempo-3': false } },
-                    turns: { completed: false, exercises: { 'turns-1': false, 'turns-2': false, 'turns-3': false } },
-                    'action-waves': { completed: false, exercises: { 'waves-1': false, 'waves-2': false, 'waves-3': false } },
-                    'action-plan': { completed: false, exercises: { 'plan-1': false, 'plan-2': false, 'plan-3': false } },
-                    weekly: { completed: false, exercises: { 'weekly-1': false, 'weekly-2': false, 'weekly-3': false } },
-                    advanced: { completed: false, exercises: { 'advanced-1': false, 'advanced-2': false, 'advanced-3': false } }
-                }
-            };
-        }
-    } catch (error) {
-        console.error('Error getting learning progress:', error);
-        return {
-            modules: {
-                tempo: { completed: false, exercises: { 'tempo-1': false, 'tempo-2': false, 'tempo-3': false } },
-                turns: { completed: false, exercises: { 'turns-1': false, 'turns-2': false, 'turns-3': false } },
-                'action-waves': { completed: false, exercises: { 'waves-1': false, 'waves-2': false, 'waves-3': false } },
-                'action-plan': { completed: false, exercises: { 'plan-1': false, 'plan-2': false, 'plan-3': false } },
-                weekly: { completed: false, exercises: { 'weekly-1': false, 'weekly-2': false, 'weekly-3': false } },
-                advanced: { completed: false, exercises: { 'advanced-1': false, 'advanced-2': false, 'advanced-3': false } }
-            }
-        };
-    }
-};
-
-// Weekly progress functions (legacy support)
-window.saveWeeklyProgress = async (uid, weekData) => {
-    try {
-        await setDoc(doc(db, 'weeklyProgress', uid), {
-            ...weekData,
-            lastUpdated: serverTimestamp()
-        });
-        console.log('Weekly progress saved');
-    } catch (error) {
-        console.error('Error saving weekly progress:', error);
-        throw error;
-    }
-};
+console.log('Firebase configuration loaded with complete functionality including learning progress');
