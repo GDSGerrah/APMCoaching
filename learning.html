@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Learning Modules - APM Portal</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" href="data:;base64,iVBORw0KGgo=">
+</head>
+<body>
+    <!-- App Container -->
+    <div id="app-container" class="app-container">
+        <!-- Sidebar -->
+        <nav class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <a href="index.html" class="logo">APM PORTAL</a>
+                <div class="logo-subtitle">League Strategy Hub</div>
+            </div>
+
+            <div class="sidebar-nav">
+                <div class="nav-section">
+                    <div class="nav-section-title">Main</div>
+                    <a href="index.html" class="nav-item">
+                        🏠 Dashboard
+                    </a>
+                </div>
+
+                <div class="nav-section">
+                    <div class="nav-section-title">Learning</div>
+                    <a href="learning.html" class="nav-item active">
+                        📚 Learning Hub
+                    </a>
+                    <a href="#" class="nav-item" onclick="showPage('tempo')" data-page="tempo">
+                        ⚡ Tempo
+                    </a>
+                    <a href="#" class="nav-item" onclick="showPage('turns')" data-page="turns">
+                        🎯 Turns & Rounds
+                    </a>
+                    <a href="#" class="nav-item" onclick="showPage('action-waves')" data-page="action-waves">
+                        📊 Action Waves
+                    </a>
+                    <a href="#" class="nav-item" onclick="showPage('action-plan')" data-page="action-plan">
+                        ✅ 5-Step Plan
+                    </a>
+                    <a href="#" class="nav-item" onclick="showPage('weekly')" data-page="weekly">
+                        📅 Weekly Focus
+                    </a>
+                </div>
+
+                <div class="nav-section">
+                    <div class="nav-section-title">Tools</div>
+                    <a href="draft.html" class="nav-item">
+                        🎭 Draft Tool
+                    </a>
+                    <a href="calculator.html" class="nav-item">
+                        🧮 Wave Calculator
+                    </a>
+                </div>
+            </div>
+
+            <div class="sidebar-footer">
+                <div class="user-info">
+                    <img id="sidebar-avatar" class="user-avatar" src="" alt="User">
+                    <div class="user-details">
+                        <div class="user-name" id="sidebar-username">Loading...</div>
+                        <div class="user-role" id="sidebar-role">Player</div>
+                    </div>
+                </div>
+                <div class="sidebar-actions">
+                    <button class="sidebar-btn" onclick="showProfile()">Settings</button>
+                    <button class="sidebar-btn" onclick="handleLogout()">Sign Out</button>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Header -->
+            <header class="header">
+                <div class="breadcrumb">
+                    <span>APM PORTAL</span> > <span class="breadcrumb-current">Learning Modules</span>
+                </div>
+                <div class="header-actions">
+                    <button class="notification-btn" onclick="showNotifications()">🔔</button>
+                    <button class="notification-btn" onclick="toggleSidebar()">☰</button>
+                </div>
+            </header>
+
+            <div class="content-wrapper">
+                <!-- Page Content -->
+                <main class="page-content">
+                    <!-- Learning Hub Page -->
+                    <div id="learning-hub-page" class="page">
+                        <div class="space-y-8">
+                            <!-- Learning Hub Hero -->
+                            <div class="page-header" style="background: linear-gradient(to right, #1e3a8a, #7c3aed);">
+                                <div class="page-header-icon">📚</div>
+                                <div>
+                                    <h1>Learning Modules</h1>
+                                    <p>Master the Tempo, Turns & Action Waves framework step by step</p>
+                                </div>
+                            </div>
+
+                            <!-- Learning Path Overview -->
+                            <div class="content-card">
+                                <h2>Your Learning Journey</h2>
+                                <p style="color: #9ca3af; margin-bottom: 1.5rem;">
+                                    Each module builds on the previous concepts. Master the fundamentals before moving to advanced strategies.
+                                </p>
+                                
+                                <div class="learning-progress">
+                                    <div class="progress-bar">
+                                        <div class="progress-fill" style="width: 33%"></div>
+                                    </div>
+                                    <div style="color: #60a5fa; margin-top: 0.5rem; font-size: 0.875rem;">
+                                        2 of 6 modules completed
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Core Learning Modules -->
+                            <div class="learning-grid">
+                                <div class="learning-module completed" onclick="showPage('tempo')">
+                                    <div class="module-header">
+                                        <div class="module-icon completed">⚡</div>
+                                        <div class="module-status">✓ Completed</div>
+                                    </div>
+                                    <h3>Tempo Fundamentals</h3>
+                                    <p>Learn to control game pacing and initiative. Master the concept of "one action for one action" and identify tempo opportunities.</p>
+                                    <div class="module-meta">
+                                        <span>📖 15 min read</span>
+                                        <span>🎯 Beginner</span>
+                                    </div>
+                                    <button class="module-btn completed">Review Module</button>
+                                </div>
+
+                                <div class="learning-module completed" onclick="showPage('turns')">
+                                    <div class="module-header">
+                                        <div class="module-icon completed">🎯</div>
+                                        <div class="module-status">✓ Completed</div>
+                                    </div>
+                                    <h3>Turns & Rounds</h3>
+                                    <p>Master lane priority and timing windows. Understand how to use your turns for proactive plays and map control.</p>
+                                    <div class="module-meta">
+                                        <span>📖 20 min read</span>
+                                        <span>🎯 Beginner</span>
+                                    </div>
+                                    <button class="module-btn completed">Review Module</button>
+                                </div>
+
+                                <div class="learning-module current" onclick="showPage('action-waves')">
+                                    <div class="module-header">
+                                        <div class="module-icon current">📊</div>
+                                        <div class="module-status">⭐ Current</div>
+                                    </div>
+                                    <h3>Action Waves</h3>
+                                    <p>Coordinate team plays with minion waves as your execution timer. Transform chaotic macro calls into precise coordination.</p>
+                                    <div class="module-meta">
+                                        <span>📖 25 min read</span>
+                                        <span>🎯 Intermediate</span>
+                                    </div>
+                                    <button class="module-btn current">Continue Learning</button>
+                                </div>
+
+                                <div class="learning-module locked" onclick="showLockedMessage()">
+                                    <div class="module-header">
+                                        <div class="module-icon locked">✅</div>
+                                        <div class="module-status">🔒 Locked</div>
+                                    </div>
+                                    <h3>5-Step Action Plan</h3>
+                                    <p>Implement the complete systematic approach to team coordination and objective control.</p>
+                                    <div class="module-meta">
+                                        <span>📖 30 min read</span>
+                                        <span>🎯 Intermediate</span>
+                                    </div>
+                                    <button class="module-btn locked">Complete Previous Modules</button>
+                                </div>
+
+                                <div class="learning-module locked" onclick="showLockedMessage()">
+                                    <div class="module-header">
+                                        <div class="module-icon locked">📅</div>
+                                        <div class="module-status">🔒 Locked</div>
+                                    </div>
+                                    <h3>Weekly Focus Program</h3>
+                                    <p>Track your progress through our 6-week structured program with exercises and milestones.</p>
+                                    <div class="module-meta">
+                                        <span>📖 6 weeks</span>
+                                        <span>🎯 Advanced</span>
+                                    </div>
+                                    <button class="module-btn locked">Complete Previous Modules</button>
+                                </div>
+
+                                <div class="learning-module locked" onclick="showLockedMessage()">
+                                    <div class="module-header">
+                                        <div class="module-icon locked">🏆</div>
+                                        <div class="module-status">🔒 Locked</div>
+                                    </div>
+                                    <h3>Advanced Applications</h3>
+                                    <p>Complex scenarios, adaptation strategies, and mastery-level coordination techniques.</p>
+                                    <div class="module-meta">
+                                        <span>📖 35 min read</span>
+                                        <span>🎯 Advanced</span>
+                                    </div>
+                                    <button class="module-btn locked">Complete Previous Modules</button>
+                                </div>
+                            </div>
+
+                            <!-- Quick Reference Section -->
+                            <div class="content-card">
+                                <h2>Quick Reference</h2>
+                                <div class="reference-grid">
+                                    <div class="reference-card">
+                                        <h4>⚡ Tempo Check Questions</h4>
+                                        <ul>
+                                            <li>What is the plan?</li>
+                                            <li>What is every player's job?</li>
+                                            <li>How is each player using their turn?</li>
+                                            <li>What comms do we need for execution?</li>
+                                        </ul>
+                                    </div>
+                                    <div class="reference-card">
+                                        <h4>📊 Action Wave Formula</h4>
+                                        <ul>
+                                            <li>Objective time - 30 seconds = Execute Wave</li>
+                                            <li>Wave spawns every 30 seconds</li>
+                                            <li>First wave at 1:30</li>
+                                            <li>Count backwards for setup waves</li>
+                                        </ul>
+                                    </div>
+                                    <div class="reference-card">
+                                        <h4>✅ 5-Step Process</h4>
+                                        <ol>
+                                            <li>Identify (2 min before)</li>
+                                            <li>Assign Lanes (as needed)</li>
+                                            <li>Prepare Lanes (1 min before)</li>
+                                            <li>Vision Control (30s before)</li>
+                                            <li>Re-prepare & Move (execute)</li>
+                                        </ol>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Individual Module Pages -->
+                    <div id="tempo-page" class="page hidden">
+                        <button class="back-btn" onclick="showPage('learning-hub')">← Back to Learning Hub</button>
+                        
+                        <div class="page-header tempo-header">
+                            <div class="page-header-icon">⚡</div>
+                            <div>
+                                <h1>Tempo Fundamentals</h1>
+                                <p>Master initiative and game pacing control</p>
+                            </div>
+                        </div>
+
+                        <div class="content-card">
+                            <h2>What is Tempo?</h2>
+                            <div style="background-color: #1e3a8a; padding: 1.5rem; border-radius: 0.5rem; margin-bottom: 1.5rem;">
+                                <h3 style="color: #93c5fd; margin-bottom: 1rem;">Quick Definition</h3>
+                                <p style="font-size: 1.125rem; margin-bottom: 1rem;">Having initiative - you act, they react</p>
+                                
+                                <h3 style="color: #93c5fd; margin-bottom: 1rem;">Longer Definition</h3>
+                                <p>Tempo is who controls the pacing and timing of the game. When you have tempo, you can make proactive plays that force the enemy team to react to you. The team with tempo gets to choose the battlefield and timing, while the team without tempo must respond to threats rather than create them.</p>
+                            </div>
+
+                            <h3>The Key Rule: One Action for One Action</h3>
+                            <div class="space-y-4">
+                                <div style="background-color: #065f46; padding: 1rem; border-radius: 0.5rem;">
+                                    <strong>✅ Tempo Neutral:</strong> Kill enemy laner → Push wave (uses up tempo advantage = back to even)
+                                </div>
+                                <div style="background-color: #7f1d1d; padding: 1rem; border-radius: 0.5rem;">
+                                    <strong>❌ Tempo Loss:</strong> Stay for plates after kill = extra action → Enemy gains tempo when you recall
+                                </div>
+                            </div>
+
+                            <h3>How to Use Tempo Practically</h3>
+                            <div class="grid grid-2" style="gap: 1rem;">
+                                <div style="background-color: #111827; padding: 1rem; border-radius: 0.5rem;">
+                                    <h4 style="color: #60a5fa;">1. Roam to Impact Other Lanes</h4>
+                                    <p>Use your tempo advantage to create numbers advantages in other parts of the map.</p>
+                                </div>
+                                <div style="background-color: #111827; padding: 1rem; border-radius: 0.5rem;">
+                                    <h4 style="color: #60a5fa;">2. Invade Enemy Jungle</h4>
+                                    <p>Deny enemy resources and gain vision control in their territory.</p>
+                                </div>
+                                <div style="background-color: #111827; padding: 1rem; border-radius: 0.5rem;">
+                                    <h4 style="color: #60a5fa;">3. Contest/Gain Vision</h4>
+                                    <p>Secure key areas and deny enemy vision around objectives.</p>
+                                </div>
+                                <div style="background-color: #111827; padding: 1rem; border-radius: 0.5rem;">
+                                    <h4 style="color: #60a5fa;">4. Set up Objective Play</h4>
+                                    <p>Use tempo windows to position for dragons, herald, or baron.</p>
+                                </div>
+                            </div>
+
+                            <div style="background-color: #581c87; padding: 1.5rem; border-radius: 0.5rem; margin-top: 2rem;">
+                                <h3 style="color: #c4b5fd; margin-bottom: 1rem;">💡 Key Takeaway</h3>
+                                <p>League is fundamentally a turn-based strategy game disguised as real-time action. Each player gets "turns" to act based on their wave states and positioning. Understanding this principle changes everything about how we approach the game.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="turns-page" class="page hidden">
+                        <button class="back-btn" onclick="showPage('learning-hub')">← Back to Learning Hub</button>
+                        
+                        <div class="page-header turns-header">
+                            <div class="page-header-icon">🎯</div>
+                            <div>
+                                <h1>Turns & Rounds</h1>
+                                <p>Master lane priority and timing windows</p>
+                            </div>
+                        </div>
+
+                        <div class="content-card">
+                            <h2>Core Definitions</h2>
+                            
+                            <div style="background-color: #065f46; padding: 1.5rem; border-radius: 0.5rem; margin-bottom: 1.5rem;">
+                                <h3 style="color: #86efac; margin-bottom: 1rem;">Lane Priority</h3>
+                                <p>You gain lane priority when you have push/crash wave under enemy tower, essentially locking your opponent or making them lose gold & XP.</p>
+                            </div>
+
+                            <div style="background-color: #1e3a8a; padding: 1.5rem; border-radius: 0.5rem; margin-bottom: 1.5rem;">
+                                <h3 style="color: #93c5fd; margin-bottom: 1rem;">Turn</h3>
+                                <p>When you have time before the next wave → how you use your priority.</p>
+                            </div>
+
+                            <div style="background-color: #581c87; padding: 1.5rem; border-radius: 0.5rem; margin-bottom: 1.5rem;">
+                                <h3 style="color: #c4b5fd; margin-bottom: 1rem;">Rounds</h3>
+                                <p>A round is the time between when you are fresh off base until your next reset.</p>
+                            </div>
+
+                            <h3>How You Can Use Your Turn</h3>
+                            <div class="space-y-4">
+                                <div style="background-color: #111827; padding: 1rem; border-radius: 0.5rem; border-left: 4px solid #60a5fa;">
+                                    <strong>Pressure towers for plates</strong> (need vision protection)
+                                </div>
+                                <div style="background-color: #111827; padding: 1rem; border-radius: 0.5rem; border-left: 4px solid #10b981;">
+                                    <strong>Roam to another lane</strong> (vision control)
+                                </div>
+                                <div style="background-color: #111827; padding: 1rem; border-radius: 0.5rem; border-left: 4px solid #f59e0b;">
+                                    <strong>Invade jungle</strong> (deny gold/XP, set up dives)
+                                </div>
+                                <div style="background-color: #111827; padding: 1rem; border-radius: 0.5rem; border-left: 4px solid #ef4444;">
+                                    <strong>Move for neutral objectives</strong> (requires setup)
+                                </div>
+                                <div style="background-color: #111827; padding: 1rem; border-radius: 0.5rem; border-left: 4px solid #8b5cf6;">
+                                    <strong>Slow push for dive setup</strong> (requires setup)
+                                </div>
+                            </div>
+
+                            <div style="background-color: #7f1d1d; padding: 1.5rem; border-radius: 0.5rem; margin-top: 2rem;">
+                                <h3 style="color: #fca5a5; margin-bottom: 1rem;">🎯 Core Principle</h3>
+                                <p><strong>League of Legends is about: How do you use your turns to do something that will either A) Connect yourself to the plan, B) Do something proactive, or C) get tempo.</strong></p>
+                                <p style="margin-top: 0.5rem; font-style: italic;">You can also get turn by catching the second wave.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="action-waves-page" class="page hidden">
+                        <button class="back-btn" onclick="showPage('learning-hub')">← Back to Learning Hub</button>
+                        
+                        <div class="page-header waves-header">
+                            <div class="page-header-icon">📊</div>
+                            <div>
+                                <h1>Action Waves</h1>
+                                <p>Coordinate team plays with minion wave timing</p>
+                            </div>
+                        </div>
+
+                        <div class="content-card">
+                            <h2>What Are Action Waves?</h2>
+                            
+                            <div style="background-color: #581c87; padding: 1.5rem; border-radius: 0.5rem; margin-bottom: 1.5rem;">
+                                <h3 style="color: #c4b5fd; margin-bottom: 1rem;">Short Definition</h3>
+                                <p style="font-size: 1.125rem;">Action Wave = The specific minion wave that serves as your team's execution timer</p>
+                                
+                                <h3 style="color: #c4b5fd; margin-bottom: 1rem; margin-top: 1.5rem;">Longer Definition</h3>
+                                <p>Action Waves are your team's execution timer using minion waves as the countdown. Instead of saying "move at 4:45" while everyone is focused on farming and trading, you say "we go when wave 7 crashes."</p>
+                            </div>
+
+                            <h3>Why Waves Work Better Than Clock Time</h3>
+                            <div class="grid grid-2" style="gap: 1rem; margin-bottom: 2rem;">
+                                <div style="background-color: #111827; padding: 1rem; border-radius: 0.5rem;">
+                                    <h4 style="color: #60a5fa;">Visual Cue</h4>
+                                    <p>Players are already tracking minions for CS and lane management</p>
+                                </div>
+                                <div style="background-color: #111827; padding: 1rem; border-radius: 0.5rem;">
+                                    <h4 style="color: #60a5fa;">Ready Check</h4>
+                                    <p>Waves provide natural "ready checks" - if your wave isn't in position, you're not ready</p>
+                                </div>
+                                <div style="background-color: #111827; padding: 1rem; border-radius: 0.5rem;">
+                                    <h4 style="color: #60a5fa;">Auto Coordination</h4>
+                                    <p>When the wave moves, everyone moves as one unit</p>
+                                </div>
+                                <div style="background-color: #111827; padding: 1rem; border-radius: 0.5rem;">
+                                    <h4 style="color: #60a5fa;">Natural Timing</h4>
+                                    <p>Accounts for travel time and positioning naturally</p>
+                                </div>
+                            </div>
+
+                            <h3>The 30-Second Metronome System</h3>
+                            <div style="background-color: #1e3a8a; padding: 1.5rem; border-radius: 0.5rem; margin-bottom: 1.5rem;">
+                                <h4 style="color: #93c5fd; margin-bottom: 1rem;">Basic Math:</h4>
+                                <ul style="color: #e5e7eb; line-height: 1.8;">
+                                    <li>Wave 1: Spawns at 1:30</li>
+                                    <li>Wave 2: Spawns at 2:00</li>
+                                    <li>Wave 3: Spawns at 2:30</li>
+                                    <li>Wave 4: Spawns at 3:00</li>
+                                    <li>And so on...</li>
+                                </ul>
+                            </div>
+
+                            <h3>Calculating Your Action Wave</h3>
+                            <div class="space-y-4">
+                                <div style="background-color: #065f46; padding: 1rem; border-radius: 0.5rem;">
+                                    <strong>Step 1:</strong> Identify your objective time (Example: First Drake spawns at 5:00)
+                                </div>
+                                <div style="background-color: #065f46; padding: 1rem; border-radius: 0.5rem;">
+                                    <strong>Step 2:</strong> Determine when you need to be positioned (Usually 15-30 seconds before spawn - For Drake: 4:45)
+                                </div>
+                                <div style="background-color: #065f46; padding: 1rem; border-radius: 0.5rem;">
+                                    <strong>Step 3:</strong> Find which wave crashes around that time (4:45 = Wave 6-7)
+                                </div>
+                                <div style="background-color: #065f46; padding: 1rem; border-radius: 0.5rem;">
+                                    <strong>Step 4:</strong> Count backwards for setup (Waves 1-3: Early prep, Waves 4-5: Active setup)
+                                </div>
+                            </div>
+
+                            <div style="background-color: #7f1d1d; padding: 1.5rem; border-radius: 0.5rem; margin-top: 2rem;">
+                                <h3 style="color: #fca5a5; margin-bottom: 1rem;">🚀 Power of Action Waves</h3>
+                                <p>Action Waves transform chaotic macro calls into precise coordination. Instead of five players trying to remember abstract timings while managing their lanes, everyone follows the same visual cue they're already watching.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="action-plan-page" class="page hidden">
+                        <button class="back-btn" onclick="showPage('learning-hub')">← Back to Learning Hub</button>
+                        
+                        <div class="page-header plan-header">
+                            <div class="page-header-icon">✅</div>
+                            <div>
+                                <h1>5-Step Action Plan</h1>
+                                <p>Systematic approach to team coordination</p>
+                            </div>
+                        </div>
+
+                        <div class="content-card">
+                            <p style="color: #9ca3af; margin-bottom: 2rem;">This module is locked. Complete the Action Waves module first to unlock this content.</p>
+                        </div>
+                    </div>
+
+                    <div id="weekly-page" class="page hidden">
+                        <button class="back-btn" onclick="showPage('learning-hub')">← Back to Learning Hub</button>
+                        
+                        <div class="page-header weekly-header">
+                            <div class="page-header-icon">📅</div>
+                            <div>
+                                <h1>Weekly Focus Program</h1>
+                                <p>Track your 6-week learning journey</p>
+                            </div>
+                        </div>
+
+                        <div class="content-card">
+                            <p style="color: #9ca3af; margin-bottom: 2rem;">This module is locked. Complete the previous modules first to unlock the weekly program.</p>
+                        </div>
+                    </div>
+                </main>
+            </div>
+        </div>
+    </div>
+
+    <!-- Firebase -->
+    <script type="module" src="firebase-config.js"></script>
+    <script src="script.js"></script>
+    <script>
+        // Learning page specific functions
+        function showPage(pageId) {
+            // Hide all pages
+            document.querySelectorAll('.page').forEach(page => {
+                page.classList.add('hidden');
+            });
+            
+            // Show selected page
+            const targetPage = document.getElementById(pageId + '-page');
+            if (targetPage) {
+                targetPage.classList.remove('hidden');
+            }
+
+            // Update nav items
+            document.querySelectorAll('.nav-item').forEach(item => {
+                item.classList.remove('active');
+            });
+
+            // Set active nav item
+            const navItem = document.querySelector(`[data-page="${pageId}"]`);
+            if (navItem) {
+                navItem.classList.add('active');
+            } else if (pageId === 'learning-hub') {
+                document.querySelector('a[href="learning.html"]').classList.add('active');
+            }
+
+            // Update breadcrumb
+            const breadcrumb = document.querySelector('.breadcrumb-current');
+            if (breadcrumb) {
+                const pageNames = {
+                    'learning-hub': 'Learning Modules',
+                    'tempo': 'Tempo Fundamentals',
+                    'turns': 'Turns & Rounds',
+                    'action-waves': 'Action Waves',
+                    'action-plan': '5-Step Action Plan',
+                    'weekly': 'Weekly Focus'
+                };
+                breadcrumb.textContent = pageNames[pageId] || 'Learning Modules';
+            }
+        }
+
+        function showLockedMessage() {
+            alert('Complete the previous modules to unlock this content!');
+        }
+
+        // Initialize the learning hub on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            showPage('learning-hub');
+        });
+    </script>
+</body>
+</html>
