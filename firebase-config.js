@@ -533,4 +533,8 @@ window.saveWeeklyProgress = async (uid, weekData) => {
             lastUpdated: serverTimestamp()
         });
         console.log('Weekly progress saved');
-    } catch (error)
+    } catch (error) {
+        console.error('Error saving weekly progress:', error);
+        throw error;
+    }
+};
