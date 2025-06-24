@@ -396,10 +396,21 @@ document.addEventListener('DOMContentLoaded', () => {
             await loadUserSession(user);
             
             // Initialize learning progress if on learning page
-            if (window.location.pathname.includes('learning.html') || window.location.pathname === '/learning.html') {
-                if (window.initializeLearningProgress) {
-                    await window.initializeLearningProgress();
-                }
+            if (window.location.pathname.includes('learning.html') || window.location.pathname === '/learning.html' || window.location.href.includes('learning.html')) {
+                console.log('On learning page, waiting for system to initialize...');
+                setTimeout(async () => {
+                    if (window.initializeLearningProgress) {
+                        console.log('Initializing learning progress from Firebase...');
+                        await window.initializeLearningProgress();
+                    } else {
+                        console.log('Learning progress function not ready, will try again...');
+                        setTimeout(async () => {
+                            if (window.initializeLearningProgress) {
+                                await window.initializeLearningProgress();
+                            }
+                        }, 1000);
+                    }
+                }, 1000);
             }
             
             if (authModal) authModal.classList.add('hidden');

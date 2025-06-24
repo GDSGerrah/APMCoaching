@@ -274,12 +274,21 @@ const moduleDefinitions = {
 
 // Initialize learning progress system
 window.initializeLearningProgress = async function() {
+    // Wait for auth state to be established
+    let attempts = 0;
+    while (!window.currentUser && attempts < 10) {
+        await new Promise(resolve => setTimeout(resolve, 100));
+        attempts++;
+    }
+
     if (!window.currentUser) {
-        console.log('No user logged in, cannot initialize learning progress');
+        console.log('No user logged in after waiting, cannot initialize learning progress');
         return;
     }
 
     try {
+        console.log('Initializing learning progress for user:', window.currentUser.email);
+        
         // Load progress from Firebase
         await loadLearningProgress();
         
@@ -287,7 +296,7 @@ window.initializeLearningProgress = async function() {
         renderModulesGrid();
         updateOverallProgress();
         
-        console.log('Learning progress system initialized');
+        console.log('Learning progress system initialized successfully');
     } catch (error) {
         console.error('Error initializing learning progress:', error);
         // Initialize with default empty progress
