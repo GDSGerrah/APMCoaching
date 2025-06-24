@@ -3,56 +3,151 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Learning Modules - APM Portal</title>
+    <title>APM Portal - League Strategy Hub</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="icon" href="data:;base64,iVBORw0KGgo=">
 </head>
 <body>
-    <!-- App Container -->
-    <div id="app-container" class="app-container">
+    <!-- Loading Screen -->
+    <div id="loading-screen" class="loading-screen">
+        <div class="loading-content">
+            <div class="loading-icon">🏠</div>
+            <h2>APM PORTAL</h2>
+            <p>Loading your strategy hub...</p>
+            <div class="loading-spinner"></div>
+        </div>
+    </div>
+
+    <!-- Auth Modal -->
+    <div id="auth-modal" class="auth-modal hidden">
+        <div class="auth-content">
+            <button class="auth-close" onclick="closeAuthModal()">×</button>
+            
+            <!-- Login Form -->
+            <div id="login-form" class="auth-form">
+                <div class="auth-header">
+                    <h2>Welcome Back</h2>
+                    <p>Sign in to access your team strategy hub</p>
+                </div>
+                
+                <form onsubmit="handleLogin(event)">
+                    <div class="form-group">
+                        <label class="form-label">Email</label>
+                        <input type="email" id="login-email" class="form-input" required autocomplete="username">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Password</label>
+                        <input type="password" id="login-password" class="form-input" required autocomplete="current-password">
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary auth-btn">Sign In</button>
+                </form>
+                
+                <div class="auth-divider">
+                    <span>or</span>
+                </div>
+                
+                <button onclick="signInWithGoogle()" class="btn btn-google">
+                    <span>🔵</span> Continue with Google
+                </button>
+                
+                <p class="auth-switch">
+                    Don't have an account? 
+                    <button onclick="showRegister()" class="link-btn">Sign up here</button>
+                </p>
+            </div>
+            
+            <!-- Register Form -->
+            <div id="register-form" class="auth-form hidden">
+                <div class="auth-header">
+                    <h2>Join APM Esports</h2>
+                    <p>Create your account to access the strategy hub</p>
+                </div>
+                
+                <form onsubmit="handleRegister(event)">
+                    <div class="form-group">
+                        <label class="form-label">Display Name</label>
+                        <input type="text" id="register-name" class="form-input" required autocomplete="name">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Email</label>
+                        <input type="email" id="register-email" class="form-input" required autocomplete="email">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Password</label>
+                        <input type="password" id="register-password" class="form-input" required minlength="6" autocomplete="new-password">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Confirm Password</label>
+                        <input type="password" id="register-confirm" class="form-input" required minlength="6" autocomplete="new-password">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Role (Optional)</label>
+                        <select id="register-role" class="form-input">
+                            <option value="">Select your main role</option>
+                            <option value="top">Top</option>
+                            <option value="jungle">Jungle</option>
+                            <option value="mid">Mid</option>
+                            <option value="adc">ADC</option>
+                            <option value="support">Support</option>
+                            <option value="coach">Coach</option>
+                        </select>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary auth-btn">Create Account</button>
+                </form>
+                
+                <div class="auth-divider">
+                    <span>or</span>
+                </div>
+                
+                <button onclick="signInWithGoogle()" class="btn btn-google">
+                    <span>🔵</span> Continue with Google
+                </button>
+                
+                <p class="auth-switch">
+                    Already have an account? 
+                    <button onclick="showLogin()" class="link-btn">Sign in here</button>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main App Container -->
+    <div id="app-container" class="app-container hidden">
         <!-- Sidebar -->
         <nav class="sidebar" id="sidebar">
             <div class="sidebar-header">
-                <a href="index.html" class="logo">APM PORTAL</a>
+                <a href="#" class="logo" onclick="showPage('dashboard')">APM PORTAL</a>
                 <div class="logo-subtitle">League Strategy Hub</div>
             </div>
 
             <div class="sidebar-nav">
                 <div class="nav-section">
                     <div class="nav-section-title">Main</div>
-                    <a href="index.html" class="nav-item">
+                    <a href="#" class="nav-item active" onclick="showPage('dashboard')" data-page="dashboard">
                         🏠 Dashboard
                     </a>
                 </div>
 
                 <div class="nav-section">
                     <div class="nav-section-title">Learning</div>
-                    <a href="learning.html" class="nav-item active">
+                    <a href="learning.html" class="nav-item">
                         📚 Learning Hub
-                    </a>
-                    <a href="#" class="nav-item" onclick="showPage('tempo')" data-page="tempo">
-                        ⚡ Tempo
-                    </a>
-                    <a href="#" class="nav-item" onclick="showPage('turns')" data-page="turns">
-                        🎯 Turns & Rounds
-                    </a>
-                    <a href="#" class="nav-item" onclick="showPage('action-waves')" data-page="action-waves">
-                        📊 Action Waves
-                    </a>
-                    <a href="#" class="nav-item" onclick="showPage('action-plan')" data-page="action-plan">
-                        ✅ 5-Step Plan
-                    </a>
-                    <a href="#" class="nav-item" onclick="showPage('weekly')" data-page="weekly">
-                        📅 Weekly Focus
                     </a>
                 </div>
 
                 <div class="nav-section">
                     <div class="nav-section-title">Tools</div>
-                    <a href="draft.html" class="nav-item">
+                    <a href="#" class="nav-item" onclick="showPage('draft')" data-page="draft">
                         🎭 Draft Tool
                     </a>
-                    <a href="calculator.html" class="nav-item">
+                    <a href="#" class="nav-item" onclick="showPage('calculator')" data-page="calculator">
                         🧮 Wave Calculator
                     </a>
                 </div>
@@ -78,7 +173,7 @@
             <!-- Header -->
             <header class="header">
                 <div class="breadcrumb">
-                    <span>APM PORTAL</span> > <span class="breadcrumb-current">Learning Modules</span>
+                    <span>APM PORTAL</span> > <span class="breadcrumb-current" id="current-page-name">Dashboard</span>
                 </div>
                 <div class="header-actions">
                     <button class="notification-btn" onclick="showNotifications()">🔔</button>
@@ -89,548 +184,321 @@
             <div class="content-wrapper">
                 <!-- Page Content -->
                 <main class="page-content">
-                    <!-- Learning Hub Page -->
-                    <div id="learning-hub-page" class="page">
+                    <!-- Dashboard Page -->
+                    <div id="dashboard-page" class="page">
                         <div class="space-y-8">
-                            <!-- Learning Hub Hero -->
-                            <div class="page-header" style="background: linear-gradient(to right, #1e3a8a, #7c3aed);">
-                                <div class="page-header-icon">📚</div>
+                            <!-- User Welcome -->
+                            <div id="user-welcome" class="user-welcome hidden">
+                                <h2>Welcome back, <span id="welcome-name"></span>!</h2>
+                                <p>Ready to master your League strategy?</p>
+                            </div>
+
+                            <!-- Dashboard Hero -->
+                            <div class="dashboard-hero">
+                                <h1>APM ESPORT : LEAGUE TEAM WIKI</h1>
+                                <p>All the essentials for the APM League of legend program by coach Gerrah</p>
+                                <div class="hero-features">
+                                    <div class="hero-feature">
+                                        <span>👥</span>
+                                        <span>Team Coordination</span>
+                                    </div>
+                                    <div class="hero-feature">
+                                        <span>🎯</span>
+                                        <span>Macro Strategy</span>
+                                    </div>
+                                    <div class="hero-feature">
+                                        <span>🏆</span>
+                                        <span>Competitive Edge</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Quick Access Cards -->
+                            <div class="dashboard-grid">
+                                <div class="dashboard-card" onclick="window.location.href='learning.html'">
+                                    <div class="card-header">
+                                        <div class="card-icon">📚</div>
+                                        <div class="card-title">Learning Path</div>
+                                    </div>
+                                    <div class="card-description">
+                                        Master the Tempo, Turns & Action Waves framework with our structured learning modules.
+                                    </div>
+                                    <button class="card-action">Start Learning</button>
+                                </div>
+
+                                <div class="dashboard-card" onclick="showPage('draft')">
+                                    <div class="card-header">
+                                        <div class="card-icon">🛠️</div>
+                                        <div class="card-title">Strategy Tools</div>
+                                    </div>
+                                    <div class="card-description">
+                                        Access collaborative drafting tools and wave calculators for your team preparation.
+                                    </div>
+                                    <button class="card-action">Open Tools</button>
+                                </div>
+
+                                <div class="dashboard-card" onclick="window.location.href='learning.html'">
+                                    <div class="card-header">
+                                        <div class="card-icon">📈</div>
+                                        <div class="card-title">Weekly Progress</div>
+                                    </div>
+                                    <div class="card-description">
+                                        Track your learning progress through our 6-week structured program.
+                                    </div>
+                                    <button class="card-action">View Progress</button>
+                                </div>
+                            </div>
+
+                            <!-- Quick Learning Modules -->
+                            <h2 style="color: #f0e6d2; margin-bottom: 1.5rem;">Learning Modules</h2>
+                            <div class="learning-grid">
+                                <div class="learning-card" onclick="window.location.href='learning.html'">
+                                    <h3>⚡ Tempo Fundamentals</h3>
+                                    <p>Learn to control game pacing and initiative</p>
+                                </div>
+                                <div class="learning-card" onclick="window.location.href='learning.html'">
+                                    <h3>🎯 Turns & Rounds</h3>
+                                    <p>Master lane priority and timing windows</p>
+                                </div>
+                                <div class="learning-card" onclick="window.location.href='learning.html'">
+                                    <h3>📊 Action Waves</h3>
+                                    <p>Coordinate team plays with minion waves</p>
+                                </div>
+                                <div class="learning-card" onclick="window.location.href='learning.html'">
+                                    <h3>✅ 5-Step Action Plan</h3>
+                                    <p>Systematic approach to team coordination</p>
+                                </div>
+                            </div>
+
+                            <!-- Strategy Tools -->
+                            <h2 style="color: #f0e6d2; margin-bottom: 1.5rem;">Strategy Tools</h2>
+                            <div class="tools-grid">
+                                <div class="tool-card">
+                                    <div class="tool-header">
+                                        <div class="tool-icon">🎭</div>
+                                        <div class="tool-info">
+                                            <h3>Draft Tool</h3>
+                                            <p>Collaborative drafting</p>
+                                        </div>
+                                    </div>
+                                    <div class="tool-description">
+                                        Real-time collaborative draft preparation with tempo analysis and action wave planning.
+                                    </div>
+                                    <div class="tool-actions">
+                                        <button class="tool-btn primary" onclick="showPage('draft')">Open Tool</button>
+                                        <button class="tool-btn secondary" onclick="createQuickDraft()">New Room</button>
+                                    </div>
+                                </div>
+
+                                <div class="tool-card">
+                                    <div class="tool-header">
+                                        <div class="tool-icon">🧮</div>
+                                        <div class="tool-info">
+                                            <h3>Wave Calculator</h3>
+                                            <p>Action wave timing</p>
+                                        </div>
+                                    </div>
+                                    <div class="tool-description">
+                                        Calculate precise action wave timings for objectives with live game timer.
+                                    </div>
+                                    <div class="tool-actions">
+                                        <button class="tool-btn primary" onclick="showPage('calculator')">Open Calculator</button>
+                                        <button class="tool-btn secondary" onclick="startQuickTimer()">Quick Timer</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Wave Calculator Page -->
+                    <div id="calculator-page" class="page hidden">
+                        <button class="back-btn" onclick="showPage('dashboard')">← Back to Dashboard</button>
+                        
+                        <div class="page-header calculator-header">
+                            <div class="page-header-icon">🧮</div>
+                            <div>
+                                <h1>Wave Calculator</h1>
+                                <p>Calculate precise action wave timings for objectives</p>
+                            </div>
+                        </div>
+
+                        <div class="content-card">
+                            <div class="grid grid-2" style="gap: 2rem;">
+                                <!-- Calculator -->
                                 <div>
-                                    <h1>Learning Modules</h1>
-                                    <p>Master the Tempo, Turns & Action Waves framework step by step</p>
+                                    <h3>Action Wave Calculator</h3>
+                                    <div class="form-group">
+                                        <label class="form-label">Objective Time (MM:SS)</label>
+                                        <input type="text" id="objective-time" class="form-input" placeholder="5:00" pattern="[0-9]{1,2}:[0-9]{2}">
+                                    </div>
+                                    <button onclick="calculateActionWave()" class="btn btn-primary">Calculate</button>
+                                    
+                                    <div id="calc-results" class="calc-results hidden">
+                                        <div class="calc-result-item result-execute">
+                                            <span>Execute Wave:</span>
+                                            <span id="execute-wave">Wave 6</span>
+                                        </div>
+                                        <div class="calc-result-item result-time">
+                                            <span>Execute Time:</span>
+                                            <span id="execute-time">4:45</span>
+                                        </div>
+                                        <div class="calc-result-item result-setup">
+                                            <span>Setup Waves:</span>
+                                            <span id="setup-waves">Waves 3 & 4</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Live Timer -->
+                                <div>
+                                    <h3>Live Game Timer</h3>
+                                    <div class="timer-display" id="timer-display">0:00</div>
+                                    <div style="text-align: center; margin-bottom: 1rem;">
+                                        <span style="color: #60a5fa;">Current Wave: </span>
+                                        <span id="current-wave" style="font-weight: bold;">1</span>
+                                    </div>
+                                    <div class="timer-controls">
+                                        <button id="timer-btn" onclick="toggleTimer()" class="btn btn-success">Start</button>
+                                        <button onclick="resetTimer()" class="btn btn-danger">Reset</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Draft Page -->
+                    <div id="draft-page" class="page hidden">
+                        <button class="back-btn" onclick="showPage('dashboard')">← Back to Dashboard</button>
+                        
+                        <div class="page-header" style="background: linear-gradient(to right, #1e3a8a, #7c3aed);">
+                            <div class="page-header-icon">🎭</div>
+                            <div>
+                                <h1>Draft Tool</h1>
+                                <p>Collaborative team draft planning with real-time sync</p>
+                            </div>
+                        </div>
+
+                        <div class="draft-container">
+                            <div class="draft-main">
+                                <!-- Room Management -->
+                                <div class="draft-controls">
+                                    <button onclick="handleCreateDraftRoomClick()" class="btn btn-primary">Create Room</button>
+                                     <button onclick="handleJoinDraftRoomClick()" class="btn btn-secondary">Join Room</button>
+                                    <button onclick="resetDraft()" class="btn btn-warning">Reset Draft</button>
+                                    <button onclick="clearAll()" class="btn btn-danger">Clear All</button>
+                                </div>
+
+                                <!-- Room Status -->
+                                <div class="draft-status">
+                                    <div class="status-indicator">
+                                        <div class="status-dot" id="connection-status"></div>
+                                        <span id="connection-text">Not connected</span>
+                                    </div>
+                                </div>
+
+                                <div id="room-info" class="room-info hidden">
+                                    <div>Room Code: <span id="room-code" class="room-code"></span></div>
+                                    <div style="font-size: 0.875rem; color: #9ca3af; margin-top: 0.5rem;">Share this code with your team</div>
+                                </div>
+
+                                <!-- Draft Phase -->
+                                <div class="draft-phase">
+                                    <!-- Blue Team -->
+                                    <div class="team-section blue">
+                                        <div class="team-title">Blue Team</div>
+                                        <div style="margin-bottom: 1rem;">
+                                            <h4 style="color: #93c5fd; margin-bottom: 0.5rem;">Bans</h4>
+                                            <div class="ban-slots">
+                                                <div class="ban-slot" data-team="blue" data-slot="0" data-type="ban" onclick="selectSlot(this)" oncontextmenu="clearSlot(this); return false;">B1</div>
+                                                <div class="ban-slot" data-team="blue" data-slot="1" data-type="ban" onclick="selectSlot(this)" oncontextmenu="clearSlot(this); return false;">B2</div>
+                                                <div class="ban-slot" data-team="blue" data-slot="2" data-type="ban" onclick="selectSlot(this)" oncontextmenu="clearSlot(this); return false;">B3</div>
+                                                <div class="ban-slot" data-team="blue" data-slot="3" data-type="ban" onclick="selectSlot(this)" oncontextmenu="clearSlot(this); return false;">B4</div>
+                                                <div class="ban-slot" data-team="blue" data-slot="4" data-type="ban" onclick="selectSlot(this)" oncontextmenu="clearSlot(this); return false;">B5</div>
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <h4 style="color: #93c5fd; margin-bottom: 0.5rem;">Picks</h4>
+                                            <div class="champion-slots">
+                                                <div class="champion-slot" data-team="blue" data-slot="0" data-type="pick" onclick="selectSlot(this)" oncontextmenu="clearSlot(this); return false;"><span>Pick 1</span></div>
+                                                <div class="champion-slot" data-team="blue" data-slot="1" data-type="pick" onclick="selectSlot(this)" oncontextmenu="clearSlot(this); return false;"><span>Pick 2</span></div>
+                                                <div class="champion-slot" data-team="blue" data-slot="2" data-type="pick" onclick="selectSlot(this)" oncontextmenu="clearSlot(this); return false;"><span>Pick 3</span></div>
+                                                <div class="champion-slot" data-team="blue" data-slot="3" data-type="pick" onclick="selectSlot(this)" oncontextmenu="clearSlot(this); return false;"><span>Pick 4</span></div>
+                                                <div class="champion-slot" data-team="blue" data-slot="4" data-type="pick" onclick="selectSlot(this)" oncontextmenu="clearSlot(this); return false;"><span>Pick 5</span></div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Red Team -->
+                                    <div class="team-section red">
+                                        <div class="team-title">Red Team</div>
+                                        <div style="margin-bottom: 1rem;">
+                                            <h4 style="color: #fca5a5; margin-bottom: 0.5rem;">Bans</h4>
+                                            <div class="ban-slots">
+                                                <div class="ban-slot" data-team="red" data-slot="0" data-type="ban" onclick="selectSlot(this)" oncontextmenu="clearSlot(this); return false;">B1</div>
+                                                <div class="ban-slot" data-team="red" data-slot="1" data-type="ban" onclick="selectSlot(this)" oncontextmenu="clearSlot(this); return false;">B2</div>
+                                                <div class="ban-slot" data-team="red" data-slot="2" data-type="ban" onclick="selectSlot(this)" oncontextmenu="clearSlot(this); return false;">B3</div>
+                                                <div class="ban-slot" data-team="red" data-slot="3" data-type="ban" onclick="selectSlot(this)" oncontextmenu="clearSlot(this); return false;">B4</div>
+                                                <div class="ban-slot" data-team="red" data-slot="4" data-type="ban" onclick="selectSlot(this)" oncontextmenu="clearSlot(this); return false;">B5</div>
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <h4 style="color: #fca5a5; margin-bottom: 0.5rem;">Picks</h4>
+                                            <div class="champion-slots">
+                                                <div class="champion-slot" data-team="red" data-slot="0" data-type="pick" onclick="selectSlot(this)" oncontextmenu="clearSlot(this); return false;"><span>Pick 1</span></div>
+                                                <div class="champion-slot" data-team="red" data-slot="1" data-type="pick" onclick="selectSlot(this)" oncontextmenu="clearSlot(this); return false;"><span>Pick 2</span></div>
+                                                <div class="champion-slot" data-team="red" data-slot="2" data-type="pick" onclick="selectSlot(this)" oncontextmenu="clearSlot(this); return false;"><span>Pick 3</span></div>
+                                                <div class="champion-slot" data-team="red" data-slot="3" data-type="pick" onclick="selectSlot(this)" oncontextmenu="clearSlot(this); return false;"><span>Pick 4</span></div>
+                                                <div class="champion-slot" data-team="red" data-slot="4" data-type="pick" onclick="selectSlot(this)" oncontextmenu="clearSlot(this); return false;"><span>Pick 5</span></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Strategy Section -->
+                                <div class="strategy-section">
+                                    <div class="strategy-tabs">
+                                        <button class="strategy-tab active" onclick="switchStrategyTab('game')">Game Plan</button>
+                                        <button class="strategy-tab" onclick="switchStrategyTab('objectives')">Objectives</button>
+                                        <button class="strategy-tab" onclick="switchStrategyTab('notes')">Notes</button>
+                                    </div>
+                                    
+                                    <div id="game-strategy" class="strategy-content active">
+                                        <input type="text" id="win-condition" class="strategy-input" placeholder="Win condition (e.g., Team fight at 25 min with 3 items)">
+                                        <input type="text" id="enemy-weakness" class="strategy-input" placeholder="Enemy weakness to exploit">
+                                    </div>
+                                    
+                                    <div id="objectives-strategy" class="strategy-content">
+                                        <input type="text" id="drake-plan" class="strategy-input" placeholder="Drake plan & timing">
+                                        <input type="text" id="herald-plan" class="strategy-input" placeholder="Herald plan & timing">
+                                        <input type="text" id="custom-time" class="strategy-input" placeholder="Custom objective time (e.g., 15:30)">
+                                        <input type="text" id="custom-plan" class="strategy-input" placeholder="Custom objective plan">
+                                    </div>
+                                    
+                                    <div id="notes-strategy" class="strategy-content">
+                                        <textarea id="draft-notes" class="strategy-input strategy-textarea" placeholder="Draft strategy notes..."></textarea>
+                                        <textarea id="ban-notes" class="strategy-input strategy-textarea" placeholder="Ban reasoning..."></textarea>
+                                    </div>
                                 </div>
                             </div>
 
-                            <!-- Learning Path Overview -->
-                            <div class="content-card">
-                                <h2>Your Learning Journey</h2>
-                                <p style="color: #9ca3af; margin-bottom: 1.5rem;">
-                                    Complete exercises in each module to unlock the next level. Track your individual progress and participate in team exercises.
-                                </p>
+                            <!-- Champion Pool -->
+                            <div class="champion-pool">
+                                <div class="search-container">
+                                    <input type="text" id="champion-search" class="search-input" placeholder="Search champions..." oninput="filterChampions()">
+                                </div>
                                 
-                                <div class="learning-progress">
-                                    <div class="progress-bar">
-                                        <div class="progress-fill" id="overall-progress" style="width: 0%"></div>
-                                    </div>
-                                    <div style="color: #60a5fa; margin-top: 0.5rem; font-size: 0.875rem;" id="progress-text">
-                                        0 of 6 modules completed
-                                    </div>
+                                <div class="role-filters">
+                                    <button class="role-filter active" onclick="filterByRole('all')">All</button>
+                                    <button class="role-filter" onclick="filterByRole('Top')">Top</button>
+                                    <button class="role-filter" onclick="filterByRole('Jungle')">Jungle</button>
+                                    <button class="role-filter" onclick="filterByRole('Mid')">Mid</button>
+                                    <button class="role-filter" onclick="filterByRole('ADC')">ADC</button>
+                                    <button class="role-filter" onclick="filterByRole('Support')">Support</button>
                                 </div>
-                            </div>
-
-                            <!-- Core Learning Modules -->
-                            <div class="learning-grid" id="modules-grid">
-                                <!-- Modules will be dynamically generated here -->
-                            </div>
-
-                            <!-- Team Exercises Section -->
-                            <div class="content-card">
-                                <h2>🏆 Team Exercises</h2>
-                                <p style="color: #9ca3af; margin-bottom: 1.5rem;">
-                                    These exercises are designed for team practice and don't affect your individual progress. Complete them together during scrims or practice sessions.
-                                </p>
                                 
-                                <div class="team-exercises-grid">
-                                    <div class="team-exercise-card">
-                                        <div class="team-exercise-header">
-                                            <h4>⚡ Tempo Tracking Drill</h4>
-                                            <span class="team-badge">Team Exercise</span>
-                                        </div>
-                                        <p>Practice calling out tempo shifts every 2 minutes during a live game. Each player identifies one tempo opportunity per game.</p>
-                                        <div class="team-exercise-details">
-                                            <span>Duration: 30 minutes</span>
-                                            <span>Players: 5</span>
-                                        </div>
-                                    </div>
-
-                                    <div class="team-exercise-card">
-                                        <div class="team-exercise-header">
-                                            <h4>🎯 Priority Coordination</h4>
-                                            <span class="team-badge">Team Exercise</span>
-                                        </div>
-                                        <p>Execute coordinated roams using lane priority. Practice the "one action for one action" rule as a team.</p>
-                                        <div class="team-exercise-details">
-                                            <span>Duration: 45 minutes</span>
-                                            <span>Players: 5</span>
-                                        </div>
-                                    </div>
-
-                                    <div class="team-exercise-card">
-                                        <div class="team-exercise-header">
-                                            <h4>📊 Action Wave Sync</h4>
-                                            <span class="team-badge">Team Exercise</span>
-                                        </div>
-                                        <p>Coordinate team movements using action waves for dragon control. Practice the 5-step action plan together.</p>
-                                        <div class="team-exercise-details">
-                                            <span>Duration: 60 minutes</span>
-                                            <span>Players: 5</span>
-                                        </div>
-                                    </div>
-
-                                    <div class="team-exercise-card">
-                                        <div class="team-exercise-header">
-                                            <h4>🔄 Full Coordination Drill</h4>
-                                            <span class="team-badge">Team Exercise</span>
-                                        </div>
-                                        <p>Combined exercise using all concepts: tempo, turns, and action waves in a full 20-minute practice match.</p>
-                                        <div class="team-exercise-details">
-                                            <span>Duration: 90 minutes</span>
-                                            <span>Players: 5</span>
-                                        </div>
-                                    </div>
-                                </div>
+                                <div id="champion-grid" class="champion-grid"></div>
+                                <div id="champion-count" class="champion-count"></div>
                             </div>
-
-                            <!-- Quick Reference Section -->
-                            <div class="content-card">
-                                <h2>Quick Reference</h2>
-                                <div class="reference-grid">
-                                    <div class="reference-card">
-                                        <h4>⚡ Tempo Check Questions</h4>
-                                        <ul>
-                                            <li>What is the plan?</li>
-                                            <li>What is every player's job?</li>
-                                            <li>How is each player using their turn?</li>
-                                            <li>What comms do we need for execution?</li>
-                                        </ul>
-                                    </div>
-                                    <div class="reference-card">
-                                        <h4>📊 Action Wave Formula</h4>
-                                        <ul>
-                                            <li>Objective time - 30 seconds = Execute Wave</li>
-                                            <li>Wave spawns every 30 seconds</li>
-                                            <li>First wave at 1:30</li>
-                                            <li>Count backwards for setup waves</li>
-                                        </ul>
-                                    </div>
-                                    <div class="reference-card">
-                                        <h4>✅ 5-Step Process</h4>
-                                        <ol>
-                                            <li>Identify (2 min before)</li>
-                                            <li>Assign Lanes (as needed)</li>
-                                            <li>Prepare Lanes (1 min before)</li>
-                                            <li>Vision Control (30s before)</li>
-                                            <li>Re-prepare & Move (execute)</li>
-                                        </ol>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Individual Module Pages -->
-                    <div id="tempo-page" class="page hidden">
-                        <button class="back-btn" onclick="showPage('learning-hub')">← Back to Learning Hub</button>
-                        
-                        <div class="page-header tempo-header">
-                            <div class="page-header-icon">⚡</div>
-                            <div>
-                                <h1>Tempo Fundamentals</h1>
-                                <p>Master initiative and game pacing control</p>
-                            </div>
-                        </div>
-
-                        <!-- Module Progress -->
-                        <div class="module-progress-card">
-                            <div class="module-progress-header">
-                                <h3>Module Progress</h3>
-                                <span id="tempo-progress-text">0 of 3 exercises completed</span>
-                            </div>
-                            <div class="progress-bar">
-                                <div class="progress-fill" id="tempo-progress" style="width: 0%"></div>
-                            </div>
-                        </div>
-
-                        <div class="content-card">
-                            <h2>What is Tempo?</h2>
-                            <div style="background-color: #1e3a8a; padding: 1.5rem; border-radius: 0.5rem; margin-bottom: 1.5rem;">
-                                <h3 style="color: #93c5fd; margin-bottom: 1rem;">Quick Definition</h3>
-                                <p style="font-size: 1.125rem; margin-bottom: 1rem;">Having initiative - you act, they react</p>
-                                
-                                <h3 style="color: #93c5fd; margin-bottom: 1rem;">Longer Definition</h3>
-                                <p>Tempo is who controls the pacing and timing of the game. When you have tempo, you can make proactive plays that force the enemy team to react to you. The team with tempo gets to choose the battlefield and timing, while the team without tempo must respond to threats rather than create them.</p>
-                            </div>
-
-                            <h3>The Key Rule: One Action for One Action</h3>
-                            <div class="space-y-4">
-                                <div style="background-color: #065f46; padding: 1rem; border-radius: 0.5rem;">
-                                    <strong>✅ Tempo Neutral:</strong> Kill enemy laner → Push wave (uses up tempo advantage = back to even)
-                                </div>
-                                <div style="background-color: #7f1d1d; padding: 1rem; border-radius: 0.5rem;">
-                                    <strong>❌ Tempo Loss:</strong> Stay for plates after kill = extra action → Enemy gains tempo when you recall
-                                </div>
-                            </div>
-
-                            <h3>How to Use Tempo Practically</h3>
-                            <div class="grid grid-2" style="gap: 1rem;">
-                                <div style="background-color: #111827; padding: 1rem; border-radius: 0.5rem;">
-                                    <h4 style="color: #60a5fa;">1. Roam to Impact Other Lanes</h4>
-                                    <p>Use your tempo advantage to create numbers advantages in other parts of the map.</p>
-                                </div>
-                                <div style="background-color: #111827; padding: 1rem; border-radius: 0.5rem;">
-                                    <h4 style="color: #60a5fa;">2. Invade Enemy Jungle</h4>
-                                    <p>Deny enemy resources and gain vision control in their territory.</p>
-                                </div>
-                                <div style="background-color: #111827; padding: 1rem; border-radius: 0.5rem;">
-                                    <h4 style="color: #60a5fa;">3. Contest/Gain Vision</h4>
-                                    <p>Secure key areas and deny enemy vision around objectives.</p>
-                                </div>
-                                <div style="background-color: #111827; padding: 1rem; border-radius: 0.5rem;">
-                                    <h4 style="color: #60a5fa;">4. Set up Objective Play</h4>
-                                    <p>Use tempo windows to position for dragons, herald, or baron.</p>
-                                </div>
-                            </div>
-
-                            <div style="background-color: #581c87; padding: 1.5rem; border-radius: 0.5rem; margin-top: 2rem;">
-                                <h3 style="color: #c4b5fd; margin-bottom: 1rem;">💡 Key Takeaway</h3>
-                                <p>League is fundamentally a turn-based strategy game disguised as real-time action. Each player gets "turns" to act based on their wave states and positioning. Understanding this principle changes everything about how we approach the game.</p>
-                            </div>
-                        </div>
-
-                        <!-- Individual Exercises -->
-                        <div class="content-card">
-                            <h2>🎯 Individual Exercises</h2>
-                            <p style="color: #9ca3af; margin-bottom: 1.5rem;">Complete these exercises to unlock the next module:</p>
-                            
-                            <div class="exercises-grid">
-                                <div class="exercise-card" data-exercise="tempo-1">
-                                    <div class="exercise-header">
-                                        <h4>Exercise 1: Tempo Recognition</h4>
-                                        <button class="exercise-toggle" onclick="toggleExercise('tempo-1')">
-                                            <span class="exercise-status">⭕ Not Started</span>
-                                        </button>
-                                    </div>
-                                    <div class="exercise-content">
-                                        <p><strong>Objective:</strong> Identify 3 tempo shifts in a single game</p>
-                                        <p><strong>Instructions:</strong> Play a ranked game and note the exact time stamps when tempo shifts occur. Write down what caused each shift and which team gained advantage.</p>
-                                        <div class="exercise-requirements">
-                                            <p><strong>Requirements:</strong></p>
-                                            <ul>
-                                                <li>Identify 3 different tempo shifts</li>
-                                                <li>Note the exact time stamps</li>
-                                                <li>Explain what caused each shift</li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="exercise-card" data-exercise="tempo-2">
-                                    <div class="exercise-header">
-                                        <h4>Exercise 2: One-for-One Practice</h4>
-                                        <button class="exercise-toggle" onclick="toggleExercise('tempo-2')">
-                                            <span class="exercise-status">🔒 Locked</span>
-                                        </button>
-                                    </div>
-                                    <div class="exercise-content">
-                                        <p><strong>Objective:</strong> Successfully apply the "one action for one action" rule</p>
-                                        <p><strong>Instructions:</strong> In your next 3 games, every time you get a kill or force a recall, immediately use that tempo for exactly one meaningful action.</p>
-                                        <div class="exercise-requirements">
-                                            <p><strong>Requirements:</strong></p>
-                                            <ul>
-                                                <li>Apply the rule 5 times across 3 games</li>
-                                                <li>Document each application</li>
-                                                <li>No tempo waste (staying for extra actions)</li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="exercise-card" data-exercise="tempo-3">
-                                    <div class="exercise-header">
-                                        <h4>Exercise 3: Proactive Tempo Creation</h4>
-                                        <button class="exercise-toggle" onclick="toggleExercise('tempo-3')">
-                                            <span class="exercise-status">🔒 Locked</span>
-                                        </button>
-                                    </div>
-                                    <div class="exercise-content">
-                                        <p><strong>Objective:</strong> Create tempo advantages through proactive play</p>
-                                        <p><strong>Instructions:</strong> In 2 games, create tempo by roaming, invading, or setting up objectives without waiting for kills first.</p>
-                                        <div class="exercise-requirements">
-                                            <p><strong>Requirements:</strong></p>
-                                            <ul>
-                                                <li>Create 3 proactive tempo plays</li>
-                                                <li>Lead to successful team advantages</li>
-                                                <li>Document the setup and execution</li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="module-completion" id="tempo-completion" style="display: none;">
-                                <div class="completion-message">
-                                    <h3>🎉 Module Complete!</h3>
-                                    <p>Congratulations! You've mastered Tempo Fundamentals. The next module is now unlocked.</p>
-                                    <button class="btn btn-primary" onclick="showPage('turns')">Continue to Turns & Rounds →</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Turns & Rounds Module -->
-                    <div id="turns-page" class="page hidden">
-                        <button class="back-btn" onclick="showPage('learning-hub')">← Back to Learning Hub</button>
-                        
-                        <div class="page-header turns-header">
-                            <div class="page-header-icon">🎯</div>
-                            <div>
-                                <h1>Turns & Rounds</h1>
-                                <p>Master lane priority and timing windows</p>
-                            </div>
-                        </div>
-
-                        <!-- Module Progress -->
-                        <div class="module-progress-card">
-                            <div class="module-progress-header">
-                                <h3>Module Progress</h3>
-                                <span id="turns-progress-text">0 of 3 exercises completed</span>
-                            </div>
-                            <div class="progress-bar">
-                                <div class="progress-fill" id="turns-progress" style="width: 0%"></div>
-                            </div>
-                        </div>
-
-                        <div class="content-card">
-                            <h2>Core Definitions</h2>
-                            
-                            <div style="background-color: #065f46; padding: 1.5rem; border-radius: 0.5rem; margin-bottom: 1.5rem;">
-                                <h3 style="color: #86efac; margin-bottom: 1rem;">Lane Priority</h3>
-                                <p>You gain lane priority when you have push/crash wave under enemy tower, essentially locking your opponent or making them lose gold & XP.</p>
-                            </div>
-
-                            <div style="background-color: #1e3a8a; padding: 1.5rem; border-radius: 0.5rem; margin-bottom: 1.5rem;">
-                                <h3 style="color: #93c5fd; margin-bottom: 1rem;">Turn</h3>
-                                <p>When you have time before the next wave → how you use your priority.</p>
-                            </div>
-
-                            <div style="background-color: #581c87; padding: 1.5rem; border-radius: 0.5rem; margin-bottom: 1.5rem;">
-                                <h3 style="color: #c4b5fd; margin-bottom: 1rem;">Rounds</h3>
-                                <p>A round is the time between when you are fresh off base until your next reset.</p>
-                            </div>
-
-                            <h3>How You Can Use Your Turn</h3>
-                            <div class="space-y-4">
-                                <div style="background-color: #111827; padding: 1rem; border-radius: 0.5rem; border-left: 4px solid #60a5fa;">
-                                    <strong>Pressure towers for plates</strong> (need vision protection)
-                                </div>
-                                <div style="background-color: #111827; padding: 1rem; border-radius: 0.5rem; border-left: 4px solid #10b981;">
-                                    <strong>Roam to another lane</strong> (vision control)
-                                </div>
-                                <div style="background-color: #111827; padding: 1rem; border-radius: 0.5rem; border-left: 4px solid #f59e0b;">
-                                    <strong>Invade jungle</strong> (deny gold/XP, set up dives)
-                                </div>
-                                <div style="background-color: #111827; padding: 1rem; border-radius: 0.5rem; border-left: 4px solid #ef4444;">
-                                    <strong>Move for neutral objectives</strong> (requires setup)
-                                </div>
-                                <div style="background-color: #111827; padding: 1rem; border-radius: 0.5rem; border-left: 4px solid #8b5cf6;">
-                                    <strong>Slow push for dive setup</strong> (requires setup)
-                                </div>
-                            </div>
-
-                            <div style="background-color: #7f1d1d; padding: 1.5rem; border-radius: 0.5rem; margin-top: 2rem;">
-                                <h3 style="color: #fca5a5; margin-bottom: 1rem;">🎯 Core Principle</h3>
-                                <p><strong>League of Legends is about: How do you use your turns to do something that will either A) Connect yourself to the plan, B) Do something proactive, or C) get tempo.</strong></p>
-                                <p style="margin-top: 0.5rem; font-style: italic;">You can also get turn by catching the second wave.</p>
-                            </div>
-                        </div>
-
-                        <!-- Individual Exercises for Turns -->
-                        <div class="content-card">
-                            <h2>🎯 Individual Exercises</h2>
-                            <p style="color: #9ca3af; margin-bottom: 1.5rem;">Complete these exercises to unlock the next module:</p>
-                            
-                            <div class="exercises-grid">
-                                <div class="exercise-card" data-exercise="turns-1">
-                                    <div class="exercise-header">
-                                        <h4>Exercise 1: Priority Recognition</h4>
-                                        <button class="exercise-toggle" onclick="toggleExercise('turns-1')">
-                                            <span class="exercise-status">🔒 Locked</span>
-                                        </button>
-                                    </div>
-                                    <div class="exercise-content">
-                                        <p><strong>Objective:</strong> Identify when you have lane priority and act on it</p>
-                                        <p><strong>Instructions:</strong> In 3 games, call out every time you gain priority and immediately use it for one meaningful action.</p>
-                                        <div class="exercise-requirements">
-                                            <p><strong>Requirements:</strong></p>
-                                            <ul>
-                                                <li>Identify priority windows 10 times</li>
-                                                <li>Use priority for roaming or objective setup</li>
-                                                <li>Track success rate of priority usage</li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="exercise-card" data-exercise="turns-2">
-                                    <div class="exercise-header">
-                                        <h4>Exercise 2: Turn Optimization</h4>
-                                        <button class="exercise-toggle" onclick="toggleExercise('turns-2')">
-                                            <span class="exercise-status">🔒 Locked</span>
-                                        </button>
-                                    </div>
-                                    <div class="exercise-content">
-                                        <p><strong>Objective:</strong> Maximize value from each turn</p>
-                                        <p><strong>Instructions:</strong> Focus on getting maximum value from every turn you have between waves.</p>
-                                        <div class="exercise-requirements">
-                                            <p><strong>Requirements:</strong></p>
-                                            <ul>
-                                                <li>Plan your turn usage before each wave</li>
-                                                <li>Execute 5 high-value turns per game</li>
-                                                <li>Document turn outcomes</li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="exercise-card" data-exercise="turns-3">
-                                    <div class="exercise-header">
-                                        <h4>Exercise 3: Round Management</h4>
-                                        <button class="exercise-toggle" onclick="toggleExercise('turns-3')">
-                                            <span class="exercise-status">🔒 Locked</span>
-                                        </button>
-                                    </div>
-                                    <div class="exercise-content">
-                                        <p><strong>Objective:</strong> Coordinate multiple turns within a single round</p>
-                                        <p><strong>Instructions:</strong> Plan and execute coordinated sequences of turns from base to base.</p>
-                                        <div class="exercise-requirements">
-                                            <p><strong>Requirements:</strong></p>
-                                            <ul>
-                                                <li>Plan 3 complete rounds</li>
-                                                <li>Execute turn sequences successfully</li>
-                                                <li>Show improvement in round efficiency</li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="module-completion" id="turns-completion" style="display: none;">
-                                <div class="completion-message">
-                                    <h3>🎉 Module Complete!</h3>
-                                    <p>Congratulations! You've mastered Turns & Rounds. The next module is now unlocked.</p>
-                                    <button class="btn btn-primary" onclick="showPage('action-waves')">Continue to Action Waves →</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Other module pages follow the same pattern... -->
-                    <div id="action-waves-page" class="page hidden">
-                        <button class="back-btn" onclick="showPage('learning-hub')">← Back to Learning Hub</button>
-                        
-                        <div class="page-header waves-header">
-                            <div class="page-header-icon">📊</div>
-                            <div>
-                                <h1>Action Waves</h1>
-                                <p>Coordinate team plays with minion wave timing</p>
-                            </div>
-                        </div>
-
-                        <div class="content-card">
-                            <p style="color: #9ca3af; margin-bottom: 2rem;">Complete the Turns & Rounds module to unlock this content.</p>
-                        </div>
-                    </div>
-
-                    <div id="action-plan-page" class="page hidden">
-                        <button class="back-btn" onclick="showPage('learning-hub')">← Back to Learning Hub</button>
-                        
-                        <div class="page-header plan-header">
-                            <div class="page-header-icon">✅</div>
-                            <div>
-                                <h1>5-Step Action Plan</h1>
-                                <p>Systematic approach to team coordination</p>
-                            </div>
-                        </div>
-
-                        <div class="content-card">
-                            <p style="color: #9ca3af; margin-bottom: 2rem;">Complete the Action Waves module to unlock this content.</p>
-                        </div>
-                    </div>
-
-                    <div id="weekly-page" class="page hidden">
-                        <button class="back-btn" onclick="showPage('learning-hub')">← Back to Learning Hub</button>
-                        
-                        <div class="page-header weekly-header">
-                            <div class="page-header-icon">📅</div>
-                            <div>
-                                <h1>Weekly Focus Program</h1>
-                                <p>Track your 6-week learning journey</p>
-                            </div>
-                        </div>
-
-                        <div class="content-card">
-                            <p style="color: #9ca3af; margin-bottom: 2rem;">Complete all previous modules to unlock the weekly program.</p>
-                        </div>
-                    </div>    <p>Congratulations! You've mastered Tempo Fundamentals. The next module is now unlocked.</p>
-                                    <button class="btn btn-primary" onclick="showPage('turns')">Continue to Turns & Rounds →</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Add similar structure for other modules... -->
-                    <div id="turns-page" class="page hidden">
-                        <button class="back-btn" onclick="showPage('learning-hub')">← Back to Learning Hub</button>
-                        
-                        <div class="page-header turns-header">
-                            <div class="page-header-icon">🎯</div>
-                            <div>
-                                <h1>Turns & Rounds</h1>
-                                <p>Master lane priority and timing windows</p>
-                            </div>
-                        </div>
-
-                        <div class="content-card">
-                            <p style="color: #9ca3af; margin-bottom: 2rem;">Complete the Tempo Fundamentals module to unlock this content.</p>
-                        </div>
-                    </div>
-
-                    <!-- Other module pages follow the same pattern... -->
-                    <div id="action-waves-page" class="page hidden">
-                        <button class="back-btn" onclick="showPage('learning-hub')">← Back to Learning Hub</button>
-                        
-                        <div class="page-header waves-header">
-                            <div class="page-header-icon">📊</div>
-                            <div>
-                                <h1>Action Waves</h1>
-                                <p>Coordinate team plays with minion wave timing</p>
-                            </div>
-                        </div>
-
-                        <div class="content-card">
-                            <p style="color: #9ca3af; margin-bottom: 2rem;">Complete the Turns & Rounds module to unlock this content.</p>
-                        </div>
-                    </div>
-
-                    <div id="action-plan-page" class="page hidden">
-                        <button class="back-btn" onclick="showPage('learning-hub')">← Back to Learning Hub</button>
-                        
-                        <div class="page-header plan-header">
-                            <div class="page-header-icon">✅</div>
-                            <div>
-                                <h1>5-Step Action Plan</h1>
-                                <p>Systematic approach to team coordination</p>
-                            </div>
-                        </div>
-
-                        <div class="content-card">
-                            <p style="color: #9ca3af; margin-bottom: 2rem;">Complete the Action Waves module to unlock this content.</p>
-                        </div>
-                    </div>
-
-                    <div id="weekly-page" class="page hidden">
-                        <button class="back-btn" onclick="showPage('learning-hub')">← Back to Learning Hub</button>
-                        
-                        <div class="page-header weekly-header">
-                            <div class="page-header-icon">📅</div>
-                            <div>
-                                <h1>Weekly Focus Program</h1>
-                                <p>Track your 6-week learning journey</p>
-                            </div>
-                        </div>
-
-                        <div class="content-card">
-                            <p style="color: #9ca3af; margin-bottom: 2rem;">Complete all previous modules to unlock the weekly program.</p>
                         </div>
                     </div>
                 </main>
@@ -641,75 +509,5 @@
     <!-- Firebase -->
     <script type="module" src="firebase-config.js"></script>
     <script src="script.js"></script>
-    <script src="learning-progress.js"></script>
-    <script>
-        // Learning page specific functions
-        function showPage(pageId) {
-            console.log('Navigating to page:', pageId);
-            
-            // Hide all pages
-            document.querySelectorAll('.page').forEach(page => {
-                page.classList.add('hidden');
-            });
-            
-            // Show selected page
-            const targetPage = document.getElementById(pageId + '-page');
-            if (targetPage) {
-                targetPage.classList.remove('hidden');
-                console.log('Showing page:', pageId + '-page');
-            } else {
-                console.error('Page not found:', pageId + '-page');
-            }
-
-            // Update nav items
-            document.querySelectorAll('.nav-item').forEach(item => {
-                item.classList.remove('active');
-            });
-
-            // Set active nav item
-            const navItem = document.querySelector(`[data-page="${pageId}"]`);
-            if (navItem) {
-                navItem.classList.add('active');
-            } else if (pageId === 'learning-hub') {
-                const learningHubNav = document.querySelector('a[href="learning.html"]');
-                if (learningHubNav) learningHubNav.classList.add('active');
-            }
-
-            // Update breadcrumb
-            const breadcrumb = document.querySelector('.breadcrumb-current');
-            if (breadcrumb) {
-                const pageNames = {
-                    'learning-hub': 'Learning Modules',
-                    'tempo': 'Tempo Fundamentals',
-                    'turns': 'Turns & Rounds',
-                    'action-waves': 'Action Waves',
-                    'action-plan': '5-Step Action Plan',
-                    'weekly': 'Weekly Focus'
-                };
-                breadcrumb.textContent = pageNames[pageId] || 'Learning Modules';
-            }
-
-            // Initialize exercises for the current module
-            if (pageId !== 'learning-hub' && window.renderModuleExercises) {
-                setTimeout(() => {
-                    window.renderModuleExercises(pageId);
-                }, 100);
-            }
-        }
-
-        function showLockedMessage() {
-            alert('Complete the previous modules to unlock this content!');
-        }
-
-        // Initialize the learning hub on page load
-        document.addEventListener('DOMContentLoaded', function() {
-            console.log('📚 Learning page DOM loaded');
-            showPage('learning-hub');
-            
-            // DO NOT initialize learning progress here - Firebase config handles it
-            // This prevents double initialization
-            console.log('🔄 Waiting for Firebase auth to initialize learning progress...');
-        });
-    </script>
 </body>
 </html>
