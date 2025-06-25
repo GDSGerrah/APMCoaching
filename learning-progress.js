@@ -1,4 +1,6 @@
-// Learning Progress System
+// Learning Progress System - FIXED VERSION
+console.log('🚀 Loading learning progress system...');
+
 let learningProgress = {
     modules: {
         tempo: { completed: false, exercises: { 'tempo-1': false, 'tempo-2': false, 'tempo-3': false } },
@@ -277,55 +279,41 @@ function getCurrentUser() {
     return window.currentUser || (window.auth ? window.auth.currentUser : null);
 }
 
-// Initialize learning progress system - ROBUST VERSION
+// Initialize learning progress system - WORKING VERSION
 window.initializeLearningProgress = async function() {
-    console.log('=== Learning Progress Initialization Started ===');
+    console.log('🎯 Initializing learning progress system...');
     
-    // Step 1: Check for user in multiple ways
     let user = getCurrentUser();
-    console.log('Initial user check:', user?.email || 'No user');
     
-    // Step 2: Wait for authentication if needed
     if (!user) {
-        console.log('⏳ Waiting for authentication to be ready...');
-        
-        for (let attempt = 0; attempt < 50; attempt++) { // 5 seconds total
+        console.log('⏳ Waiting for user authentication...');
+        for (let attempt = 0; attempt < 50; attempt++) {
             await new Promise(resolve => setTimeout(resolve, 100));
-            
             user = getCurrentUser();
             if (user) {
-                console.log(`✅ User found after ${attempt + 1} attempts:`, user.email);
-                // Ensure global variable is set
-                if (!window.currentUser) {
-                    window.currentUser = user;
-                }
+                console.log(`✅ User authenticated: ${user.email}`);
                 break;
             }
         }
     }
 
-    // Step 3: Final check
     if (!user) {
-        console.log('❌ No user found after all attempts - cannot initialize learning progress');
-        // Still render basic UI for debugging
+        console.log('❌ No user found - rendering basic UI');
         renderBasicModulesGrid();
         return;
     }
 
     try {
-        console.log('🚀 Initializing learning progress for user:', user.email);
-        
-        // Step 4: Load progress from Firebase
+        console.log('🔄 Loading progress from Firebase...');
         await loadLearningProgress();
         
-        // Step 5: Render UI
+        console.log('🎨 Rendering modules grid...');
         renderModulesGrid();
         updateOverallProgress();
         
         console.log('✅ Learning progress system initialized successfully');
     } catch (error) {
         console.error('❌ Error initializing learning progress:', error);
-        // Fallback to default rendering
         renderBasicModulesGrid();
         updateOverallProgress();
     }
@@ -340,7 +328,11 @@ async function loadLearningProgress() {
     }
 
     try {
-        console.log('Loading learning progress from Firebase...');
+        if (!window.getDoc || !window.doc || !window.db) {
+            console.log('Firebase functions not available yet, using defaults');
+            return;
+        }
+
         const progressDoc = await window.getDoc(window.doc(window.db, 'learningProgress', user.uid));
         
         if (progressDoc.exists()) {
@@ -350,7 +342,7 @@ async function loadLearningProgress() {
                 console.log('✅ Loaded existing progress from Firebase');
             }
         } else {
-            console.log('No existing progress found, creating default progress...');
+            console.log('No existing progress found, using defaults');
             await saveLearningProgress();
         }
     } catch (error) {
@@ -367,6 +359,11 @@ async function saveLearningProgress() {
     }
 
     try {
+        if (!window.setDoc || !window.doc || !window.db || !window.serverTimestamp) {
+            console.log('Firebase functions not available for saving');
+            return;
+        }
+
         await window.setDoc(window.doc(window.db, 'learningProgress', user.uid), {
             ...learningProgress,
             lastUpdated: window.serverTimestamp()
@@ -377,11 +374,12 @@ async function saveLearningProgress() {
     }
 }
 
-// Render modules grid
+// Render modules grid - WORKING VERSION
 function renderModulesGrid() {
+    console.log('🎨 Rendering modules grid...');
     const container = document.getElementById('modules-grid');
     if (!container) {
-        console.log('modules-grid container not found');
+        console.log('❌ modules-grid container not found');
         return;
     }
 
@@ -398,7 +396,7 @@ function renderModulesGrid() {
         if (index === 0 || isPreviousCompleted) {
             if (moduleProgress.completed) {
                 status = 'completed';
-                statusText = '✓ Completed';
+                statusText = '✅ Completed';
             } else {
                 status = 'current';
                 statusText = '⭐ Current';
@@ -410,10 +408,11 @@ function renderModulesGrid() {
 
         const moduleCard = document.createElement('div');
         moduleCard.className = `learning-module ${status}`;
+        
         if (status !== 'locked') {
             moduleCard.onclick = () => showPage(module.id);
         } else {
-            moduleCard.onclick = showLockedMessage;
+            moduleCard.onclick = () => alert('Complete the previous modules to unlock this content!');
         }
 
         moduleCard.innerHTML = `
@@ -446,7 +445,7 @@ function renderModulesGrid() {
     console.log('✅ Modules grid rendered successfully');
 }
 
-// Fallback basic rendering for debugging
+// Fallback basic rendering
 function renderBasicModulesGrid() {
     const container = document.getElementById('modules-grid');
     if (!container) return;
@@ -454,13 +453,7 @@ function renderBasicModulesGrid() {
     container.innerHTML = `
         <div style="grid-column: 1/-1; text-align: center; padding: 2rem; color: #9ca3af;">
             <h3>Learning Modules</h3>
-            <p>Authentication in progress... Please wait.</p>
-            <div style="margin-top: 1rem;">
-                <div style="color: #60a5fa;">Debug Info:</div>
-                <div>window.currentUser: ${window.currentUser?.email || 'Not set'}</div>
-                <div>window.auth: ${window.auth ? 'Available' : 'Not available'}</div>
-                <div>window.auth.currentUser: ${window.auth?.currentUser?.email || 'Not set'}</div>
-            </div>
+            <p>Please sign in to track your progress and access exercises.</p>
         </div>
     `;
 }
@@ -483,8 +476,10 @@ function updateOverallProgress() {
     }
 }
 
-// Toggle exercise completion
+// Toggle exercise completion - WORKING VERSION
 window.toggleExercise = async function(exerciseId) {
+    console.log('🔄 Toggling exercise:', exerciseId);
+    
     const user = getCurrentUser();
     if (!user) {
         alert('Please sign in to track your progress');
@@ -500,7 +495,10 @@ window.toggleExercise = async function(exerciseId) {
         }
     }
 
-    if (!moduleId) return;
+    if (!moduleId) {
+        console.error('Module not found for exercise:', exerciseId);
+        return;
+    }
 
     const moduleProgress = learningProgress.modules[moduleId];
     const currentStatus = moduleProgress.exercises[exerciseId];
@@ -519,6 +517,7 @@ window.toggleExercise = async function(exerciseId) {
 
     // Toggle exercise status
     moduleProgress.exercises[exerciseId] = !currentStatus;
+    console.log(`Exercise ${exerciseId} is now ${moduleProgress.exercises[exerciseId] ? 'completed' : 'not completed'}`);
 
     // Check if all exercises in module are completed
     const allExercisesCompleted = Object.values(moduleProgress.exercises).every(Boolean);
@@ -549,18 +548,14 @@ function updateExerciseUI(exerciseId, completed) {
     const exerciseCard = document.querySelector(`[data-exercise="${exerciseId}"]`);
     if (!exerciseCard) return;
 
-    const statusSpan = exerciseCard.querySelector('.exercise-status');
     const toggleBtn = exerciseCard.querySelector('.exercise-toggle');
+    if (!toggleBtn) return;
 
     if (completed) {
-        statusSpan.textContent = '✅ Completed';
-        statusSpan.style.color = '#10b981';
         toggleBtn.innerHTML = '<span class="exercise-status" style="color: #10b981;">✅ Completed</span>';
         exerciseCard.classList.add('completed');
     } else {
-        statusSpan.textContent = '⭕ Not Started';
-        statusSpan.style.color = '#6b7280';
-        toggleBtn.innerHTML = '<span class="exercise-status">⭕ Not Started</span>';
+        toggleBtn.innerHTML = '<span class="exercise-status" style="color: #6b7280;">⭕ Not Started</span>';
         exerciseCard.classList.remove('completed');
     }
 }
@@ -595,10 +590,15 @@ function isExerciseLocked(exerciseId, moduleId) {
     return !learningProgress.modules[moduleId].exercises[previousExercise.id];
 }
 
-// Render exercises for a specific module
+// Render exercises for a specific module - WORKING VERSION
 window.renderModuleExercises = function(moduleId) {
+    console.log('🎯 Rendering exercises for module:', moduleId);
+    
     const module = moduleDefinitions[moduleId];
-    if (!module) return;
+    if (!module) {
+        console.log('Module not found:', moduleId);
+        return;
+    }
     
     const moduleProgress = learningProgress.modules[moduleId];
     
@@ -606,17 +606,8 @@ window.renderModuleExercises = function(moduleId) {
         const isLocked = isExerciseLocked(exercise.id, moduleId);
         const isCompleted = moduleProgress.exercises[exercise.id];
         
-        let status = 'not-started';
-        let statusText = '⭕ Not Started';
+        console.log(`Exercise ${exercise.id}: locked=${isLocked}, completed=${isCompleted}`);
         
-        if (isLocked) {
-            status = 'locked';
-            statusText = '🔒 Locked';
-        } else if (isCompleted) {
-            status = 'completed';
-            statusText = '✅ Completed';
-        }
-
         // Update exercise UI based on status
         updateExerciseUI(exercise.id, isCompleted);
         
@@ -624,18 +615,23 @@ window.renderModuleExercises = function(moduleId) {
         const exerciseCard = document.querySelector(`[data-exercise="${exercise.id}"]`);
         if (exerciseCard) {
             const toggleBtn = exerciseCard.querySelector('.exercise-toggle');
-            if (isLocked) {
-                toggleBtn.innerHTML = '<span class="exercise-status" style="color: #6b7280;">🔒 Locked</span>';
-                toggleBtn.onclick = () => alert('Complete the previous exercise first!');
-            } else {
-                toggleBtn.onclick = () => window.toggleExercise(exercise.id);
+            if (toggleBtn) {
+                if (isLocked) {
+                    toggleBtn.innerHTML = '<span class="exercise-status" style="color: #6b7280;">🔒 Locked</span>';
+                    toggleBtn.onclick = () => alert('Complete the previous exercise first!');
+                } else {
+                    toggleBtn.onclick = () => window.toggleExercise(exercise.id);
+                }
             }
         }
     });
+    
+    // Update module progress
+    updateModuleProgress(moduleId);
 };
 
 // Export for global access
 window.learningProgress = learningProgress;
 window.moduleDefinitions = moduleDefinitions;
 
-console.log('Learning progress system loaded');
+console.log('✅ Learning progress system loaded and ready');
