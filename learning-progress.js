@@ -630,6 +630,193 @@ window.renderModuleExercises = function(moduleId) {
     updateModuleProgress(moduleId);
 };
 
+// Learning page navigation and UI functions
+window.showPage = function(pageId) {
+    console.log('🔄 Navigating to page:', pageId);
+    
+    // Hide all pages
+    document.querySelectorAll('.page').forEach(page => {
+        page.classList.add('hidden');
+    });
+    
+    // Show selected page
+    const targetPage = document.getElementById(pageId + '-page');
+    if (targetPage) {
+        targetPage.classList.remove('hidden');
+        console.log('✅ Showing page:', pageId + '-page');
+    } else {
+        console.error('❌ Page not found:', pageId + '-page');
+    }
+
+    // Update nav items
+    document.querySelectorAll('.nav-item').forEach(item => {
+        item.classList.remove('active');
+    });
+
+    // Set active nav item
+    const navItem = document.querySelector(`[data-page="${pageId}"]`);
+    if (navItem) {
+        navItem.classList.add('active');
+    } else if (pageId === 'learning-hub') {
+        const learningHubNav = document.querySelector('a[href="learning.html"]');
+        if (learningHubNav) learningHubNav.classList.add('active');
+    }
+
+    // Update breadcrumb
+    const breadcrumb = document.querySelector('.breadcrumb-current');
+    if (breadcrumb) {
+        const pageNames = {
+            'learning-hub': 'Learning Modules',
+            'tempo': 'Tempo Fundamentals',
+            'turns': 'Turns & Rounds',
+            'action-waves': 'Action Waves',
+            'action-plan': '5-Step Action Plan',
+            'weekly': 'Weekly Focus'
+        };
+        breadcrumb.textContent = pageNames[pageId] || 'Learning Modules';
+    }
+
+    // Initialize exercises for the current module
+    if (pageId !== 'learning-hub') {
+        console.log('🎯 Initializing exercises for module:', pageId);
+        setTimeout(() => {
+            window.renderModuleExercises(pageId);
+            setupExerciseButtons(pageId);
+        }, 200);
+    }
+};
+
+// Setup exercise buttons to be clickable - WORKING VERSION
+function setupExerciseButtons(moduleId) {
+    console.log('🔧 Setting up exercise buttons for:', moduleId);
+    
+    if (!moduleDefinitions[moduleId]) {
+        console.log('❌ Module definitions not available for:', moduleId);
+        return;
+    }
+    
+    const module = moduleDefinitions[moduleId];
+    const moduleProgress = learningProgress.modules[moduleId];
+    
+    module.exercises.forEach((exercise, index) => {
+        const exerciseCard = document.querySelector(`[data-exercise="${exercise.id}"]`);
+        if (!exerciseCard) {
+            console.log('❌ Exercise card not found for:', exercise.id);
+            return;
+        }
+        
+        const toggleBtn = exerciseCard.querySelector('.exercise-toggle');
+        if (!toggleBtn) {
+            console.log('❌ Toggle button not found for:', exercise.id);
+            return;
+        }
+        
+        // Check if exercise is locked
+        const isLocked = index > 0 && !moduleProgress.exercises[module.exercises[index - 1].id];
+        const isCompleted = moduleProgress.exercises[exercise.id];
+        
+        console.log(`🎯 Exercise ${exercise.id}: locked=${isLocked}, completed=${isCompleted}`);
+        
+        // Clear any existing event listeners by cloning the button
+        const newToggleBtn = toggleBtn.cloneNode(true);
+        toggleBtn.parentNode.replaceChild(newToggleBtn, toggleBtn);
+        
+        // Set up the button based on state
+        if (isLocked) {
+            newToggleBtn.innerHTML = '<span class="exercise-status" style="color: #6b7280;">🔒 Locked</span>';
+            newToggleBtn.style.cursor = 'not-allowed';
+            newToggleBtn.style.opacity = '0.6';
+            newToggleBtn.onclick = () => {
+                alert('Complete the previous exercise first!');
+            };
+        } else {
+            newToggleBtn.style.cursor = 'pointer';
+            newToggleBtn.style.opacity = '1';
+            
+            if (isCompleted) {
+                newToggleBtn.innerHTML = '<span class="exercise-status" style="color: #10b981;">✅ Completed</span>';
+                exerciseCard.classList.add('completed');
+            } else {
+                newToggleBtn.innerHTML = '<span class="exercise-status" style="color: #6b7280;">⭕ Not Started</span>';
+                exerciseCard.classList.remove('completed');
+            }
+            
+            // Add click handler
+            newToggleBtn.onclick = async () => {
+                console.log('🔄 Clicking exercise:', exercise.id);
+                await window.toggleExercise(exercise.id);
+                // Refresh the buttons after toggle
+                setTimeout(() => setupExerciseButtons(moduleId), 100);
+            };
+        }
+    });
+    
+    console.log('✅ Exercise buttons setup complete for:', moduleId);
+}
+
+// Show locked message
+window.showLockedMessage = function() {
+    alert('🔒 Complete the previous modules to unlock this content!');
+};
+
+// Initialize learning page
+function initializeLearningPage() {
+    console.log('📚 Initializing learning page...');
+    
+    // Show the learning hub by default
+    window.showPage('learning-hub');
+    
+    // Wait for the learning progress system to load
+    const checkAndInit = async () => {
+        if (window.initializeLearningProgress) {
+            console.log('🚀 Learning progress system available, initializing...');
+            try {
+                await window.initializeLearningProgress();
+                console.log('✅ Learning progress system initialized');
+            } catch (error) {
+                console.error('❌ Error initializing learning progress:', error);
+            }
+        } else {
+            console.log('⏳ Waiting for learning progress system...');
+            setTimeout(checkAndInit, 500);
+        }
+    };
+    
+    checkAndInit();
+}
+
+// Debug function to check exercise state
+window.debugExercises = function(moduleId) {
+    console.log('🔍 Debug exercises for:', moduleId);
+    
+    if (!learningProgress || !moduleDefinitions) {
+        console.log('❌ Learning system not initialized');
+        return;
+    }
+    
+    const module = moduleDefinitions[moduleId];
+    const progress = learningProgress.modules[moduleId];
+    
+    console.log('Module:', module.title);
+    console.log('Progress:', progress);
+    
+    module.exercises.forEach((exercise, index) => {
+        const isLocked = index > 0 && !progress.exercises[module.exercises[index - 1].id];
+        const isCompleted = progress.exercises[exercise.id];
+        console.log(`${exercise.id}: locked=${isLocked}, completed=${isCompleted}`);
+    });
+};
+
+// Auto-initialize when DOM is ready
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('📚 Learning page DOM loaded');
+    
+    // Small delay to ensure all scripts are loaded
+    setTimeout(() => {
+        initializeLearningPage();
+    }, 100);
+});
+
 // Export for global access
 window.learningProgress = learningProgress;
 window.moduleDefinitions = moduleDefinitions;
