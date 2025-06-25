@@ -1,4 +1,4 @@
-// Learning Progress System - FIXED VERSION
+// Learning Progress System - COMPLETE FIXED VERSION
 console.log('🚀 Loading learning progress system...');
 
 let learningProgress = {
@@ -410,9 +410,9 @@ function renderModulesGrid() {
         moduleCard.className = `learning-module ${status}`;
         
         if (status !== 'locked') {
-            moduleCard.onclick = () => showPage(module.id);
+            moduleCard.onclick = () => window.showPage(module.id);
         } else {
-            moduleCard.onclick = () => alert('Complete the previous modules to unlock this content!');
+            moduleCard.onclick = () => window.showLockedMessage();
         }
 
         moduleCard.innerHTML = `
@@ -555,7 +555,7 @@ function updateExerciseUI(exerciseId, completed) {
         toggleBtn.innerHTML = '<span class="exercise-status" style="color: #10b981;">✅ Completed</span>';
         exerciseCard.classList.add('completed');
     } else {
-        toggleBtn.innerHTML = '<span class="exercise-status" style="color: #6b7280;">⭕ Not Started</span>';
+        toggleBtn.innerHTML = '<span class="exercise-status" style="color: #2563eb;">▶️ Start Exercise</span>';
         exerciseCard.classList.remove('completed');
     }
 }
@@ -686,7 +686,7 @@ window.showPage = function(pageId) {
     }
 };
 
-// Setup exercise buttons to be clickable - WORKING VERSION
+// Setup exercise buttons to be clickable - COMPLETE FIXED VERSION
 function setupExerciseButtons(moduleId) {
     console.log('🔧 Setting up exercise buttons for:', moduleId);
     
@@ -711,11 +711,11 @@ function setupExerciseButtons(moduleId) {
             return;
         }
         
-        // Check if exercise is locked
+        // Check if exercise is locked (must complete previous exercise)
         const isLocked = index > 0 && !moduleProgress.exercises[module.exercises[index - 1].id];
         const isCompleted = moduleProgress.exercises[exercise.id];
         
-        console.log(`🎯 Exercise ${exercise.id}: locked=${isLocked}, completed=${isCompleted}`);
+        console.log(`🔍 Exercise ${exercise.id} status: index=${index}, locked=${isLocked}, completed=${isCompleted}`);
         
         // Clear any existing event listeners by cloning the button
         const newToggleBtn = toggleBtn.cloneNode(true);
@@ -726,18 +726,21 @@ function setupExerciseButtons(moduleId) {
             newToggleBtn.innerHTML = '<span class="exercise-status" style="color: #6b7280;">🔒 Locked</span>';
             newToggleBtn.style.cursor = 'not-allowed';
             newToggleBtn.style.opacity = '0.6';
+            newToggleBtn.style.backgroundColor = '#374151';
             newToggleBtn.onclick = () => {
                 alert('Complete the previous exercise first!');
             };
         } else {
+            // Exercise is unlocked - make it clickable
             newToggleBtn.style.cursor = 'pointer';
             newToggleBtn.style.opacity = '1';
+            newToggleBtn.style.backgroundColor = '';
             
             if (isCompleted) {
                 newToggleBtn.innerHTML = '<span class="exercise-status" style="color: #10b981;">✅ Completed</span>';
                 exerciseCard.classList.add('completed');
             } else {
-                newToggleBtn.innerHTML = '<span class="exercise-status" style="color: #6b7280;">⭕ Not Started</span>';
+                newToggleBtn.innerHTML = '<span class="exercise-status" style="color: #2563eb;">▶️ Start Exercise</span>';
                 exerciseCard.classList.remove('completed');
             }
             
