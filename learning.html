@@ -296,7 +296,7 @@
                                 <div class="exercise-card" data-exercise="tempo-1">
                                     <div class="exercise-header">
                                         <h4>Exercise 1: Tempo Recognition</h4>
-                                        <button class="exercise-toggle" onclick="toggleExercise('tempo-1')">
+                                        <button class="exercise-toggle" onclick="window.toggleExercise('tempo-1')">
                                             <span class="exercise-status">⭕ Not Started</span>
                                         </button>
                                     </div>
@@ -317,7 +317,7 @@
                                 <div class="exercise-card" data-exercise="tempo-2">
                                     <div class="exercise-header">
                                         <h4>Exercise 2: One-for-One Practice</h4>
-                                        <button class="exercise-toggle" onclick="toggleExercise('tempo-2')">
+                                        <button class="exercise-toggle" onclick="window.toggleExercise('tempo-2')">
                                             <span class="exercise-status">🔒 Locked</span>
                                         </button>
                                     </div>
@@ -338,7 +338,7 @@
                                 <div class="exercise-card" data-exercise="tempo-3">
                                     <div class="exercise-header">
                                         <h4>Exercise 3: Proactive Tempo Creation</h4>
-                                        <button class="exercise-toggle" onclick="toggleExercise('tempo-3')">
+                                        <button class="exercise-toggle" onclick="window.toggleExercise('tempo-3')">
                                             <span class="exercise-status">🔒 Locked</span>
                                         </button>
                                     </div>
@@ -443,7 +443,7 @@
                                 <div class="exercise-card" data-exercise="turns-1">
                                     <div class="exercise-header">
                                         <h4>Exercise 1: Priority Recognition</h4>
-                                        <button class="exercise-toggle" onclick="toggleExercise('turns-1')">
+                                        <button class="exercise-toggle" onclick="window.toggleExercise('turns-1')">
                                             <span class="exercise-status">🔒 Locked</span>
                                         </button>
                                     </div>
@@ -464,7 +464,7 @@
                                 <div class="exercise-card" data-exercise="turns-2">
                                     <div class="exercise-header">
                                         <h4>Exercise 2: Turn Optimization</h4>
-                                        <button class="exercise-toggle" onclick="toggleExercise('turns-2')">
+                                        <button class="exercise-toggle" onclick="window.toggleExercise('turns-2')">
                                             <span class="exercise-status">🔒 Locked</span>
                                         </button>
                                     </div>
@@ -485,7 +485,7 @@
                                 <div class="exercise-card" data-exercise="turns-3">
                                     <div class="exercise-header">
                                         <h4>Exercise 3: Round Management</h4>
-                                        <button class="exercise-toggle" onclick="toggleExercise('turns-3')">
+                                        <button class="exercise-toggle" onclick="window.toggleExercise('turns-3')">
                                             <span class="exercise-status">🔒 Locked</span>
                                         </button>
                                     </div>
@@ -561,77 +561,6 @@
                         <div class="content-card">
                             <p style="color: #9ca3af; margin-bottom: 2rem;">Complete all previous modules to unlock the weekly program.</p>
                         </div>
-                    </div>    <p>Congratulations! You've mastered Tempo Fundamentals. The next module is now unlocked.</p>
-                                    <button class="btn btn-primary" onclick="showPage('turns')">Continue to Turns & Rounds →</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Add similar structure for other modules... -->
-                    <div id="turns-page" class="page hidden">
-                        <button class="back-btn" onclick="showPage('learning-hub')">← Back to Learning Hub</button>
-                        
-                        <div class="page-header turns-header">
-                            <div class="page-header-icon">🎯</div>
-                            <div>
-                                <h1>Turns & Rounds</h1>
-                                <p>Master lane priority and timing windows</p>
-                            </div>
-                        </div>
-
-                        <div class="content-card">
-                            <p style="color: #9ca3af; margin-bottom: 2rem;">Complete the Tempo Fundamentals module to unlock this content.</p>
-                        </div>
-                    </div>
-
-                    <!-- Other module pages follow the same pattern... -->
-                    <div id="action-waves-page" class="page hidden">
-                        <button class="back-btn" onclick="showPage('learning-hub')">← Back to Learning Hub</button>
-                        
-                        <div class="page-header waves-header">
-                            <div class="page-header-icon">📊</div>
-                            <div>
-                                <h1>Action Waves</h1>
-                                <p>Coordinate team plays with minion wave timing</p>
-                            </div>
-                        </div>
-
-                        <div class="content-card">
-                            <p style="color: #9ca3af; margin-bottom: 2rem;">Complete the Turns & Rounds module to unlock this content.</p>
-                        </div>
-                    </div>
-
-                    <div id="action-plan-page" class="page hidden">
-                        <button class="back-btn" onclick="showPage('learning-hub')">← Back to Learning Hub</button>
-                        
-                        <div class="page-header plan-header">
-                            <div class="page-header-icon">✅</div>
-                            <div>
-                                <h1>5-Step Action Plan</h1>
-                                <p>Systematic approach to team coordination</p>
-                            </div>
-                        </div>
-
-                        <div class="content-card">
-                            <p style="color: #9ca3af; margin-bottom: 2rem;">Complete the Action Waves module to unlock this content.</p>
-                        </div>
-                    </div>
-
-                    <div id="weekly-page" class="page hidden">
-                        <button class="back-btn" onclick="showPage('learning-hub')">← Back to Learning Hub</button>
-                        
-                        <div class="page-header weekly-header">
-                            <div class="page-header-icon">📅</div>
-                            <div>
-                                <h1>Weekly Focus Program</h1>
-                                <p>Track your 6-week learning journey</p>
-                            </div>
-                        </div>
-
-                        <div class="content-card">
-                            <p style="color: #9ca3af; margin-bottom: 2rem;">Complete all previous modules to unlock the weekly program.</p>
-                        </div>
                     </div>
                 </main>
             </div>
@@ -645,71 +574,4 @@
     <script>
         // Learning page specific functions
         function showPage(pageId) {
-            console.log('Navigating to page:', pageId);
-            
-            // Hide all pages
-            document.querySelectorAll('.page').forEach(page => {
-                page.classList.add('hidden');
-            });
-            
-            // Show selected page
-            const targetPage = document.getElementById(pageId + '-page');
-            if (targetPage) {
-                targetPage.classList.remove('hidden');
-                console.log('Showing page:', pageId + '-page');
-            } else {
-                console.error('Page not found:', pageId + '-page');
-            }
-
-            // Update nav items
-            document.querySelectorAll('.nav-item').forEach(item => {
-                item.classList.remove('active');
-            });
-
-            // Set active nav item
-            const navItem = document.querySelector(`[data-page="${pageId}"]`);
-            if (navItem) {
-                navItem.classList.add('active');
-            } else if (pageId === 'learning-hub') {
-                const learningHubNav = document.querySelector('a[href="learning.html"]');
-                if (learningHubNav) learningHubNav.classList.add('active');
-            }
-
-            // Update breadcrumb
-            const breadcrumb = document.querySelector('.breadcrumb-current');
-            if (breadcrumb) {
-                const pageNames = {
-                    'learning-hub': 'Learning Modules',
-                    'tempo': 'Tempo Fundamentals',
-                    'turns': 'Turns & Rounds',
-                    'action-waves': 'Action Waves',
-                    'action-plan': '5-Step Action Plan',
-                    'weekly': 'Weekly Focus'
-                };
-                breadcrumb.textContent = pageNames[pageId] || 'Learning Modules';
-            }
-
-            // Initialize exercises for the current module
-            if (pageId !== 'learning-hub' && window.renderModuleExercises) {
-                setTimeout(() => {
-                    window.renderModuleExercises(pageId);
-                }, 100);
-            }
-        }
-
-        function showLockedMessage() {
-            alert('Complete the previous modules to unlock this content!');
-        }
-
-        // Initialize the learning hub on page load
-        document.addEventListener('DOMContentLoaded', function() {
-            console.log('📚 Learning page DOM loaded');
-            showPage('learning-hub');
-            
-            // DO NOT initialize learning progress here - Firebase config handles it
-            // This prevents double initialization
-            console.log('🔄 Waiting for Firebase auth to initialize learning progress...');
-        });
-    </script>
-</body>
-</html>
+            console.log('
